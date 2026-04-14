@@ -85,47 +85,76 @@
     }
     #particles-canvas.visible { opacity: 1; }
 
-    /* ── TEXT OVERLAY ── */
-    #message {
+    /* ── TEXT OVERLAY CONTAINER ── */
+    #text-block {
       position: absolute;
-      bottom: 11%;
+      /* Sit below the baked-in tagline in the final video frame.
+         The video logo+tagline occupies roughly the vertical centre;
+         we place our overlay in the lower third, well clear of it. */
+      bottom: 7%;
       left: 50%;
       transform: translateX(-50%);
-      color: #d4af37;
-      font-size: clamp(0.72rem, 1.75vw, 1.12rem);
-      letter-spacing: 0.18em;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0;                 /* gap managed by margin-top on child */
+      z-index: 10;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 2s ease;
+    }
+    #text-block.visible { opacity: 1; }
+    #text-block.pulse   { animation: blockPulse 7.5s ease-in-out infinite; }
+
+    /* Thin gold rule — visual separator */
+    #text-divider {
+      width: clamp(40px, 8vw, 72px);
+      height: 1px;
+      background: linear-gradient(
+        to right,
+        transparent,
+        rgba(212,175,55,0.55) 30%,
+        rgba(212,175,55,0.55) 70%,
+        transparent
+      );
+      margin-bottom: 14px;
+    }
+
+    /* Secondary line — the new planting-seeds message */
+    #message {
+      color: rgba(212, 175, 55, 0.78);   /* muted gold — 78% opacity */
+      font-size: clamp(0.6rem, 1.3vw, 0.88rem);  /* noticeably smaller than tagline */
+      letter-spacing: 0.22em;
       text-align: center;
       white-space: nowrap;
-      max-width: 90vw;
-      opacity: 0;
-      z-index: 10;
+      max-width: 88vw;
       font-style: italic;
       font-weight: 400;
       text-shadow:
-        0 0 10px rgba(212,175,55,0.9),
-        0 0 26px rgba(212,175,55,0.5),
-        0 0 52px rgba(212,175,55,0.22);
-      transition: opacity 2s ease;
-      pointer-events: none;
+        0 0 8px  rgba(212,175,55,0.55),
+        0 0 20px rgba(212,175,55,0.22);
+      /* Own fade-in: delayed 0.8s after parent becomes visible */
+      opacity: 0;
+      animation: none;
+      transition: opacity 0s;   /* controlled by JS, not CSS transition */
     }
-    #message.visible { opacity: 1; }
-    #message.pulse  { animation: goldenPulse 7.5s ease-in-out infinite; }
+    /* The secondary line fades in on its own keyframe after a delay */
+    #message.grow-in {
+      animation: seedGrow 1.8s ease forwards;
+    }
+    @keyframes seedGrow {
+      0%   { opacity: 0;    transform: translateY(6px); }
+      100% { opacity: 0.78; transform: translateY(0);   }
+    }
 
-    @keyframes goldenPulse {
+    @keyframes blockPulse {
       0%,100% {
-        text-shadow:
-          0 0 10px rgba(212,175,55,0.9),
-          0 0 26px rgba(212,175,55,0.5),
-          0 0 52px rgba(212,175,55,0.22);
         opacity: 1;
+        filter: brightness(1);
       }
       50% {
-        text-shadow:
-          0 0 18px rgba(255,215,0,1),
-          0 0 40px rgba(212,175,55,0.88),
-          0 0 78px rgba(212,175,55,0.55),
-          0 0 120px rgba(212,175,55,0.22);
-        opacity: 0.9;
+        opacity: 0.92;
+        filter: brightness(1.15);
       }
     }
 
@@ -224,7 +253,13 @@
   <canvas id="leaves-canvas"></canvas>
   <canvas id="particles-canvas"></canvas>
 
-  <div id="message">We are currently planting seeds&hellip; thank you for your patience.</div>
+  <!-- Text overlay — appears after video freezes on final frame -->
+  <div id="text-block">
+    <!-- Gold hairline separator -->
+    <div id="text-divider"></div>
+    <!-- Secondary line: planting seeds message -->
+    <div id="message">We are currently planting seeds&hellip; thank you for your patience.</div>
+  </div>
 
 </div>
 
@@ -248,6 +283,7 @@
   const vignette     = document.getElementById('vignette');
   const leavesCanvas = document.getElementById('leaves-canvas');
   const particlesC   = document.getElementById('particles-canvas');
+  const textBlock    = document.getElementById('text-block');
   const message      = document.getElementById('message');
   const soundBtn     = document.getElementById('sound-btn');
   const iconMuted    = document.getElementById('icon-muted');
@@ -303,10 +339,12 @@
     // Vignette
     setTimeout(() => vignette.classList.add('visible'), 400);
 
-    // Text: fade in at 1.8s, pulse starts 2s later
+    // Text block: fade in at 1.8s, pulse starts 2s later
     setTimeout(() => {
-      message.classList.add('visible');
-      setTimeout(() => message.classList.add('pulse'), 2000);
+      textBlock.classList.add('visible');
+      setTimeout(() => textBlock.classList.add('pulse'), 2000);
+      // Secondary line: extra 0.8s delay for the "growth" feel
+      setTimeout(() => message.classList.add('grow-in'), 800);
     }, 1800);
 
     // Leaves + particles at 1s
