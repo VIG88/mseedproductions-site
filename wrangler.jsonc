@@ -1,34 +1,18 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
-  "name": "webapp",
-  "compatibility_date": "2026-04-13",
+  "name": "mseedproductions-site",
+  "compatibility_date": "2026-04-14",
   "pages_build_output_dir": "./dist",
-  "compatibility_flags": [
-    "nodejs_compat"
-  ]
-  // "vars": {
-  //   "MY_VAR": "my-variable"
-  // },
-  // "kv_namespaces": [
-  //   {
-  //     "binding": "MY_KV_NAMESPACE",
-  //     "id": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
-  //   }
-  // ],
+  "compatibility_flags": ["nodejs_compat"]
+
+  // R2 bucket: mustardseed-assets
+  // Public video URL: https://pub-00891786ee42488cb8a715a9bc019602.r2.dev/mustardseed-motion.mp4
+  // The video is served directly from R2 CDN — no R2 binding required in the Worker.
+  // If you need server-side R2 access, add a binding here:
   // "r2_buckets": [
   //   {
-  //     "binding": "MY_BUCKET",
-  //     "bucket_name": "my-bucket"
+  //     "binding": "ASSETS",
+  //     "bucket_name": "mustardseed-assets"
   //   }
-  // ],
-  // "d1_databases": [
-  //   {
-  //     "binding": "MY_DB",
-  //     "database_name": "my-database",
-  //     "database_id": ""
-  //   }
-  // ],
-  // "ai": {
-  //   "binding": "AI"
-  // }
+  // ]
 }

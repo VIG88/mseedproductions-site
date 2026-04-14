@@ -5,42 +5,35 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>MustardSeed Productions</title>
   <style>
-    /* ── RESET & BASE ── */
+    /* ── RESET ── */
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
     html, body {
       width: 100%; height: 100%;
       overflow: hidden;
-      background: #0a0e14;
-      font-family: 'Georgia', 'Times New Roman', serif;
+      background: #000;
+      font-family: 'Georgia', 'Palatino Linotype', serif;
     }
 
     /* ── STAGE ── */
     #stage {
       position: fixed;
       inset: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
       background: #000;
     }
 
-    /* ── VIDEO WRAPPER ── */
-    #video-wrapper {
-      position: relative;
-      width: 100%;
-      height: 100%;
-    }
-
+    /* ── VIDEO ── */
     #hero-video {
+      position: absolute;
+      inset: 0;
       width: 100%;
       height: 100%;
       object-fit: cover;
       display: block;
-      transition: opacity 0.5s ease;
+      transition: opacity 0.6s ease;
     }
 
-    /* ── FINAL FRAME CANVAS (drawn once on ended) ── */
+    /* ── FINAL-FRAME CANVAS ── */
     #final-canvas {
       position: absolute;
       inset: 0;
@@ -52,21 +45,20 @@
     }
     #final-canvas.visible { opacity: 1; }
 
-    /* ── DARK OVERLAY VIGNETTE ── */
+    /* ── VIGNETTE ── */
     #vignette {
       position: absolute;
       inset: 0;
       background: radial-gradient(ellipse at center,
-        transparent 35%,
-        rgba(0,0,0,0.52) 100%);
+        transparent 35%, rgba(0,0,0,0.55) 100%);
       opacity: 0;
-      transition: opacity 1.4s ease;
+      transition: opacity 1.5s ease;
       pointer-events: none;
       z-index: 2;
     }
     #vignette.visible { opacity: 1; }
 
-    /* ── GOLDEN LEAVES CANVAS ── */
+    /* ── LEAVES ── */
     #leaves-canvas {
       position: absolute;
       inset: 0;
@@ -79,7 +71,7 @@
     }
     #leaves-canvas.visible { opacity: 1; }
 
-    /* ── AMBIENT PARTICLES ── */
+    /* ── DUST PARTICLES ── */
     #particles-canvas {
       position: absolute;
       inset: 0;
@@ -99,42 +91,40 @@
       left: 50%;
       transform: translateX(-50%);
       color: #d4af37;
-      font-size: clamp(0.75rem, 1.9vw, 1.2rem);
-      letter-spacing: 0.35em;
+      font-size: clamp(0.7rem, 1.8vw, 1.15rem);
+      letter-spacing: 0.36em;
       text-transform: uppercase;
       text-align: center;
-      opacity: 0;
       white-space: nowrap;
+      opacity: 0;
       z-index: 10;
-      font-family: 'Georgia', 'Palatino Linotype', serif;
       font-style: italic;
       font-weight: 400;
       text-shadow:
-        0 0 10px rgba(212,175,55,0.85),
-        0 0 25px rgba(212,175,55,0.45),
-        0 0 50px rgba(212,175,55,0.2);
+        0 0 10px rgba(212,175,55,0.9),
+        0 0 26px rgba(212,175,55,0.5),
+        0 0 52px rgba(212,175,55,0.22);
       transition: opacity 2s ease;
       pointer-events: none;
     }
     #message.visible { opacity: 1; }
-    #message.pulse {
-      animation: goldenPulse 7.5s ease-in-out infinite;
-    }
+    #message.pulse  { animation: goldenPulse 7.5s ease-in-out infinite; }
+
     @keyframes goldenPulse {
-      0%, 100% {
+      0%,100% {
         text-shadow:
-          0 0 10px rgba(212,175,55,0.85),
-          0 0 25px rgba(212,175,55,0.45),
-          0 0 50px rgba(212,175,55,0.2);
+          0 0 10px rgba(212,175,55,0.9),
+          0 0 26px rgba(212,175,55,0.5),
+          0 0 52px rgba(212,175,55,0.22);
         opacity: 1;
       }
       50% {
         text-shadow:
           0 0 18px rgba(255,215,0,1),
-          0 0 40px rgba(212,175,55,0.85),
-          0 0 75px rgba(212,175,55,0.55),
-          0 0 110px rgba(212,175,55,0.2);
-        opacity: 0.92;
+          0 0 40px rgba(212,175,55,0.88),
+          0 0 78px rgba(212,175,55,0.55),
+          0 0 120px rgba(212,175,55,0.22);
+        opacity: 0.9;
       }
     }
 
@@ -147,7 +137,7 @@
       height: 46px;
       border-radius: 50%;
       border: 1.5px solid rgba(212,175,55,0.4);
-      background: rgba(8,12,18,0.75);
+      background: rgba(8,12,18,0.78);
       backdrop-filter: blur(10px);
       -webkit-backdrop-filter: blur(10px);
       color: #d4af37;
@@ -156,56 +146,93 @@
       align-items: center;
       justify-content: center;
       z-index: 100;
-      transition: border-color 0.3s, background 0.3s, transform 0.2s, box-shadow 0.3s;
       outline: none;
+      transition: border-color 0.3s, background 0.3s, transform 0.2s, box-shadow 0.3s;
     }
     #sound-btn:hover {
       border-color: rgba(212,175,55,0.85);
-      background: rgba(18,22,30,0.92);
+      background: rgba(18,22,30,0.94);
       transform: scale(1.1);
       box-shadow: 0 0 14px rgba(212,175,55,0.3);
     }
-    #sound-btn svg {
-      width: 19px;
-      height: 19px;
-      fill: #d4af37;
+    #sound-btn svg { width: 19px; height: 19px; fill: #d4af37; }
+
+    /* ── LOADING INDICATOR ── */
+    #loader {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 20;
+      background: #000;
+      transition: opacity 0.8s ease;
+    }
+    #loader.hidden { opacity: 0; pointer-events: none; }
+    .loader-ring {
+      width: 48px;
+      height: 48px;
+      border: 2px solid rgba(212,175,55,0.15);
+      border-top-color: rgba(212,175,55,0.85);
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin-bottom: 18px;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    #loader p {
+      color: rgba(212,175,55,0.6);
+      font-size: 0.7rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      font-style: italic;
     }
   </style>
 </head>
 <body>
 
 <div id="stage">
-  <div id="video-wrapper">
 
-    <video id="hero-video"
-      autoplay
-      muted
-      playsinline
-      preload="auto"
-      disablePictureInPicture
-      webkit-playsinline
-    >
-      <source src="mustardseed-motion.mp4" type="video/mp4" />
-    </video>
-
-    <canvas id="final-canvas"></canvas>
-    <div id="vignette"></div>
-    <canvas id="leaves-canvas"></canvas>
-    <canvas id="particles-canvas"></canvas>
-
-    <div id="message">Be patient&hellip;&nbsp; currently planting seeds</div>
-
+  <!-- Loading screen while video buffers -->
+  <div id="loader">
+    <div class="loader-ring"></div>
+    <p>Loading&hellip;</p>
   </div>
+
+  <video id="hero-video"
+    autoplay
+    muted
+    playsinline
+    preload="auto"
+    disablePictureInPicture
+    webkit-playsinline
+    crossorigin="anonymous"
+  >
+    <!--
+      PRIMARY SOURCE: Cloudflare R2 — production CDN asset
+      Bucket: mustardseed-assets  |  Public URL enabled
+    -->
+    <source
+      src="https://pub-00891786ee42488cb8a715a9bc019602.r2.dev/mustardseed-motion.mp4"
+      type="video/mp4"
+    />
+  </video>
+
+  <canvas id="final-canvas"></canvas>
+  <div id="vignette"></div>
+  <canvas id="leaves-canvas"></canvas>
+  <canvas id="particles-canvas"></canvas>
+
+  <div id="message">Be patient&hellip;&nbsp; currently planting seeds</div>
+
 </div>
 
 <!-- Sound Toggle -->
-<button id="sound-btn" aria-label="Toggle sound" title="Toggle sound">
-  <!-- Muted icon (default shown) -->
-  <svg id="icon-muted" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<button id="sound-btn" aria-label="Toggle sound">
+  <svg id="icon-muted" viewBox="0 0 24 24">
     <path d="M16.5 12A4.5 4.5 0 0 0 14 7.97v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51A8.796 8.796 0 0 0 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3 3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06A8.99 8.99 0 0 0 17.73 19L19 20.27 20.27 19l-9-9L4.27 3zM12 4 9.91 6.09 12 8.18V4z"/>
   </svg>
-  <!-- Unmuted icon (hidden by default) -->
-  <svg id="icon-unmuted" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="display:none">
+  <svg id="icon-unmuted" viewBox="0 0 24 24" style="display:none">
     <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3A4.5 4.5 0 0 0 14 7.97v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77 0-4.28-2.99-7.86-7-8.77z"/>
   </svg>
 </button>
@@ -214,9 +241,7 @@
 (function () {
   "use strict";
 
-  /* ──────────────────────────────────────
-     DOM REFERENCES
-  ────────────────────────────────────── */
+  /* ─── DOM ─── */
   const video        = document.getElementById('hero-video');
   const finalCanvas  = document.getElementById('final-canvas');
   const vignette     = document.getElementById('vignette');
@@ -226,63 +251,64 @@
   const soundBtn     = document.getElementById('sound-btn');
   const iconMuted    = document.getElementById('icon-muted');
   const iconUnmuted  = document.getElementById('icon-unmuted');
+  const loader       = document.getElementById('loader');
 
-  const ctx   = finalCanvas.getContext('2d');
-  const lCtx  = leavesCanvas.getContext('2d');
-  const pCtx  = particlesC.getContext('2d');
+  const ctx  = finalCanvas.getContext('2d');
+  const lCtx = leavesCanvas.getContext('2d');
+  const pCtx = particlesC.getContext('2d');
 
-  let leavesStarted  = false;
-  let frameFreezed   = false;
+  let frozen        = false;
+  let leavesStarted = false;
 
-  /* ──────────────────────────────────────
-     CANVAS RESIZE
-  ────────────────────────────────────── */
-  function resizeCanvases() {
-    const w = window.innerWidth;
-    const h = window.innerHeight;
-    finalCanvas.width  = w;  finalCanvas.height  = h;
-    leavesCanvas.width = w;  leavesCanvas.height = h;
-    particlesC.width   = w;  particlesC.height   = h;
+  /* ─── CANVAS RESIZE ─── */
+  function resize() {
+    const w = window.innerWidth, h = window.innerHeight;
+    finalCanvas.width  = leavesCanvas.width  = particlesC.width  = w;
+    finalCanvas.height = leavesCanvas.height = particlesC.height = h;
   }
-  resizeCanvases();
+  resize();
   window.addEventListener('resize', () => {
-    resizeCanvases();
-    if (frameFreezed) ctx.drawImage(video, 0, 0, finalCanvas.width, finalCanvas.height);
+    resize();
+    if (frozen) {
+      try { ctx.drawImage(video, 0, 0, finalCanvas.width, finalCanvas.height); } catch(e){}
+    }
   });
 
-  /* ──────────────────────────────────────
-     FREEZE FINAL FRAME
-  ────────────────────────────────────── */
+  /* ─── LOADER: hide once video can play ─── */
+  function hideLoader() {
+    loader.classList.add('hidden');
+    setTimeout(() => { loader.style.display = 'none'; }, 900);
+  }
+  video.addEventListener('canplaythrough', hideLoader, { once: true });
+  video.addEventListener('playing', hideLoader, { once: true });
+  // Fallback: hide after 3s regardless
+  setTimeout(hideLoader, 3000);
+
+  /* ─── FREEZE FINAL FRAME ─── */
   function freezeFrame() {
-    if (frameFreezed) return;
-    frameFreezed = true;
+    if (frozen) return;
+    frozen = true;
 
-    // Paint the current video frame onto the canvas
-    resizeCanvases();
-    try {
-      ctx.drawImage(video, 0, 0, finalCanvas.width, finalCanvas.height);
-    } catch(e) {}
+    resize();
+    try { ctx.drawImage(video, 0, 0, finalCanvas.width, finalCanvas.height); } catch(e) {}
 
-    // Fade the canvas over the video — seamless
+    // Cross-fade: canvas over video
     finalCanvas.classList.add('visible');
-
-    // Pause video (already ended, but ensure no flicker)
     setTimeout(() => {
       video.pause();
       video.style.opacity = '0';
-    }, 500);
+    }, 550);
 
-    // Vignette fade-in
+    // Vignette
     setTimeout(() => vignette.classList.add('visible'), 400);
 
-    // Message appears 1.8 s after freeze
+    // Text: fade in at 1.8s, pulse starts 2s later
     setTimeout(() => {
       message.classList.add('visible');
-      // Pulse starts 2 s after fade-in completes
       setTimeout(() => message.classList.add('pulse'), 2000);
     }, 1800);
 
-    // Leaves & particles start 1 s after freeze
+    // Leaves + particles at 1s
     setTimeout(() => {
       leavesCanvas.classList.add('visible');
       particlesC.classList.add('visible');
@@ -291,270 +317,183 @@
     }, 1000);
   }
 
-  /* ──────────────────────────────────────
-     VIDEO EVENTS
-  ────────────────────────────────────── */
   video.addEventListener('ended', freezeFrame);
-
-  // Safety: freeze within last 0.15 s of video
   video.addEventListener('timeupdate', () => {
-    if (video.duration && video.currentTime >= video.duration - 0.15) {
-      freezeFrame();
-    }
+    if (video.duration && video.currentTime >= video.duration - 0.15) freezeFrame();
   });
 
-  // Autoplay with fallback
-  const playP = video.play();
-  if (playP !== undefined) {
-    playP.catch(() => {
-      ['click','touchstart','keydown'].forEach(evt =>
-        document.addEventListener(evt, () => video.play(), { once: true })
-      );
-    });
-  }
+  /* Autoplay fallback */
+  video.play().catch(() => {
+    ['click','touchstart','keydown'].forEach(e =>
+      document.addEventListener(e, () => video.play(), { once: true })
+    );
+  });
 
   /* ══════════════════════════════════════
-     GOLDEN LEAVES SYSTEM
+     GOLDEN LEAVES
   ══════════════════════════════════════ */
-  const LEAF_COUNT = 20;
+  const LEAF_N = 22;
   const leaves = [];
 
-  /**
-   * Draw a stylised gold leaf centred at (0,0)
-   * @param {CanvasRenderingContext2D} ctx
-   * @param {number} size   half-height of the leaf
-   * @param {boolean} shimmer  whether to add highlight stroke
-   */
-  function drawLeaf(ctx, size, shimmer) {
-    // Gold gradient from tip to base
-    const grd = ctx.createRadialGradient(0, -size * 0.25, size * 0.04, 0, 0, size * 1.1);
-    grd.addColorStop(0,   'rgba(255, 232, 110, 0.95)');
-    grd.addColorStop(0.35,'rgba(212, 175,  55, 0.88)');
-    grd.addColorStop(0.75,'rgba(180, 140,  28, 0.78)');
-    grd.addColorStop(1,   'rgba(130,  95,  15, 0.55)');
+  function drawLeaf(c, sz, shimmer) {
+    const g = c.createRadialGradient(0, -sz*0.25, sz*0.04, 0, 0, sz*1.1);
+    g.addColorStop(0,    'rgba(255,232,110,0.95)');
+    g.addColorStop(0.35, 'rgba(212,175, 55,0.88)');
+    g.addColorStop(0.75, 'rgba(180,140, 28,0.78)');
+    g.addColorStop(1,    'rgba(130, 95, 15,0.55)');
 
-    // Leaf body — teardrop/oval shape
-    ctx.beginPath();
-    ctx.moveTo(0, -size);
-    ctx.bezierCurveTo( size * 0.65, -size * 0.45,  size * 0.72,  size * 0.28, 0,  size);
-    ctx.bezierCurveTo(-size * 0.72,  size * 0.28, -size * 0.65, -size * 0.45, 0, -size);
-    ctx.closePath();
-    ctx.fillStyle = grd;
-    ctx.fill();
+    c.beginPath();
+    c.moveTo(0, -sz);
+    c.bezierCurveTo( sz*0.65,-sz*0.45,  sz*0.72, sz*0.28, 0,  sz);
+    c.bezierCurveTo(-sz*0.72, sz*0.28, -sz*0.65,-sz*0.45, 0, -sz);
+    c.closePath();
+    c.fillStyle = g;
+    c.fill();
 
-    // Central vein / midrib
-    ctx.beginPath();
-    ctx.moveTo(0, -size * 0.82);
-    ctx.quadraticCurveTo(size * 0.07, 0, 0, size * 0.82);
-    ctx.strokeStyle = 'rgba(255, 210, 70, 0.35)';
-    ctx.lineWidth = Math.max(0.5, size * 0.055);
-    ctx.stroke();
+    // midrib
+    c.beginPath();
+    c.moveTo(0, -sz*0.82);
+    c.quadraticCurveTo(sz*0.07, 0, 0, sz*0.82);
+    c.strokeStyle = 'rgba(255,210,70,0.35)';
+    c.lineWidth = Math.max(0.5, sz*0.055);
+    c.stroke();
 
-    // Optional shimmer highlight
     if (shimmer) {
-      ctx.beginPath();
-      ctx.moveTo(size * 0.05, -size * 0.55);
-      ctx.bezierCurveTo(size * 0.38, -size * 0.18, size * 0.32, size * 0.12, size * 0.05, size * 0.45);
-      ctx.strokeStyle = 'rgba(255, 248, 190, 0.52)';
-      ctx.lineWidth = Math.max(0.4, size * 0.04);
-      ctx.stroke();
+      c.beginPath();
+      c.moveTo(sz*0.05, -sz*0.55);
+      c.bezierCurveTo(sz*0.38,-sz*0.18, sz*0.32,sz*0.12, sz*0.05, sz*0.45);
+      c.strokeStyle = 'rgba(255,248,190,0.5)';
+      c.lineWidth = Math.max(0.4, sz*0.04);
+      c.stroke();
     }
   }
 
-  function newLeaf() {
-    const W = leavesCanvas.width;
-    const H = leavesCanvas.height;
+  function mkLeaf(stagger) {
+    const W = leavesCanvas.width, H = leavesCanvas.height;
     return {
-      x:        Math.random() * W * 1.3 - W * 0.15,   // off-screen on sides too
-      y:        -(20 + Math.random() * 80),
-      size:     6 + Math.random() * 10,
-      vx:       (Math.random() - 0.5) * 0.5,
-      vy:       0.45 + Math.random() * 0.85,
-      rot:      Math.random() * Math.PI * 2,
-      rotSpeed: (Math.random() - 0.5) * 0.022,
-      wobble:   Math.random() * Math.PI * 2,
-      wobbleSpd: 0.009 + Math.random() * 0.013,
-      wobbleAmp: 0.35 + Math.random() * 0.6,
-      shimmer:  Math.random() > 0.45,
-      alpha:    0.50 + Math.random() * 0.42,
-      glowPhase: Math.random() * Math.PI * 2,
-      glowSpd:  0.018 + Math.random() * 0.022,
+      x:  Math.random() * W * 1.3 - W * 0.15,
+      y:  stagger ? -Math.random() * H * 1.4 : -(20 + Math.random()*80),
+      sz: 6 + Math.random()*10,
+      vx: (Math.random()-0.5)*0.5,
+      vy: 0.45 + Math.random()*0.85,
+      rot:  Math.random()*Math.PI*2,
+      rotV: (Math.random()-0.5)*0.022,
+      wob:  Math.random()*Math.PI*2,
+      wobS: 0.009 + Math.random()*0.013,
+      wobA: 0.35 + Math.random()*0.6,
+      shi:  Math.random() > 0.45,
+      alp:  0.50 + Math.random()*0.42,
+      gPh:  Math.random()*Math.PI*2,
+      gSpd: 0.018 + Math.random()*0.022,
     };
   }
 
-  function initLeaves() {
-    leaves.length = 0;
-    for (let i = 0; i < LEAF_COUNT; i++) {
-      const l = newLeaf();
-      // Stagger: spread existing leaves across full height initially
-      l.y = -Math.random() * (leavesCanvas.height * 1.4);
-      leaves.push(l);
-    }
-  }
-
   function tickLeaves() {
-    const W = leavesCanvas.width;
-    const H = leavesCanvas.height;
-    lCtx.clearRect(0, 0, W, H);
-
-    for (let i = 0; i < leaves.length; i++) {
-      const l = leaves[i];
-
-      // Update physics
-      l.wobble    += l.wobbleSpd;
-      l.rot       += l.rotSpeed;
-      l.x         += l.vx + Math.sin(l.wobble) * l.wobbleAmp;
-      l.y         += l.vy;
-      l.glowPhase += l.glowSpd;
-
-      // Respawn when off-screen bottom
-      if (l.y > H + 30) {
-        const fresh = newLeaf();
-        Object.assign(l, fresh);
-      }
-
-      // Alpha breathe with glow phase
-      const breathe = l.shimmer
-        ? l.alpha * (0.72 + 0.28 * Math.sin(l.glowPhase))
-        : l.alpha;
-
+    const W = leavesCanvas.width, H = leavesCanvas.height;
+    lCtx.clearRect(0,0,W,H);
+    leaves.forEach(l => {
+      l.wob += l.wobS;
+      l.rot += l.rotV;
+      l.x   += l.vx + Math.sin(l.wob)*l.wobA;
+      l.y   += l.vy;
+      l.gPh += l.gSpd;
+      if (l.y > H+30) Object.assign(l, mkLeaf(false));
+      const a = l.shi ? l.alp*(0.72+0.28*Math.sin(l.gPh)) : l.alp;
       lCtx.save();
       lCtx.translate(l.x, l.y);
       lCtx.rotate(l.rot);
-      lCtx.globalAlpha = breathe;
-
-      // Glow aura for shimmering leaves
-      if (l.shimmer && Math.sin(l.glowPhase) > 0.3) {
-        lCtx.shadowColor = 'rgba(255, 210, 60, 0.65)';
-        lCtx.shadowBlur  = l.size * 1.6;
+      lCtx.globalAlpha = a;
+      if (l.shi && Math.sin(l.gPh)>0.3) {
+        lCtx.shadowColor='rgba(255,210,60,0.65)';
+        lCtx.shadowBlur = l.sz*1.6;
       }
-
-      drawLeaf(lCtx, l.size, l.shimmer);
-
-      lCtx.shadowBlur  = 0;
+      drawLeaf(lCtx, l.sz, l.shi);
+      lCtx.shadowBlur=0;
       lCtx.restore();
-    }
-
+    });
     requestAnimationFrame(tickLeaves);
   }
 
   function startLeaves() {
     if (leavesStarted) return;
     leavesStarted = true;
-    initLeaves();
+    for (let i=0; i<LEAF_N; i++) leaves.push(mkLeaf(true));
     tickLeaves();
   }
 
   /* ══════════════════════════════════════
-     AMBIENT MICRO-PARTICLE DUST
+     AMBIENT DUST PARTICLES
   ══════════════════════════════════════ */
-  const PARTICLE_COUNT = 40;
-  const particles = [];
+  const DUST_N = 40;
+  const dust   = [];
 
-  function newParticle() {
+  function mkDust() {
     return {
-      x:       Math.random() * particlesC.width,
-      y:       Math.random() * particlesC.height,
-      r:       0.7 + Math.random() * 1.8,
-      vx:      (Math.random() - 0.5) * 0.18,
-      vy:      -(0.07 + Math.random() * 0.15),
-      alpha:   0.07 + Math.random() * 0.2,
-      life:    0,
-      maxLife: 220 + Math.random() * 280,
+      x: Math.random()*particlesC.width,
+      y: Math.random()*particlesC.height,
+      r: 0.7 + Math.random()*1.8,
+      vx:(Math.random()-0.5)*0.18,
+      vy:-(0.07+Math.random()*0.15),
+      a: 0.07+Math.random()*0.2,
+      life:0, max:220+Math.random()*280,
     };
   }
 
-  function initParticles() {
-    particles.length = 0;
-    for (let i = 0; i < PARTICLE_COUNT; i++) {
-      const p = newParticle();
-      p.life = Math.random() * p.maxLife;
-      particles.push(p);
-    }
-  }
-
-  function tickParticles() {
-    const W = particlesC.width;
-    const H = particlesC.height;
-    pCtx.clearRect(0, 0, W, H);
-
-    for (let i = 0; i < particles.length; i++) {
-      const p = particles[i];
-      p.life++;
-      p.x += p.vx;
-      p.y += p.vy;
-
-      if (p.life > p.maxLife || p.y < -4 || p.x < -4 || p.x > W + 4) {
-        Object.assign(p, newParticle());
-        p.life = 0;
-        continue;
+  function tickDust() {
+    const W=particlesC.width, H=particlesC.height;
+    pCtx.clearRect(0,0,W,H);
+    dust.forEach(p => {
+      p.life++; p.x+=p.vx; p.y+=p.vy;
+      if (p.life>p.max||p.y<-4||p.x<-4||p.x>W+4) {
+        Object.assign(p,mkDust()); p.life=0; return;
       }
-
-      const t    = p.life / p.maxLife;
-      const fade = t < 0.15 ? t / 0.15 : t > 0.78 ? (1 - t) / 0.22 : 1;
-
+      const t=p.life/p.max;
+      const f=t<0.15?t/0.15:t>0.78?(1-t)/0.22:1;
       pCtx.beginPath();
-      pCtx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-      pCtx.fillStyle = `rgba(212, 175, 55, ${p.alpha * fade})`;
+      pCtx.arc(p.x,p.y,p.r,0,Math.PI*2);
+      pCtx.fillStyle=`rgba(212,175,55,${p.a*f})`;
       pCtx.fill();
-    }
-
-    requestAnimationFrame(tickParticles);
+    });
+    requestAnimationFrame(tickDust);
   }
 
   function startParticles() {
-    initParticles();
-    tickParticles();
+    for (let i=0;i<DUST_N;i++){const p=mkDust();p.life=Math.random()*p.max;dust.push(p);}
+    tickDust();
   }
 
   /* ══════════════════════════════════════
      SOUND TOGGLE
   ══════════════════════════════════════ */
-  let isMuted = true;
-  let fadeTimer = null;
+  let muted=true, fadeT=null;
 
-  function setVolume(v) {
-    video.volume = Math.max(0, Math.min(1, v));
-  }
-
-  function fadeTo(target, duration) {
-    clearInterval(fadeTimer);
-    const steps  = 30;
-    const stepMs = duration / steps;
-    const start  = video.volume;
-    const delta  = (target - start) / steps;
-    let count = 0;
-    fadeTimer = setInterval(() => {
-      count++;
-      setVolume(start + delta * count);
-      if (count >= steps) clearInterval(fadeTimer);
-    }, stepMs);
+  function fadeTo(target, ms) {
+    clearInterval(fadeT);
+    const steps=30, dt=ms/steps, start=video.volume, d=(target-start)/steps;
+    let n=0;
+    fadeT=setInterval(()=>{
+      video.volume=Math.max(0,Math.min(1, start+d*(++n)));
+      if(n>=steps) clearInterval(fadeT);
+    },dt);
   }
 
   soundBtn.addEventListener('click', () => {
-    isMuted = !isMuted;
-
-    if (!isMuted) {
-      video.muted = false;
-      setVolume(0);
-      fadeTo(1, 700);
-      iconMuted.style.display   = 'none';
-      iconUnmuted.style.display = 'block';
+    muted = !muted;
+    if (!muted) {
+      video.muted=false; video.volume=0; fadeTo(1,700);
+      iconMuted.style.display='none'; iconUnmuted.style.display='block';
     } else {
-      fadeTo(0, 500);
-      setTimeout(() => { video.muted = true; }, 520);
-      iconMuted.style.display   = 'block';
-      iconUnmuted.style.display = 'none';
+      fadeTo(0,500);
+      setTimeout(()=>{video.muted=true;},520);
+      iconMuted.style.display='block'; iconUnmuted.style.display='none';
     }
   });
 
-  // Auto-fade audio out in last 2 s of video
+  // Auto-fade audio in last 2s
   video.addEventListener('timeupdate', () => {
-    if (!isMuted && video.duration) {
-      const remaining = video.duration - video.currentTime;
-      if (remaining < 2) {
-        setVolume(Math.max(0, remaining / 2));
-      }
+    if (!muted && video.duration) {
+      const rem = video.duration - video.currentTime;
+      if (rem < 2) video.volume = Math.max(0, rem/2);
     }
   });
 

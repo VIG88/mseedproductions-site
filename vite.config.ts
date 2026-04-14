@@ -10,5 +10,14 @@ export default defineConfig({
       adapter,
       entry: 'src/index.tsx'
     })
-  ]
+  ],
+  // Exclude the large video from being copied to dist on every build.
+  // The motion graphic is hosted on Cloudflare R2 and referenced by URL.
+  publicDir: 'public',
+  assetsInclude: ['**/*.html'],
+  build: {
+    rollupOptions: {
+      // No special exclusions needed — the video isn't imported by code
+    }
+  }
 })
