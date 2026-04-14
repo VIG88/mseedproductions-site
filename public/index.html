@@ -31,7 +31,8 @@
       height: 100%;
       object-fit: cover;
       display: block;
-      transition: opacity 0.6s ease;
+      /* Video fades out over 1.4s — long enough to overlap the canvas dissolve */
+      transition: opacity 1.4s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
     /* ── FINAL-FRAME CANVAS ── */
@@ -41,7 +42,8 @@
       width: 100%;
       height: 100%;
       opacity: 0;
-      transition: opacity 0.7s ease;
+      /* Canvas fades IN over 1.2s with a smooth ease — the core dissolve curve */
+      transition: opacity 1.2s cubic-bezier(0.25, 0, 0.4, 1);
       pointer-events: none;
     }
     #final-canvas.visible { opacity: 1; }
@@ -161,7 +163,9 @@
     /* ── VIG FOOTER LOCKUP ── */
     #vig-footer {
       position: fixed;
-      bottom: 20px;
+      /* Shifted lower — sits at a comfortable 10px from viewport bottom,
+         well clear of other content but still anchored to the page foot */
+      bottom: 10px;
       left: 50%;
       transform: translateX(-50%);
       /* Row layout: logo left, label right, all on one line */
@@ -172,8 +176,8 @@
       z-index: 15;
       pointer-events: none;          /* container non-interactive */
       opacity: 0;
-      /* Slower, more cinematic fade-in */
-      transition: opacity 2.2s ease;
+      /* Cinematic fade-in: 2.4s, delayed start via ease-in curve */
+      transition: opacity 2.4s cubic-bezier(0.4, 0, 0.6, 1);
       white-space: nowrap;
     }
     #vig-footer.visible { opacity: 1; }
@@ -412,37 +416,66 @@
     if (frozen) return;
     frozen = true;
 
+    // ── Step 1: Paint the final frame onto the canvas immediately ──────────
+    // We do this BEFORE any class changes so the pixel data is ready.
     resize();
     try { ctx.drawImage(video, 0, 0, finalCanvas.width, finalCanvas.height); } catch(e) {}
 
-    // Cross-fade: canvas over video — slightly extended dissolve for cinematic feel
-    finalCanvas.classList.add('visible');
+    // ── Step 2: Hold the final video frame for 250ms ──────────────────────
+    // This brief pause lets the viewer's eye settle on the last frame
+    // before the dissolve begins — prevents the abrupt-switch feeling.
     setTimeout(() => {
-      video.pause();
-      video.style.opacity = '0';
-    }, 700);
 
-    // Vignette
-    setTimeout(() => vignette.classList.add('visible'), 400);
+      // ── Step 3: Guarantee browser sees opacity:0 before .visible ─────────
+      // Force a layout reflow so the CSS transition engine registers the
+      // initial state.  Without this the browser may batch the paint and
+      // the class-add into one frame, skipping the transition entirely.
+      void finalCanvas.offsetHeight;  // trigger reflow
 
-    // Text block: fade in at 1.8s, pulse starts 2s later
-    setTimeout(() => {
-      textBlock.classList.add('visible');
-      setTimeout(() => textBlock.classList.add('pulse'), 2000);
-      // Secondary line: extra 0.8s delay for the "growth" feel
-      setTimeout(() => message.classList.add('grow-in'), 800);
-    }, 1800);
+      // ── Step 4: Two-rAF trick — add .visible on the NEXT paint cycle ─────
+      // requestAnimationFrame fires just before paint; the second rAF
+      // fires on the frame after that, giving the browser one full frame
+      // to record the start state before animating to opacity:1.
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
 
-    // VIG footer: appears last — 3.2s after freeze (quiet, cinematic final stamp)
-    setTimeout(() => vigFooter.classList.add('visible'), 3200);
+          // Canvas dissolves IN (1.2s cubic-bezier)
+          finalCanvas.classList.add('visible');
 
-    // Leaves + particles at 1s
-    setTimeout(() => {
-      leavesCanvas.classList.add('visible');
-      particlesC.classList.add('visible');
-      startLeaves();
-      startParticles();
-    }, 1000);
+          // Video fades OUT 300ms after canvas starts — they overlap
+          // cleanly for a true crossfade rather than a sequential swap.
+          setTimeout(() => {
+            video.pause();
+            video.style.opacity = '0';
+          }, 300);
+
+          // Vignette deepens gently, 500ms into the dissolve
+          setTimeout(() => vignette.classList.add('visible'), 500);
+
+          // Leaves + particles begin 1.1s in — atmosphere builds after frame settles
+          setTimeout(() => {
+            leavesCanvas.classList.add('visible');
+            particlesC.classList.add('visible');
+            startLeaves();
+            startParticles();
+          }, 1100);
+
+          // Text block: fades in at 2.0s; secondary line 0.8s after that
+          setTimeout(() => {
+            textBlock.classList.add('visible');
+            setTimeout(() => message.classList.add('grow-in'), 800);
+            // Pulse starts 2s after text appears
+            setTimeout(() => textBlock.classList.add('pulse'), 2000);
+          }, 2000);
+
+          // VIG footer: the final quiet stamp — 3.6s after the dissolve began
+          // (= 250ms hold + 3.6s = ~3.85s total from video end)
+          setTimeout(() => vigFooter.classList.add('visible'), 3600);
+
+        }); // rAF 2
+      }); // rAF 1
+
+    }, 250); // hold the final frame for 250ms before dissolve
   }
 
   video.addEventListener('ended', freezeFrame);
