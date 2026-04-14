@@ -387,6 +387,296 @@
   let frozen        = false;
   let leavesStarted = false;
 
+  /* ══════════════════════════════════════════════════════════════════════
+     AMBIENT SOUND ENGINE
+     Pure Web Audio API — no audio files, zero HTTP requests.
+     Three synthesised layers:
+       A  Wind Bed      — bandpass-filtered noise, breathing LFO, stereo drift
+       B  Leaf Rustles  — high-pass burst envelopes at random 3–7 s intervals
+       C  Air Texture   — near-inaudible sub-bass sine (~42 Hz) for depth
+     All controlled by a single master GainNode so the existing toggle
+     ramps everything up / down atomically.
+  ══════════════════════════════════════════════════════════════════════ */
+  let ambCtx        = null;   // AudioContext (created lazily on first user gesture)
+  let masterGain    = null;   // master volume bus
+  let ambientReady  = false;  // true once nodes are wired up
+  let ambientActive = false;  // true while the ambient layer is playing
+  let gustTimer     = null;   // handle for next gust setTimeout
+  let rustleTimer   = null;   // handle for next rustle setTimeout
+  const MASTER_VOL  = 0.38;   // overall ceiling — deliberately quiet
+
+  /* ── helpers ─────────────────────────────────────────────────────── */
+
+  /** Fill an AudioBuffer with white noise (mono). */
+  function makeNoiseBuffer(ac, seconds) {
+    const len = ac.sampleRate * seconds;
+    const buf = ac.createBuffer(1, len, ac.sampleRate);
+    const data = buf.getChannelData(0);
+    for (let i = 0; i < len; i++) data[i] = Math.random() * 2 - 1;
+    return buf;
+  }
+
+  /** Ramp a GainNode from its current value to `target` over `ms` ms. */
+  function rampGain(gainNode, target, ms) {
+    const ac  = gainNode.context;
+    const now = ac.currentTime;
+    gainNode.gain.cancelScheduledValues(now);
+    gainNode.gain.setValueAtTime(gainNode.gain.value, now);
+    gainNode.gain.linearRampToValueAtTime(target, now + ms / 1000);
+  }
+
+  /* ── Layer A: Wind Bed ───────────────────────────────────────────── */
+  /*
+   * Architecture:
+   *   noiseSource (looping buffer)
+   *     → windBP  (BiquadFilter bandpass ~320 Hz, Q 0.6)  — body of wind
+   *     → windHP  (BiquadFilter highpass ~80 Hz)           — remove sub rumble
+   *     → windGain (GainNode 0.18)
+   *       → LFO amplitude modulation (tremolo 0.04–0.10 Hz)
+   *         → stereo panner (slow L/R drift)
+   *           → masterGain
+   */
+  let windSource = null;
+  let windGain   = null;
+  let lfoGain    = null;
+  let panner     = null;
+
+  function buildWindBed(ac) {
+    const noiseBuf = makeNoiseBuffer(ac, 4);   // 4 s loop
+
+    windSource = ac.createBufferSource();
+    windSource.buffer = noiseBuf;
+    windSource.loop   = true;
+
+    // Body bandpass — centre ~320 Hz gives a soft "airy" character
+    const bp = ac.createBiquadFilter();
+    bp.type      = 'bandpass';
+    bp.frequency.value = 320;
+    bp.Q.value   = 0.55;
+
+    // HP to kill very low rumble
+    const hp = ac.createBiquadFilter();
+    hp.type      = 'highpass';
+    hp.frequency.value = 90;
+    hp.Q.value   = 0.5;
+
+    windGain = ac.createGain();
+    windGain.gain.value = 0.18;
+
+    // LFO for slow breathing (0.06 Hz → one breath every ~16 s)
+    const lfo = ac.createOscillator();
+    lfo.type      = 'sine';
+    lfo.frequency.value = 0.06;
+
+    lfoGain = ac.createGain();
+    lfoGain.gain.value = 0.065;   // depth of the tremolo
+
+    // Stereo panner — will be animated in JS
+    panner = ac.createStereoPanner ? ac.createStereoPanner() : ac.createPanner();
+    if (panner.pan) panner.pan.value = 0;
+
+    // Wire: noise → bp → hp → windGain → panner → master
+    windSource.connect(bp);
+    bp.connect(hp);
+    hp.connect(windGain);
+    windGain.connect(panner);
+    panner.connect(masterGain);
+
+    // LFO modulates windGain
+    lfo.connect(lfoGain);
+    lfoGain.connect(windGain.gain);
+    lfo.start();
+    windSource.start();
+  }
+
+  /* ── Gust events (Layer A enhancement) ──────────────────────────── */
+  /*
+   * Each gust: briefly bandpass a second noise burst at a slightly higher
+   * centre frequency and fade it in/out with a short envelope.
+   * Interval: random 6–10 s.
+   */
+  function fireGust(ac) {
+    if (!ambientActive) return;
+
+    const buf    = makeNoiseBuffer(ac, 2.5);
+    const src    = ac.createBufferSource();
+    src.buffer   = buf;
+
+    // Gust BP slightly higher than wind bed (~550 Hz) for presence
+    const bp = ac.createBiquadFilter();
+    bp.type  = 'bandpass';
+    bp.frequency.value = 550 + Math.random() * 200;
+    bp.Q.value = 0.7;
+
+    // Slight stereo position (randomise per gust)
+    const pan = ac.createStereoPanner ? ac.createStereoPanner() : null;
+
+    const env = ac.createGain();
+    env.gain.value = 0;
+
+    src.connect(bp);
+    bp.connect(env);
+    if (pan) { pan.pan.value = (Math.random() - 0.5) * 0.5; env.connect(pan); pan.connect(masterGain); }
+    else     { env.connect(masterGain); }
+
+    const now  = ac.currentTime;
+    const peak = 0.10 + Math.random() * 0.08;   // quiet gust
+    const dur  = 1.6 + Math.random() * 0.8;     // 1.6–2.4 s total
+
+    env.gain.setValueAtTime(0, now);
+    env.gain.linearRampToValueAtTime(peak, now + dur * 0.35);   // attack
+    env.gain.linearRampToValueAtTime(0,    now + dur);           // release
+
+    src.start(now);
+    src.stop(now + dur + 0.05);
+
+    // Schedule next gust
+    const nextMs = 6000 + Math.random() * 4000;   // 6–10 s
+    gustTimer = setTimeout(() => fireGust(ac), nextMs);
+  }
+
+  /* ── Layer B: Leaf Rustles ───────────────────────────────────────── */
+  /*
+   * Each rustle: very short (0.35–0.65 s) burst of high-pass noise with
+   * a fast attack (20 ms) and smooth exponential release.
+   * Interval: random 3–7 s.
+   */
+  function fireRustle(ac) {
+    if (!ambientActive) return;
+
+    const dur = 0.35 + Math.random() * 0.3;   // 0.35–0.65 s
+    const buf = makeNoiseBuffer(ac, dur + 0.1);
+    const src = ac.createBufferSource();
+    src.buffer = buf;
+
+    // High-pass at 1.8–3.5 kHz — papery rustling character
+    const hp = ac.createBiquadFilter();
+    hp.type  = 'highpass';
+    hp.frequency.value = 1800 + Math.random() * 1700;
+    hp.Q.value = 0.4;
+
+    // Narrow bandpass on top to avoid harshness
+    const bp2 = ac.createBiquadFilter();
+    bp2.type  = 'bandpass';
+    bp2.frequency.value = 3000 + Math.random() * 1500;
+    bp2.Q.value = 1.2;
+
+    // Slight detune per rustle for organic feel
+    const pan = ac.createStereoPanner ? ac.createStereoPanner() : null;
+
+    const env = ac.createGain();
+    env.gain.value = 0;
+
+    src.connect(hp);
+    hp.connect(bp2);
+    bp2.connect(env);
+    if (pan) { pan.pan.value = (Math.random() - 0.5) * 0.8; env.connect(pan); pan.connect(masterGain); }
+    else     { env.connect(masterGain); }
+
+    const now  = ac.currentTime;
+    const peak = 0.05 + Math.random() * 0.04;   // very quiet
+
+    env.gain.setValueAtTime(0,    now);
+    env.gain.linearRampToValueAtTime(peak, now + 0.02);    // 20 ms attack
+    env.gain.exponentialRampToValueAtTime(0.0001, now + dur); // smooth release
+
+    src.start(now);
+    src.stop(now + dur + 0.05);
+
+    // Schedule next rustle
+    const nextMs = 3000 + Math.random() * 4000;   // 3–7 s
+    rustleTimer = setTimeout(() => fireRustle(ac), nextMs);
+  }
+
+  /* ── Layer C: Air Texture (sub-bass presence) ────────────────────── */
+  /*
+   * A sine wave at ~42 Hz at barely-perceptible gain (0.022).
+   * Felt more than heard — adds fullness to the silence.
+   */
+  let airOsc  = null;
+  let airGain = null;
+
+  function buildAirTexture(ac) {
+    airOsc  = ac.createOscillator();
+    airGain = ac.createGain();
+
+    airOsc.type            = 'sine';
+    airOsc.frequency.value = 42;
+    airGain.gain.value     = 0.022;
+
+    airOsc.connect(airGain);
+    airGain.connect(masterGain);
+    airOsc.start();
+  }
+
+  /* ── Slow stereo panner animation ────────────────────────────────── */
+  /*
+   * Smoothly drifts the wind bed L → R → L on a ~18 s cycle.
+   * Uses setTargetAtTime so it's handled entirely by the audio thread.
+   */
+  let panPhase = 0;
+  function tickPanner() {
+    if (!ambientActive || !panner || !panner.pan) return;
+    const ac  = ambCtx;
+    panPhase += 0.0035;                      // ~18 s full cycle
+    const pos  = Math.sin(panPhase) * 0.4;  // ±0.4 pan range
+    panner.pan.setTargetAtTime(pos, ac.currentTime, 1.5);
+    setTimeout(tickPanner, 300);             // update every 300 ms
+  }
+
+  /* ── Build and start the full ambient engine ─────────────────────── */
+  function buildAmbient() {
+    if (ambientReady) return;
+    ambientReady = true;
+
+    ambCtx     = new (window.AudioContext || window.webkitAudioContext)();
+    masterGain = ambCtx.createGain();
+    masterGain.gain.value = 0;   // silent until faded in
+    masterGain.connect(ambCtx.destination);
+
+    buildWindBed(ambCtx);
+    buildAirTexture(ambCtx);
+  }
+
+  /* ── Fade the ambient layer IN ────────────────────────────────────── */
+  function ambientFadeIn(delayMs) {
+    if (!ambientReady || ambientActive) return;
+    ambientActive = true;
+
+    setTimeout(() => {
+      if (!ambientActive) return;
+      // Resume context if browser suspended it
+      if (ambCtx.state === 'suspended') ambCtx.resume();
+      // Fade master to MASTER_VOL over 2.5 s
+      rampGain(masterGain, MASTER_VOL, 2500);
+      // Start event layers after fade-in completes
+      setTimeout(() => {
+        if (!ambientActive) return;
+        const firstGustDelay   = 1200 + Math.random() * 2000;
+        const firstRustleDelay = 800  + Math.random() * 1500;
+        gustTimer   = setTimeout(() => fireGust(ambCtx),   firstGustDelay);
+        rustleTimer = setTimeout(() => fireRustle(ambCtx), firstRustleDelay);
+        tickPanner();
+      }, 2600);
+    }, delayMs);
+  }
+
+  /* ── Fade the ambient layer OUT ───────────────────────────────────── */
+  function ambientFadeOut(durationMs) {
+    if (!ambientReady || !ambientActive) return;
+    ambientActive = false;
+    clearTimeout(gustTimer);
+    clearTimeout(rustleTimer);
+    rampGain(masterGain, 0, durationMs);
+  }
+
+  /* ── Resume audio context after user interaction (iOS/Safari fix) ── */
+  function resumeAmbientCtx() {
+    if (ambCtx && ambCtx.state === 'suspended') ambCtx.resume();
+  }
+  document.addEventListener('click',     resumeAmbientCtx, { passive: true });
+  document.addEventListener('touchstart', resumeAmbientCtx, { passive: true });
+
   /* ─── CANVAS RESIZE ─── */
   function resize() {
     const w = window.innerWidth, h = window.innerHeight;
@@ -458,6 +748,16 @@
             particlesC.classList.add('visible');
             startLeaves();
             startParticles();
+
+            // ── Ambient sound: build engine now (lazily, after first gesture)
+            // We build immediately but only fade in if the user has unmuted.
+            // If still muted, the engine stays silent and will start the moment
+            // the user flips the toggle (checked in soundBtn click handler).
+            buildAmbient();
+            if (!muted) {
+              // User had already enabled sound → start ambient after 1.5 s
+              ambientFadeIn(1500);
+            }
           }, 1100);
 
           // Text block: fades in at 2.0s; secondary line 0.8s after that
@@ -623,11 +923,15 @@
     tickDust();
   }
 
-  /* ══════════════════════════════════════
+  /* ══════════════════════════════════════════════════════════════════
      SOUND TOGGLE
-  ══════════════════════════════════════ */
+     Controls both the motion-graphic video audio AND the ambient engine.
+     Video audio only plays while the video is running.
+     Ambient engine only plays after the video has frozen.
+  ══════════════════════════════════════════════════════════════════ */
   let muted=true, fadeT=null;
 
+  /** Ramp video element volume via setInterval (no Web Audio) */
   function fadeTo(target, ms) {
     clearInterval(fadeT);
     const steps=30, dt=ms/steps, start=video.volume, d=(target-start)/steps;
@@ -640,17 +944,37 @@
 
   soundBtn.addEventListener('click', () => {
     muted = !muted;
+
     if (!muted) {
-      video.muted=false; video.volume=0; fadeTo(1,700);
-      iconMuted.style.display='none'; iconUnmuted.style.display='block';
+      /* ── User turns sound ON ── */
+      iconMuted.style.display='none';
+      iconUnmuted.style.display='block';
+
+      if (!frozen) {
+        // Video still playing — unmute video, no ambient yet
+        video.muted=false; video.volume=0; fadeTo(1,700);
+      } else {
+        // Video already frozen — go straight to ambient
+        // Resume audio context in case browser suspended it
+        if (ambCtx && ambCtx.state === 'suspended') ambCtx.resume();
+        ambientFadeIn(0);
+      }
+
     } else {
+      /* ── User turns sound OFF ── */
+      iconMuted.style.display='block';
+      iconUnmuted.style.display='none';
+
+      // Fade out video audio
       fadeTo(0,500);
-      setTimeout(()=>{video.muted=true;},520);
-      iconMuted.style.display='block'; iconUnmuted.style.display='none';
+      setTimeout(()=>{ video.muted=true; },520);
+
+      // Fade out ambient engine
+      ambientFadeOut(600);
     }
   });
 
-  // Auto-fade audio in last 2s
+  // Auto-fade video audio in final 2 s of playback
   video.addEventListener('timeupdate', () => {
     if (!muted && video.duration) {
       const rem = video.duration - video.currentTime;
