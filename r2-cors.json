@@ -1,0 +1,32 @@
+{
+  "rules": [
+    {
+      "id": "mustardseed-pages-cors",
+      "allowed": {
+        "origins": [
+          "https://mseedproductions-site.pages.dev",
+          "https://www.mseedproductions.com",
+          "https://mseedproductions.com"
+        ],
+        "methods": ["GET", "HEAD"],
+        "headers": [
+          "Range",
+          "Origin",
+          "Accept",
+          "Accept-Encoding",
+          "Referer",
+          "Content-Type"
+        ]
+      },
+      "exposeHeaders": [
+        "Content-Length",
+        "Content-Range",
+        "Content-Type",
+        "Accept-Ranges",
+        "ETag",
+        "Last-Modified"
+      ],
+      "maxAgeSeconds": 86400
+    }
+  ]
+}

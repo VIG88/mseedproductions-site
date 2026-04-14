@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="none">
+  <!-- Background -->
+  <rect width="32" height="32" rx="6" fill="#0a0e14"/>
+  <!-- Stylised mustard seed / tree icon in gold -->
+  <!-- Trunk -->
+  <rect x="15" y="18" width="2" height="8" rx="1" fill="#d4af37"/>
+  <!-- Canopy — three layered circles -->
+  <circle cx="16" cy="14" r="7" fill="#d4af37" opacity="0.25"/>
+  <circle cx="16" cy="13" r="5" fill="#d4af37" opacity="0.55"/>
+  <circle cx="16" cy="12" r="3.5" fill="#d4af37"/>
+  <!-- Inner highlight -->
+  <circle cx="14.5" cy="10.5" r="1.2" fill="#fff9e0" opacity="0.5"/>
+</svg>
