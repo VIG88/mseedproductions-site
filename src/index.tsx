@@ -1,12 +1,15 @@
 import { Hono } from 'hono'
-import { renderer } from './renderer'
+import { serveStatic } from 'hono/cloudflare-workers'
 
 const app = new Hono()
 
-app.use(renderer)
+// Serve the video file
+app.use('/mustardseed-motion.mp4', serveStatic({ root: './' }))
 
-app.get('/', (c) => {
-  return c.render(<h1>Hello!</h1>)
-})
+// Serve static assets (CSS, JS, etc.)
+app.use('/static/*', serveStatic({ root: './' }))
+
+// Serve the main landing page
+app.use('/', serveStatic({ path: './index.html', root: './' }))
 
 export default app
