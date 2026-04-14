@@ -161,23 +161,27 @@
     /* ── VIG FOOTER LOCKUP ── */
     #vig-footer {
       position: fixed;
-      bottom: 22px;
+      bottom: 20px;
       left: 50%;
       transform: translateX(-50%);
+      /* Row layout: logo left, label right, all on one line */
       display: flex;
-      flex-direction: column;
+      flex-direction: row;
       align-items: center;
-      gap: 0;
+      gap: 10px;
       z-index: 15;
       pointer-events: none;          /* container non-interactive */
       opacity: 0;
-      transition: opacity 1.8s ease;
+      /* Slower, more cinematic fade-in */
+      transition: opacity 2.2s ease;
+      white-space: nowrap;
     }
     #vig-footer.visible { opacity: 1; }
 
     /* Clickable logo link — no decoration */
     #vig-link {
-      display: block;
+      display: flex;
+      align-items: center;
       pointer-events: all;
       cursor: pointer;
       outline: none;
@@ -187,11 +191,15 @@
       background: transparent;
       padding: 0;
       margin: 0;
+      transition: filter 0.25s ease;
+    }
+    #vig-link:hover {
+      filter: brightness(1.18) saturate(1.1);
     }
 
     /* The logo image itself */
     #vig-logo {
-      width: clamp(64px, 7vw, 96px);
+      width: clamp(36px, 4.5vw, 56px);
       height: auto;
       display: block;
       background: transparent;
@@ -202,25 +210,19 @@
          disappears into a dark background */
       mix-blend-mode: screen;
       filter: brightness(0.95) saturate(1.05);
-      transition: filter 0.25s ease;
-    }
-    #vig-link:hover #vig-logo {
-      filter: brightness(1.18) saturate(1.1);
     }
 
     /* "A VIG Company" label */
     #vig-label {
-      margin-top: 9px;
-      color: rgba(212, 175, 55, 0.52);
-      font-size: clamp(0.52rem, 0.9vw, 0.68rem);
-      letter-spacing: 0.32em;
+      color: rgba(212, 175, 55, 0.50);
+      font-size: clamp(0.5rem, 0.85vw, 0.65rem);
+      letter-spacing: 0.28em;
       text-transform: uppercase;
       font-family: 'Georgia', 'Palatino Linotype', serif;
       font-style: normal;
       font-weight: 400;
-      text-align: center;
-      white-space: nowrap;
       pointer-events: none;
+      line-height: 1;
     }
 
     /* ── SOUND TOGGLE ── */
@@ -326,7 +328,7 @@
     <div id="message">We are currently planting seeds&hellip; thank you for your patience.</div>
   </div>
 
-  <!-- VIG Footer Lockup -->
+  <!-- VIG Footer Lockup: logo + label on one horizontal row, centered at bottom -->
   <div id="vig-footer">
     <a id="vig-link"
        href="https://www.vigholdings.com"
@@ -413,12 +415,12 @@
     resize();
     try { ctx.drawImage(video, 0, 0, finalCanvas.width, finalCanvas.height); } catch(e) {}
 
-    // Cross-fade: canvas over video
+    // Cross-fade: canvas over video — slightly extended dissolve for cinematic feel
     finalCanvas.classList.add('visible');
     setTimeout(() => {
       video.pause();
       video.style.opacity = '0';
-    }, 550);
+    }, 700);
 
     // Vignette
     setTimeout(() => vignette.classList.add('visible'), 400);
@@ -431,8 +433,8 @@
       setTimeout(() => message.classList.add('grow-in'), 800);
     }, 1800);
 
-    // VIG footer: appears last — 2.8s after freeze (quiet, final stamp)
-    setTimeout(() => vigFooter.classList.add('visible'), 2800);
+    // VIG footer: appears last — 3.2s after freeze (quiet, cinematic final stamp)
+    setTimeout(() => vigFooter.classList.add('visible'), 3200);
 
     // Leaves + particles at 1s
     setTimeout(() => {
