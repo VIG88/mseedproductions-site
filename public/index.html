@@ -158,6 +158,71 @@
       }
     }
 
+    /* ── VIG FOOTER LOCKUP ── */
+    #vig-footer {
+      position: fixed;
+      bottom: 22px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0;
+      z-index: 15;
+      pointer-events: none;          /* container non-interactive */
+      opacity: 0;
+      transition: opacity 1.8s ease;
+    }
+    #vig-footer.visible { opacity: 1; }
+
+    /* Clickable logo link — no decoration */
+    #vig-link {
+      display: block;
+      pointer-events: all;
+      cursor: pointer;
+      outline: none;
+      text-decoration: none;
+      line-height: 0;               /* kills inline-block gap */
+      border: none;
+      background: transparent;
+      padding: 0;
+      margin: 0;
+    }
+
+    /* The logo image itself */
+    #vig-logo {
+      width: clamp(64px, 7vw, 96px);
+      height: auto;
+      display: block;
+      background: transparent;
+      border: none;
+      outline: none;
+      box-shadow: none;
+      /* mix-blend-mode ensures any residual near-white edge
+         disappears into a dark background */
+      mix-blend-mode: screen;
+      filter: brightness(0.95) saturate(1.05);
+      transition: filter 0.25s ease;
+    }
+    #vig-link:hover #vig-logo {
+      filter: brightness(1.18) saturate(1.1);
+    }
+
+    /* "A VIG Company" label */
+    #vig-label {
+      margin-top: 9px;
+      color: rgba(212, 175, 55, 0.52);
+      font-size: clamp(0.52rem, 0.9vw, 0.68rem);
+      letter-spacing: 0.32em;
+      text-transform: uppercase;
+      font-family: 'Georgia', 'Palatino Linotype', serif;
+      font-style: normal;
+      font-weight: 400;
+      text-align: center;
+      white-space: nowrap;
+      pointer-events: none;
+    }
+
     /* ── SOUND TOGGLE ── */
     #sound-btn {
       position: fixed;
@@ -261,6 +326,24 @@
     <div id="message">We are currently planting seeds&hellip; thank you for your patience.</div>
   </div>
 
+  <!-- VIG Footer Lockup -->
+  <div id="vig-footer">
+    <a id="vig-link"
+       href="https://www.vigholdings.com"
+       target="_blank"
+       rel="noopener noreferrer"
+       aria-label="VIG Holdings — opens in new tab"
+    >
+      <img
+        id="vig-logo"
+        src="/static/vig-logo-transparent.png"
+        alt="VIG"
+        draggable="false"
+      />
+    </a>
+    <span id="vig-label">A VIG Company</span>
+  </div>
+
 </div>
 
 <!-- Sound Toggle -->
@@ -285,6 +368,7 @@
   const particlesC   = document.getElementById('particles-canvas');
   const textBlock    = document.getElementById('text-block');
   const message      = document.getElementById('message');
+  const vigFooter    = document.getElementById('vig-footer');
   const soundBtn     = document.getElementById('sound-btn');
   const iconMuted    = document.getElementById('icon-muted');
   const iconUnmuted  = document.getElementById('icon-unmuted');
@@ -346,6 +430,9 @@
       // Secondary line: extra 0.8s delay for the "growth" feel
       setTimeout(() => message.classList.add('grow-in'), 800);
     }, 1800);
+
+    // VIG footer: appears last — 2.8s after freeze (quiet, final stamp)
+    setTimeout(() => vigFooter.classList.add('visible'), 2800);
 
     // Leaves + particles at 1s
     setTimeout(() => {
