@@ -148,7 +148,8 @@ body.site-ready {
 /* ─── INTRO TEXT ───────────────────────────────────── */
 #intro-text {
   position: fixed;
-  bottom: 9%;
+  /* Lifted higher so it clears the footer VIG lockup with room to breathe */
+  bottom: 14%;
   left: 50%;
   transform: translateX(-50%);
   display: flex;
@@ -172,7 +173,7 @@ body.site-ready {
   background: linear-gradient(to right,
     transparent, rgba(212,175,55,0.55) 30%,
     rgba(212,175,55,0.55) 70%, transparent);
-  margin-bottom: 14px;
+  margin-bottom: 20px;  /* increased: clear gap between dash and message text */
 }
 #intro-message {
   color: rgba(212,175,55,0.78);
@@ -943,69 +944,73 @@ body.site-ready {
 
 /* ═══════════════════════════════════════════════════════════════
    FOOTER (fixed at bottom of viewport)
+   Three-zone layout:
+     LEFT  — VIG emblem + "A VIG Company" (subtle glow pulse)
+     CENTER — © 2026 copyright
+     RIGHT  — spacer that mirrors left width so copyright is truly centred
+               (sound toggle btn is position:fixed, sits over right zone)
 ═══════════════════════════════════════════════════════════════ */
 #footer-chrome {
   position: relative;
   z-index: 15;
   padding: 0 52px;
-  height: 56px;
+  height: 60px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   background: linear-gradient(
     to top,
-    rgba(0,0,0,0.72) 0%,
+    rgba(0,0,0,0.76) 0%,
     rgba(0,0,0,0.0) 100%
   );
   pointer-events: all;
   flex-shrink: 0;
 }
-.footer-wordmark-row {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-}
-.footer-name {
-  font-family: 'Cinzel',serif;
-  font-size: 0.70rem;
-  font-weight: 600;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
-  color: rgba(212,175,55,0.55);
-}
-.footer-parent {
-  font-family: 'Inter',sans-serif;
-  font-size: 0.50rem;
-  font-weight: 300;
-  letter-spacing: 0.36em;
-  text-transform: uppercase;
-  color: rgba(212,175,55,0.26);
-}
-.footer-copy {
-  font-family: 'Inter',sans-serif;
-  font-size: 0.54rem;
-  letter-spacing: 0.14em;
-  color: rgba(212,175,55,0.20);
-}
-.footer-vig-row {
+
+/* LEFT — VIG emblem + label */
+.footer-vig-lockup {
   display: flex;
   align-items: center;
-  gap: 8px;
-  text-decoration: none;
-  transition: filter 0.25s ease;
+  gap: 9px;
+  pointer-events: none;  /* no link / button behaviour */
+  animation: vigGlowPulse 8s ease-in-out infinite;
 }
-.footer-vig-row:hover { filter: brightness(1.4); }
-.footer-vig-row img {
-  width: 22px; height: auto;
+@keyframes vigGlowPulse {
+  0%, 78%, 100% { filter: brightness(1)    drop-shadow(0 0  0px rgba(212,175,55,0.00)); }
+  86%           { filter: brightness(1.20) drop-shadow(0 0  8px rgba(212,175,55,0.26)); }
+}
+.footer-vig-lockup img {
+  width: clamp(22px, 2.8vw, 32px);
+  height: auto;
   mix-blend-mode: screen;
-  opacity: 0.45;
+  opacity: 0.55;
+  flex-shrink: 0;
 }
-.footer-vig-row span {
-  font-family: 'Inter',sans-serif;
-  font-size: 0.50rem;
-  letter-spacing: 0.28em;
+.footer-vig-lockup span {
+  font-family: 'Inter', sans-serif;
+  font-size: clamp(0.46rem, 0.72vw, 0.58rem);
+  letter-spacing: 0.30em;
   text-transform: uppercase;
-  color: rgba(212,175,55,0.28);
+  color: rgba(212,175,55,0.42);
+  white-space: nowrap;
+}
+
+/* CENTER — copyright */
+.footer-copy {
+  font-family: 'Inter',sans-serif;
+  font-size: 0.52rem;
+  letter-spacing: 0.14em;
+  color: rgba(212,175,55,0.18);
+  text-align: center;
+  flex-shrink: 1;
+  padding: 0 12px;
+}
+
+/* RIGHT spacer — mirrors VIG lockup visual width so copyright centres */
+.footer-spacer {
+  /* ~80px matches typical vig lockup rendered width at desktop */
+  min-width: 80px;
+  flex-shrink: 0;
 }
 
 /* ═══════════════════════════════════════════════════════════════
@@ -1025,8 +1030,9 @@ body.site-ready {
   .dp-tv-layout { grid-template-columns: 1fr; gap: 20px; }
   .dp-stories-layout { grid-template-columns: 1fr; gap: 20px; }
   .dp-franchise-chars { grid-template-columns: repeat(2,1fr); }
-  #footer-chrome { padding: 0 24px; }
-  .footer-copy { display: none; }
+  #footer-chrome { padding: 0 24px; height: 60px; }
+  .footer-copy { font-size: 0.44rem; letter-spacing: 0.10em; padding: 0 8px; }
+  .footer-spacer { min-width: 0; display: none; }
 }
 @media (max-width: 600px) {
   .nav-brand-main { font-size: 0.68rem; }
@@ -1366,16 +1372,20 @@ body.site-ready {
 
   <!-- ── FOOTER ── -->
   <footer id="footer-chrome" aria-label="Site footer">
-    <div class="footer-wordmark-row">
-      <span class="footer-name">MustardSeed Productions</span>
-      <span class="footer-parent">A Visionaires Media Company</span>
-    </div>
-    <p class="footer-copy">&copy; 2026 MustardSeed Productions. All rights reserved.</p>
-    <a href="https://www.vigholdings.com" target="_blank" rel="noopener noreferrer"
-       class="footer-vig-row" aria-label="VIG Holdings">
+
+    <!-- LEFT: VIG emblem + "A VIG Company" — subtle glow pulse, no link/button -->
+    <div class="footer-vig-lockup" aria-label="A VIG Company">
       <img src="/static/vig-logo-transparent.png" alt="VIG" draggable="false" />
       <span>A VIG Company</span>
-    </a>
+    </div>
+
+    <!-- CENTER: copyright -->
+    <p class="footer-copy">&copy; 2026 MustardSeed Productions. All rights reserved.</p>
+
+    <!-- RIGHT spacer: mirrors left lockup width so copyright is truly centred
+         Sound toggle btn is position:fixed and sits over this zone -->
+    <div class="footer-spacer" aria-hidden="true"></div>
+
   </footer>
 
 </div><!-- #site-chrome -->
