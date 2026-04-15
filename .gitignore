@@ -35,3 +35,4 @@ lerna-debug.log*
 # large media files (add manually or via Git LFS)
 public/mustardseed-motion.mp4
 core/
+core
