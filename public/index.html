@@ -23,7 +23,6 @@
   --cream:      #fdf8ee;
   --black:      #000000;
   --deep:       #0a0800;
-  --panel-bg:   rgba(4,3,0,0.88);
   --nav-h:      68px;
 }
 
@@ -33,17 +32,10 @@ body {
   font-family: 'Lora','Georgia',serif;
   background: var(--black);
   color: var(--cream);
-  overflow: hidden;   /* locked during intro */
+  overflow: hidden;
   line-height: 1.7;
 }
-body.site-ready {
-  overflow: hidden;   /* homepage = no scroll, single-screen */
-}
-
-/* Custom scrollbar (for panel drawers) */
-::-webkit-scrollbar { width: 3px; }
-::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: rgba(212,175,55,0.22); border-radius: 2px; }
+body.site-ready { overflow: hidden; }
 
 /* ═══════════════════════════════════════════════════════════════
    LAYER STACK
@@ -53,12 +45,10 @@ body.site-ready {
    3   #leaves-canvas
    4   #particles-canvas
    5   #vignette
-  10   #intro-ui
-  20   #nav
-  50   #vig-lockup / intro text
+  10   #site-chrome
+  50   #vig-lockup / intro text / divider
   80   #sound-btn
   90   #loader
-  95   .drawer (content panels)
 ═══════════════════════════════════════════════════════════════ */
 
 /* ─── FIXED CINEMATIC STAGE ──────────────────────────── */
@@ -69,7 +59,7 @@ body.site-ready {
   z-index: 0;
 }
 
-/* ─── VIDEO ────────────────────────────────────────────── */
+/* ─── VIDEO ──────────────────────────────────────────── */
 #hero-video {
   position: absolute;
   inset: 0;
@@ -79,7 +69,7 @@ body.site-ready {
   transition: opacity 1.4s cubic-bezier(0.4,0,0.2,1);
 }
 
-/* ─── FINAL-FRAME CANVAS (permanent fixed BG) ────────── */
+/* ─── FINAL-FRAME CANVAS ─────────────────────────────── */
 #final-canvas {
   position: absolute;
   inset: 0;
@@ -108,7 +98,7 @@ body.site-ready {
 }
 #bg-overlay.visible { opacity: 1; }
 
-/* ─── VIGNETTE ──────────────────────────────────────── */
+/* ─── VIGNETTE ───────────────────────────────────────── */
 #vignette {
   position: fixed;
   inset: 0;
@@ -121,7 +111,7 @@ body.site-ready {
 }
 #vignette.visible { opacity: 1; }
 
-/* ─── LEAVES CANVAS ─────────────────────────────────── */
+/* ─── LEAVES CANVAS ──────────────────────────────────── */
 #leaves-canvas {
   position: fixed;
   inset: 0;
@@ -133,7 +123,7 @@ body.site-ready {
 }
 #leaves-canvas.visible { opacity: 1; }
 
-/* ─── DUST PARTICLES ────────────────────────────────── */
+/* ─── DUST PARTICLES ─────────────────────────────────── */
 #particles-canvas {
   position: fixed;
   inset: 0;
@@ -145,11 +135,9 @@ body.site-ready {
 }
 #particles-canvas.visible { opacity: 1; }
 
-/* ─── GOLD DIVIDER (floats below logo, mid-screen) ─── */
-/* Appears with the intro text sequence; stays near vertical centre */
+/* ─── GOLD DIVIDER (mid-screen, below logo) ──────────── */
 #text-divider-wrap {
   position: fixed;
-  /* ~55% down the screen — below the logo, above mid-point */
   top: 58%;
   left: 50%;
   transform: translateX(-50%);
@@ -167,11 +155,10 @@ body.site-ready {
     rgba(212,175,55,0.55) 70%, transparent);
 }
 
-/* ─── PATIENCE MESSAGE (sits at true bottom-center) ── */
-/* Sits above the footer bar with clear breathing room   */
+/* ─── PATIENCE MESSAGE (bottom-center, above footer) ─── */
 #intro-text {
   position: fixed;
-  bottom: 78px;    /* footer is 60px; 18px extra gap above it */
+  bottom: 78px;
   left: 50%;
   transform: translateX(-50%);
   z-index: 50;
@@ -201,7 +188,7 @@ body.site-ready {
   100% { opacity:0.62; transform:translateY(0); }
 }
 
-/* ─── VIG LOCKUP (intro + site footer both) ─────────── */
+/* ─── VIG LOCKUP (intro sequence only) ───────────────── */
 #vig-lockup {
   position: fixed;
   bottom: 10px;
@@ -218,7 +205,6 @@ body.site-ready {
   white-space: nowrap;
 }
 #vig-lockup.visible { opacity: 1; pointer-events: all; }
-/* Hide intro VIG lockup once site reveals (replaced by footer one) */
 #vig-lockup.fade-out {
   opacity: 0 !important;
   pointer-events: none !important;
@@ -311,7 +297,6 @@ body.site-ready {
   pointer-events: none;
   opacity: 0;
   transition: opacity 1.6s ease;
-  /* Chrome is fixed; does not scroll */
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -322,7 +307,7 @@ body.site-ready {
 }
 
 /* ═══════════════════════════════════════════════════════════════
-   NAVIGATION
+   NAVIGATION  — clean link-only nav, no dropdowns
 ═══════════════════════════════════════════════════════════════ */
 #nav {
   position: relative;
@@ -367,600 +352,49 @@ body.site-ready {
   line-height: 1;
 }
 
-/* Nav items */
+/* Nav list */
 .nav-items {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 4px;
   list-style: none;
-  position: relative;
 }
 
-.nav-item {
-  position: static;
-}
-
-/* Nav trigger button */
-.nav-trigger {
+/* Each nav link */
+.nav-link {
   display: flex;
   align-items: center;
-  gap: 5px;
   padding: 9px 16px;
-  background: transparent;
-  border: none;
-  cursor: pointer;
   font-family: 'Inter',sans-serif;
   font-size: 0.68rem;
   font-weight: 400;
   letter-spacing: 0.18em;
   text-transform: uppercase;
   color: rgba(240,220,160,0.65);
-  transition: color 0.25s ease;
-  outline: none;
+  text-decoration: none;
   white-space: nowrap;
-}
-.nav-trigger:hover,
-.nav-trigger.open    { color: var(--gold-lt); }
-
-/* Chevron */
-.nav-chevron {
-  width: 7px; height: 7px;
-  border-right: 1px solid currentColor;
-  border-bottom: 1px solid currentColor;
-  transform: rotate(45deg) translateY(-1px);
-  transition: transform 0.25s ease, opacity 0.25s ease;
-  opacity: 0.55;
-  flex-shrink: 0;
-  margin-top: 1px;
-}
-.nav-trigger.open .nav-chevron {
-  transform: rotate(-135deg) translateY(-1px);
-  opacity: 0.85;
-}
-
-/* ─── DROPDOWN PANEL ─────────────────────────────────── */
-/* Single shared dropdown anchored to the nav bar */
-#dropdown-panel {
-  position: fixed;
-  top: var(--nav-h);
-  left: 0; right: 0;
-  z-index: 95;
-  pointer-events: none;
-  opacity: 0;
-  transform: translateY(-6px);
-  transition: opacity 0.28s cubic-bezier(0.4,0,0.2,1),
-              transform 0.28s cubic-bezier(0.4,0,0.2,1);
-}
-#dropdown-panel.open {
-  pointer-events: all;
-  opacity: 1;
-  transform: translateY(0);
-}
-
-.dropdown-inner {
-  max-width: 1100px;
-  margin: 0 auto;
-  padding: 0 52px;
-}
-
-.dropdown-box {
-  background: rgba(4,3,0,0.96);
-  backdrop-filter: blur(24px);
-  -webkit-backdrop-filter: blur(24px);
-  border: 1px solid rgba(212,175,55,0.10);
-  border-top: 1px solid rgba(212,175,55,0.18);
-  box-shadow: 0 32px 64px rgba(0,0,0,0.72);
-  padding: 38px 44px 44px;
-}
-
-/* Dropdown content pane (one per nav section) */
-.dropdown-pane {
-  display: none;
-}
-.dropdown-pane.active { display: block; }
-
-/* Pane header */
-.dp-header {
-  display: flex;
-  align-items: baseline;
-  gap: 14px;
-  margin-bottom: 30px;
-  padding-bottom: 16px;
-  border-bottom: 1px solid rgba(212,175,55,0.10);
-}
-.dp-title {
-  font-family: 'Cinzel',serif;
-  font-size: 0.72rem;
-  font-weight: 600;
-  letter-spacing: 0.32em;
-  text-transform: uppercase;
-  color: var(--gold);
-}
-.dp-subtitle {
-  font-family: 'Lora',serif;
-  font-size: 0.78rem;
-  font-style: italic;
-  color: rgba(253,248,238,0.32);
-}
-
-/* Items grid */
-.dp-grid {
-  display: grid;
-  gap: 10px;
-}
-.dp-grid-2 { grid-template-columns: repeat(2, 1fr); }
-.dp-grid-3 { grid-template-columns: repeat(3, 1fr); }
-.dp-grid-4 { grid-template-columns: repeat(4, 1fr); }
-.dp-grid-5 { grid-template-columns: repeat(5, 1fr); }
-
-/* TV Properties: two-column category layout */
-.dp-tv-layout {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 32px;
-  align-items: start;
-}
-.dp-tv-category {
-  display: flex;
-  flex-direction: column;
-  gap: 0;
-}
-.dp-tv-cat-header {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 14px 20px 14px;
-  border: 1px solid rgba(212,175,55,0.12);
-  border-bottom: none;
-  background: rgba(212,175,55,0.04);
-}
-.dp-tv-cat-icon {
-  font-size: 1.2rem;
-  line-height: 1;
-  filter: drop-shadow(0 0 8px rgba(212,175,55,0.35));
-}
-.dp-tv-cat-title {
-  font-family: 'Cinzel',serif;
-  font-size: 0.78rem;
-  font-weight: 600;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: var(--gold-lt);
-}
-.dp-tv-cat-body {
-  padding: 18px 20px 20px;
-  border: 1px solid rgba(212,175,55,0.10);
-  background: rgba(8,6,0,0.35);
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-.dp-tv-cat-desc {
-  font-family: 'Lora',serif;
-  font-size: 0.80rem;
-  font-style: italic;
-  color: rgba(253,248,238,0.45);
-  line-height: 1.72;
-}
-.dp-tv-bullet-list {
-  list-style: none;
-  display: flex;
-  flex-direction: column;
-  gap: 7px;
-}
-.dp-tv-bullet-list li {
-  display: flex;
-  align-items: baseline;
-  gap: 10px;
-  font-family: 'Inter',sans-serif;
-  font-size: 0.68rem;
-  font-weight: 300;
-  letter-spacing: 0.10em;
-  color: rgba(253,248,238,0.42);
-  transition: color 0.22s ease;
-}
-.dp-tv-bullet-list li:hover { color: rgba(240,208,96,0.70); }
-.dp-tv-bullet-list li::before {
-  content: '';
-  width: 14px;
-  height: 1px;
-  background: rgba(212,175,55,0.40);
-  flex-shrink: 0;
-  margin-top: 0.5em;
-}
-
-/* Stories: franchise featured + books side-by-side */
-.dp-stories-layout {
-  display: grid;
-  grid-template-columns: 1.6fr 1fr;
-  gap: 32px;
-  align-items: start;
-}
-.dp-franchise-block {
-  display: flex;
-  flex-direction: column;
-  gap: 0;
-}
-.dp-franchise-header {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  padding: 16px 22px;
-  border: 1px solid rgba(212,175,55,0.18);
-  border-bottom: 2px solid rgba(212,175,55,0.22);
-  background: rgba(212,175,55,0.06);
-}
-.dp-franchise-icon {
-  font-size: 1.4rem;
-  filter: drop-shadow(0 0 10px rgba(212,175,55,0.50));
-}
-.dp-franchise-name {
-  font-family: 'Cinzel',serif;
-  font-size: 0.88rem;
-  font-weight: 700;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--gold-lt);
-  line-height: 1.2;
-}
-.dp-franchise-sub {
-  font-family: 'Lora',serif;
-  font-size: 0.70rem;
-  font-style: italic;
-  color: rgba(212,175,55,0.50);
-}
-.dp-franchise-chars {
-  display: grid;
-  grid-template-columns: repeat(4,1fr);
-  border: 1px solid rgba(212,175,55,0.10);
-  border-top: none;
-}
-.dp-franchise-char {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  padding: 16px 14px 14px;
-  background: rgba(6,5,0,0.40);
-  border-right: 1px solid rgba(212,175,55,0.07);
-  transition: background 0.25s ease, border-color 0.25s ease;
-  cursor: pointer;
+  transition: color 0.25s ease, border-bottom-color 0.25s ease;
+  border-bottom: 1px solid transparent;
   position: relative;
-  overflow: hidden;
 }
-.dp-franchise-char:last-child { border-right: none; }
-.dp-franchise-char::after {
+.nav-link::after {
   content: '';
   position: absolute;
-  bottom: 0; left: 0; right: 0;
+  bottom: 4px; left: 16px; right: 16px;
   height: 1px;
-  background: linear-gradient(to right,
-    transparent, rgba(212,175,55,0.40), transparent);
+  background: var(--gold-lt);
   transform: scaleX(0);
-  transition: transform 0.28s ease;
+  transform-origin: center;
+  transition: transform 0.28s cubic-bezier(0.4,0,0.2,1);
 }
-.dp-franchise-char:hover { background: rgba(18,14,0,0.60); }
-.dp-franchise-char:hover::after { transform: scaleX(1); }
-.dp-franchise-char:nth-child(1):hover .dp-fc-icon { filter: drop-shadow(0 0 10px rgba(212,175,55,0.60)); }
-.dp-franchise-char:nth-child(2):hover .dp-fc-icon { filter: drop-shadow(0 0 10px rgba(255,130,40,0.55)); }
-.dp-franchise-char:nth-child(3):hover .dp-fc-icon { filter: drop-shadow(0 0 10px rgba(60,140,255,0.50)); }
-.dp-franchise-char:nth-child(4):hover .dp-fc-icon { filter: drop-shadow(0 0 10px rgba(80,200,90,0.50)); }
-.dp-fc-icon {
-  font-size: 1.3rem;
-  margin-bottom: 4px;
-  transition: filter 0.25s ease;
-}
-.dp-fc-name {
-  font-family: 'Cinzel',serif;
-  font-size: 0.66rem;
-  font-weight: 600;
-  letter-spacing: 0.10em;
-  text-transform: uppercase;
-  color: var(--gold-lt);
-  line-height: 1.30;
-}
-.dp-fc-role {
-  font-family: 'Inter',sans-serif;
-  font-size: 0.58rem;
-  font-weight: 300;
-  letter-spacing: 0.20em;
-  text-transform: uppercase;
-  color: rgba(212,175,55,0.45);
-}
-.dp-fc-theme {
-  font-family: 'Lora',serif;
-  font-size: 0.68rem;
-  font-style: italic;
-  color: rgba(253,248,238,0.30);
-  line-height: 1.45;
-  margin-top: 2px;
-}
-
-/* Books block */
-.dp-books-block {
-  display: flex;
-  flex-direction: column;
-  gap: 0;
-}
-.dp-books-header {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 16px 20px;
-  border: 1px solid rgba(212,175,55,0.12);
-  border-bottom: 2px solid rgba(212,175,55,0.15);
-  background: rgba(8,6,0,0.45);
-}
-.dp-books-icon {
-  font-size: 1.3rem;
-  filter: drop-shadow(0 0 8px rgba(212,175,55,0.35));
-}
-.dp-books-title {
-  font-family: 'Cinzel',serif;
-  font-size: 0.78rem;
-  font-weight: 600;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: var(--gold-lt);
-}
-.dp-books-body {
-  padding: 18px 20px;
-  border: 1px solid rgba(212,175,55,0.08);
-  border-top: none;
-  background: rgba(5,4,0,0.32);
-}
-.dp-books-desc {
-  font-family: 'Lora',serif;
-  font-size: 0.80rem;
-  font-style: italic;
-  color: rgba(253,248,238,0.45);
-  line-height: 1.72;
-  margin-bottom: 14px;
-}
-.dp-books-tag {
-  display: inline-block;
-  font-family: 'Inter',sans-serif;
-  font-size: 0.58rem;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
-  color: rgba(212,175,55,0.40);
-  padding: 5px 10px;
-  border: 1px solid rgba(212,175,55,0.14);
-  background: rgba(212,175,55,0.03);
-}
-
-/* Dropdown item */
-.dp-item {
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-  padding: 16px 20px;
-  border: 1px solid rgba(212,175,55,0.07);
-  background: rgba(10,8,0,0.30);
-  text-decoration: none;
-  cursor: pointer;
-  transition: all 0.28s ease;
-  position: relative;
-  overflow: hidden;
-}
-.dp-item::after {
-  content: '';
-  position: absolute;
-  bottom: 0; left: 0; right: 0;
-  height: 1px;
-  background: linear-gradient(to right,
-    transparent, rgba(212,175,55,0.45), transparent);
-  transform: scaleX(0);
-  transition: transform 0.3s ease;
-}
-.dp-item:hover {
-  border-color: rgba(212,175,55,0.28);
-  background: rgba(18,14,0,0.55);
-  transform: translateY(-2px);
-}
-.dp-item:hover::after { transform: scaleX(1); }
-
-.dp-item-icon {
-  font-size: 1.1rem;
-  line-height: 1;
-  margin-bottom: 2px;
-  filter: drop-shadow(0 0 8px rgba(212,175,55,0.30));
-}
-.dp-item-label {
-  font-family: 'Cinzel',serif;
-  font-size: 0.72rem;
-  font-weight: 600;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--gold-lt);
-  line-height: 1.3;
-}
-.dp-item-desc {
-  font-family: 'Lora',serif;
-  font-size: 0.74rem;
-  font-style: italic;
-  color: rgba(253,248,238,0.38);
-  line-height: 1.5;
-}
-
-/* Separator item (for About section columns) */
-.dp-col-label {
-  font-family: 'Inter',sans-serif;
-  font-size: 0.56rem;
-  letter-spacing: 0.42em;
-  text-transform: uppercase;
-  color: rgba(212,175,55,0.28);
-  margin-bottom: 8px;
-  padding-bottom: 8px;
-  border-bottom: 1px solid rgba(212,175,55,0.07);
-}
-
-/* About section: featured text left + items right */
-.dp-about-layout {
-  display: grid;
-  grid-template-columns: 1.1fr 1.6fr;
-  gap: 48px;
-  align-items: start;
-}
-.dp-about-mission {
-  padding-top: 4px;
-}
-.dp-about-wordmark {
-  font-family: 'Cinzel',serif;
-  font-size: 1.15rem;
-  font-weight: 600;
-  letter-spacing: 0.08em;
-  color: var(--gold-lt);
-  line-height: 1.25;
-  margin-bottom: 12px;
-}
-.dp-about-tagline {
-  font-family: 'Lora',serif;
-  font-size: 0.88rem;
-  font-style: italic;
-  color: rgba(253,248,238,0.50);
-  line-height: 1.75;
-  margin-bottom: 22px;
-}
-.dp-about-rule {
-  width: 40px; height: 1px;
-  background: linear-gradient(to right, var(--gold-dim), transparent);
-  margin-bottom: 22px;
-}
-.dp-about-body {
-  font-family: 'Lora',serif;
-  font-size: 0.80rem;
-  color: rgba(253,248,238,0.42);
-  line-height: 1.80;
-}
-
-/* Character cards in dropdown */
-.dp-char-card {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  padding: 20px 20px 18px;
-  border: 1px solid rgba(212,175,55,0.08);
-  background: rgba(8,6,0,0.40);
-  text-decoration: none;
-  cursor: pointer;
-  transition: all 0.30s ease;
-  position: relative;
-  overflow: hidden;
-}
-.dp-char-card:hover {
-  border-color: rgba(212,175,55,0.32);
-  background: rgba(20,14,0,0.62);
-  transform: translateY(-3px);
-  box-shadow: 0 12px 32px rgba(0,0,0,0.45), 0 0 24px rgba(212,175,55,0.07);
-}
-.dp-char-card:nth-child(1):hover { box-shadow: 0 12px 32px rgba(0,0,0,0.45), 0 0 24px rgba(212,175,55,0.10); }
-.dp-char-card:nth-child(2):hover { box-shadow: 0 12px 32px rgba(0,0,0,0.45), 0 0 24px rgba(255,130,40,0.08); }
-.dp-char-card:nth-child(3):hover { box-shadow: 0 12px 32px rgba(0,0,0,0.45), 0 0 24px rgba(60,140,255,0.08); }
-.dp-char-card:nth-child(4):hover { box-shadow: 0 12px 32px rgba(0,0,0,0.45), 0 0 24px rgba(80,200,90,0.08); }
-.dp-char-shimmer {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(120deg,
-    transparent 20%, rgba(212,175,55,0.04) 50%, transparent 80%);
-  transform: translateX(-100%);
-  transition: transform 0.6s ease;
-}
-.dp-char-card:hover .dp-char-shimmer { transform: translateX(100%); }
-.dp-char-icon {
-  font-size: 1.5rem;
-  line-height: 1;
-  margin-bottom: 6px;
-}
-.dp-char-name {
-  font-family: 'Cinzel',serif;
-  font-size: 0.70rem;
-  font-weight: 600;
-  letter-spacing: 0.10em;
-  text-transform: uppercase;
-  color: var(--gold-lt);
-  line-height: 1.35;
-}
-.dp-char-role {
-  font-family: 'Inter',sans-serif;
-  font-size: 0.60rem;
-  font-weight: 300;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
-  color: var(--gold-dim);
-}
-.dp-char-theme {
-  font-family: 'Lora',serif;
-  font-size: 0.72rem;
-  font-style: italic;
-  color: rgba(253,248,238,0.35);
-  line-height: 1.5;
-  margin-top: 4px;
-}
-
-/* Philosophy steps */
-.dp-philo-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 10px;
-}
-.dp-philo-step {
-  display: flex;
-  gap: 14px;
-  align-items: flex-start;
-  padding: 16px 18px;
-  border: 1px solid rgba(212,175,55,0.07);
-  background: rgba(8,6,0,0.28);
-  transition: all 0.28s ease;
-  cursor: default;
-}
-.dp-philo-step:hover {
-  border-color: rgba(212,175,55,0.22);
-  background: rgba(16,12,0,0.48);
-}
-.dp-step-n {
-  font-family: 'Cinzel',serif;
-  font-size: 1.3rem;
-  font-weight: 700;
-  color: rgba(212,175,55,0.13);
-  line-height: 1;
-  flex-shrink: 0;
-  min-width: 28px;
-  transition: color 0.28s ease;
-}
-.dp-philo-step:hover .dp-step-n { color: rgba(212,175,55,0.28); }
-.dp-step-title {
-  font-family: 'Cinzel',serif;
-  font-size: 0.70rem;
-  font-weight: 600;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--gold);
-  margin-bottom: 4px;
-}
-.dp-step-text {
-  font-family: 'Lora',serif;
-  font-size: 0.74rem;
-  font-style: italic;
-  color: rgba(253,248,238,0.40);
-  line-height: 1.58;
-}
-
-/* Close backdrop — click outside to close */
-#dropdown-backdrop {
-  position: fixed;
-  inset: 0;
-  z-index: 94;
-  display: none;
-}
-#dropdown-backdrop.open { display: block; }
+.nav-link:hover { color: var(--gold-lt); }
+.nav-link:hover::after { transform: scaleX(1); }
 
 /* ═══════════════════════════════════════════════════════════════
-   FOOTER (fixed at bottom of viewport)
-   Three-zone layout:
-     LEFT  — VIG emblem + "A VIG Company" (subtle glow pulse)
-     CENTER — © 2026 copyright
-     RIGHT  — spacer that mirrors left width so copyright is truly centred
-               (sound toggle btn is position:fixed, sits over right zone)
+   FOOTER CHROME
+   LEFT  — VIG emblem (linked) + "A VIG Company" label
+   CENTER — © 2026 copyright
+   RIGHT  — spacer (sound toggle btn is position:fixed)
 ═══════════════════════════════════════════════════════════════ */
 #footer-chrome {
   position: relative;
@@ -979,19 +413,17 @@ body.site-ready {
   flex-shrink: 0;
 }
 
-/* LEFT — VIG lockup: linked emblem + plain label side-by-side */
+/* LEFT — VIG lockup */
 .footer-vig-lockup {
   display: flex;
   align-items: center;
   gap: 9px;
-  /* Pulse applies to the whole group */
   animation: vigGlowPulse 8s ease-in-out infinite;
 }
 @keyframes vigGlowPulse {
   0%, 78%, 100% { filter: brightness(1)    drop-shadow(0 0  0px rgba(212,175,55,0.00)); }
   86%           { filter: brightness(1.20) drop-shadow(0 0  8px rgba(212,175,55,0.26)); }
 }
-/* The emblem <a> link */
 .footer-vig-link {
   display: flex;
   align-items: center;
@@ -1011,7 +443,6 @@ body.site-ready {
   opacity: 0.55;
   display: block;
 }
-/* The plain label — not clickable */
 .footer-vig-label {
   font-family: 'Inter', sans-serif;
   font-size: clamp(0.46rem, 0.72vw, 0.58rem);
@@ -1033,9 +464,8 @@ body.site-ready {
   padding: 0 12px;
 }
 
-/* RIGHT spacer — mirrors VIG lockup visual width so copyright centres */
+/* RIGHT spacer */
 .footer-spacer {
-  /* ~80px matches typical vig lockup rendered width at desktop */
   min-width: 80px;
   flex-shrink: 0;
 }
@@ -1046,34 +476,22 @@ body.site-ready {
 @media (max-width: 900px) {
   #nav { padding: 0 24px; }
   .nav-items { gap: 0; }
-  .nav-trigger { padding: 8px 10px; font-size: 0.62rem; }
-  .dropdown-inner { padding: 0 24px; }
-  .dropdown-box { padding: 28px 24px 32px; }
-  .dp-grid-3 { grid-template-columns: 1fr 1fr; }
-  .dp-grid-4 { grid-template-columns: repeat(2, 1fr); }
-  .dp-grid-5 { grid-template-columns: repeat(2, 1fr); }
-  .dp-about-layout { grid-template-columns: 1fr; gap: 28px; }
-  .dp-philo-grid { grid-template-columns: 1fr; }
-  .dp-tv-layout { grid-template-columns: 1fr; gap: 20px; }
-  .dp-stories-layout { grid-template-columns: 1fr; gap: 20px; }
-  .dp-franchise-chars { grid-template-columns: repeat(2,1fr); }
+  .nav-link { padding: 8px 10px; font-size: 0.62rem; }
   #footer-chrome { padding: 0 24px; height: 60px; }
   .footer-copy { font-size: 0.44rem; letter-spacing: 0.10em; padding: 0 8px; }
   .footer-spacer { min-width: 0; display: none; }
 }
 @media (max-width: 600px) {
   .nav-brand-main { font-size: 0.68rem; }
-  .dp-grid-4 { grid-template-columns: 1fr 1fr; }
-  .dp-grid-5 { grid-template-columns: 1fr 1fr; }
-  .dp-franchise-chars { grid-template-columns: 1fr 1fr; }
+  .nav-link { padding: 8px 8px; font-size: 0.58rem; letter-spacing: 0.12em; }
 }
   </style>
 </head>
 <body>
 
-<!-- ═══════════════════════════════════════════════
+<!-- ═══════════════════════════════════════════
      FIXED CINEMATIC STAGE
-════════════════════════════════════════════════ -->
+════════════════════════════════════════════ -->
 <div id="stage" aria-hidden="true">
   <video id="hero-video"
     autoplay muted playsinline preload="auto"
@@ -1128,8 +546,7 @@ body.site-ready {
 </button>
 
 <!-- ═══════════════════════════════════════════════
-     SITE CHROME — nav + footer fixed over background
-     (hidden during intro, fades in after)
+     SITE CHROME — nav + footer, fades in after intro
 ════════════════════════════════════════════════ -->
 <div id="site-chrome" role="main">
 
@@ -1141,265 +558,14 @@ body.site-ready {
       <span class="nav-brand-sub">Where Stories Grow</span>
     </a>
 
-    <ul class="nav-items" role="menubar">
-
-      <li class="nav-item" role="none">
-        <button class="nav-trigger" role="menuitem"
-                aria-haspopup="true" aria-expanded="false"
-                data-pane="about">
-          About
-          <span class="nav-chevron" aria-hidden="true"></span>
-        </button>
-      </li>
-
-      <li class="nav-item" role="none">
-        <button class="nav-trigger" role="menuitem"
-                aria-haspopup="true" aria-expanded="false"
-                data-pane="stories">
-          Stories
-          <span class="nav-chevron" aria-hidden="true"></span>
-        </button>
-      </li>
-
-      <li class="nav-item" role="none">
-        <button class="nav-trigger" role="menuitem"
-                aria-haspopup="true" aria-expanded="false"
-                data-pane="tv">
-          TV Properties
-          <span class="nav-chevron" aria-hidden="true"></span>
-        </button>
-      </li>
-
-      <li class="nav-item" role="none">
-        <button class="nav-trigger" role="menuitem"
-                aria-haspopup="true" aria-expanded="false"
-                data-pane="philosophy">
-          Philosophy
-          <span class="nav-chevron" aria-hidden="true"></span>
-        </button>
-      </li>
-
+    <ul class="nav-items" role="list">
+      <li><a href="/about"          class="nav-link">About</a></li>
+      <li><a href="/stories"        class="nav-link">Stories</a></li>
+      <li><a href="/tv-properties"  class="nav-link">TV Properties</a></li>
+      <li><a href="/philosophy"     class="nav-link">Philosophy</a></li>
     </ul>
+
   </nav>
-
-  <!-- ── DROPDOWN PANEL (shared, single element) ── -->
-  <div id="dropdown-backdrop" aria-hidden="true"></div>
-
-  <div id="dropdown-panel" role="region" aria-label="Navigation content" aria-hidden="true">
-    <div class="dropdown-inner">
-      <div class="dropdown-box">
-
-        <!-- ── ABOUT ── -->
-        <div class="dropdown-pane" id="pane-about" role="menu" aria-label="About">
-          <div class="dp-header">
-            <span class="dp-title">About</span>
-            <span class="dp-subtitle">The studio. The mission. The vision.</span>
-          </div>
-          <div class="dp-about-layout">
-
-            <div class="dp-about-mission">
-              <p class="dp-about-wordmark">MustardSeed<br/>Productions</p>
-              <div class="dp-about-rule"></div>
-              <p class="dp-about-tagline">"Planting stories that grow into worlds."</p>
-              <p class="dp-about-body">The children's storytelling and television production arm of Visionaires Media — creating emotionally rich, imaginative, and purpose-driven content for the next generation.</p>
-            </div>
-
-            <div>
-              <p class="dp-col-label">Explore</p>
-              <div class="dp-grid dp-grid-2" style="margin-top:4px;">
-                <div class="dp-item" role="menuitem">
-                  <span class="dp-item-icon">🌱</span>
-                  <span class="dp-item-label">Our Mission</span>
-                  <span class="dp-item-desc">Planting seeds of courage, growth, imagination, and purpose through story.</span>
-                </div>
-                <div class="dp-item" role="menuitem">
-                  <span class="dp-item-icon">📐</span>
-                  <span class="dp-item-label">What We Create</span>
-                  <span class="dp-item-desc">Books, animation, television properties, and next-generation content.</span>
-                </div>
-                <div class="dp-item" role="menuitem">
-                  <span class="dp-item-icon">🏛</span>
-                  <span class="dp-item-label">Visionaires Media</span>
-                  <span class="dp-item-desc">The parent company building a purposeful creative universe for families.</span>
-                </div>
-                <div class="dp-item" role="menuitem" style="border-color:rgba(212,175,55,0.14);background:rgba(212,175,55,0.04);">
-                  <span class="dp-item-icon">✦</span>
-                  <span class="dp-item-label">The Standard</span>
-                  <span class="dp-item-desc">Cinematic quality. Premium craft. Stories that last generations.</span>
-                </div>
-              </div>
-            </div>
-
-          </div>
-        </div>
-
-        <!-- ── STORIES ── -->
-        <div class="dropdown-pane" id="pane-stories" role="menu" aria-label="Stories">
-          <div class="dp-header">
-            <span class="dp-title">Stories</span>
-            <span class="dp-subtitle">Intellectual property. The worlds we are building.</span>
-          </div>
-          <div class="dp-stories-layout">
-
-            <!-- Seeds of Greatness franchise -->
-            <div class="dp-franchise-block">
-              <div class="dp-franchise-header">
-                <span class="dp-franchise-icon">🌟</span>
-                <div>
-                  <p class="dp-franchise-name">Seeds of Greatness Series</p>
-                  <p class="dp-franchise-sub">Flagship franchise — four characters, one universe</p>
-                </div>
-              </div>
-              <div class="dp-franchise-chars">
-
-                <div class="dp-franchise-char" role="menuitem">
-                  <span class="dp-fc-icon">🧑‍🎨</span>
-                  <span class="dp-fc-name">Growing Up<br/>with Yeshua</span>
-                  <span class="dp-fc-role">The Creator</span>
-                  <span class="dp-fc-theme">"Purpose and creation."</span>
-                </div>
-
-                <div class="dp-franchise-char" role="menuitem">
-                  <span class="dp-fc-icon">🌞</span>
-                  <span class="dp-fc-name">Growing Up<br/>with Messiah</span>
-                  <span class="dp-fc-role">The Energy</span>
-                  <span class="dp-fc-theme">"Energy and expression."</span>
-                </div>
-
-                <div class="dp-franchise-char" role="menuitem">
-                  <span class="dp-fc-icon">🏆</span>
-                  <span class="dp-fc-name">Growing Up<br/>with Levi</span>
-                  <span class="dp-fc-role">The Competitor</span>
-                  <span class="dp-fc-theme">"Discipline and leadership."</span>
-                </div>
-
-                <div class="dp-franchise-char" role="menuitem">
-                  <span class="dp-fc-icon">🌱</span>
-                  <span class="dp-fc-name">Growing Up<br/>with Jadery</span>
-                  <span class="dp-fc-role">The Foundation</span>
-                  <span class="dp-fc-theme">"Identity and becoming."</span>
-                </div>
-
-              </div>
-            </div>
-
-            <!-- Children's Books -->
-            <div class="dp-books-block">
-              <div class="dp-books-header">
-                <span class="dp-books-icon">📖</span>
-                <span class="dp-books-title">Children's Books</span>
-              </div>
-              <div class="dp-books-body">
-                <p class="dp-books-desc">Beautifully crafted stories designed to live on shelves, in classrooms, and across generations — rooted in purpose, written with care.</p>
-                <span class="dp-books-tag">Print &amp; Digital</span>
-              </div>
-            </div>
-
-          </div>
-        </div>
-
-        <!-- ── TV PROPERTIES ── -->
-        <div class="dropdown-pane" id="pane-tv" role="menu" aria-label="TV Properties">
-          <div class="dp-header">
-            <span class="dp-title">TV Properties</span>
-            <span class="dp-subtitle">Production &amp; media expansion.</span>
-          </div>
-          <div class="dp-tv-layout">
-
-            <!-- Animated Storytelling -->
-            <div class="dp-tv-category">
-              <div class="dp-tv-cat-header">
-                <span class="dp-tv-cat-icon">✨</span>
-                <span class="dp-tv-cat-title">Animated Storytelling</span>
-              </div>
-              <div class="dp-tv-cat-body">
-                <p class="dp-tv-cat-desc">Cinematic, character-driven animation that brings our stories to emotionally vivid life — designed for the highest level of visual and narrative craft.</p>
-                <ul class="dp-tv-bullet-list">
-                  <li>Animated adaptations of franchise IP</li>
-                  <li>Character-driven emotional storytelling</li>
-                  <li>Feature-quality cinematic production</li>
-                  <li>Family and youth audience focus</li>
-                </ul>
-              </div>
-            </div>
-
-            <!-- Television Productions -->
-            <div class="dp-tv-category">
-              <div class="dp-tv-cat-header">
-                <span class="dp-tv-cat-icon">🎬</span>
-                <span class="dp-tv-cat-title">Television Productions</span>
-              </div>
-              <div class="dp-tv-cat-body">
-                <p class="dp-tv-cat-desc">Original television concepts developed for streaming platforms and broadcast — purposeful, premium, and built for the future of family media.</p>
-                <ul class="dp-tv-bullet-list">
-                  <li>Original series development</li>
-                  <li>Streaming-ready content pipelines</li>
-                  <li>Family and youth programming</li>
-                  <li>Long-form narrative formats</li>
-                </ul>
-              </div>
-            </div>
-
-          </div>
-        </div>
-
-
-
-        <!-- ── PHILOSOPHY ── -->
-        <div class="dropdown-pane" id="pane-philosophy" role="menu" aria-label="Philosophy">
-          <div class="dp-header">
-            <span class="dp-title">Philosophy</span>
-            <span class="dp-subtitle">How every story grows.</span>
-          </div>
-          <div class="dp-philo-grid">
-
-            <div class="dp-philo-step">
-              <span class="dp-step-n">01</span>
-              <div>
-                <p class="dp-step-title">Real-Life Challenges</p>
-                <p class="dp-step-text">Stories rooted in the everyday struggles children actually face — not fantasy problems, but real, felt ones.</p>
-              </div>
-            </div>
-
-            <div class="dp-philo-step">
-              <span class="dp-step-n">02</span>
-              <div>
-                <p class="dp-step-title">Emotional Growth</p>
-                <p class="dp-step-text">Moments that make children feel seen, heard, and understood — the emotional anchor of every story we tell.</p>
-              </div>
-            </div>
-
-            <div class="dp-philo-step">
-              <span class="dp-step-n">03</span>
-              <div>
-                <p class="dp-step-title">Identity Formation</p>
-                <p class="dp-step-text">Each story plants a seed of who a child is becoming — leaving them with something to carry forward.</p>
-              </div>
-            </div>
-
-            <div class="dp-philo-step">
-              <span class="dp-step-n">04</span>
-              <div>
-                <p class="dp-step-title">Purpose-Driven Storytelling</p>
-                <p class="dp-step-text">Every story serves a larger mission — building the inner world of the next generation, one seed at a time.</p>
-              </div>
-            </div>
-
-          </div>
-          <!-- Quote -->
-          <div style="margin-top:24px;padding:20px 28px;border-left:2px solid rgba(212,175,55,0.30);background:rgba(212,175,55,0.03);">
-            <p style="font-family:'Lora',serif;font-size:0.88rem;font-style:italic;color:rgba(253,248,238,0.55);line-height:1.78;">
-              "Stories are the seeds we plant in the minds of children today — and what grows from them shapes the world they will build tomorrow."
-            </p>
-            <p style="font-family:'Inter',sans-serif;font-size:0.56rem;letter-spacing:0.32em;text-transform:uppercase;color:rgba(212,175,55,0.30);margin-top:10px;">
-              — MustardSeed Productions
-            </p>
-          </div>
-        </div>
-
-      </div><!-- .dropdown-box -->
-    </div><!-- .dropdown-inner -->
-  </div><!-- #dropdown-panel -->
 
   <!-- ── FOOTER ── -->
   <footer id="footer-chrome" aria-label="Site footer">
@@ -1419,8 +585,7 @@ body.site-ready {
     <!-- CENTER: copyright -->
     <p class="footer-copy">&copy; 2026 MustardSeed Productions. All rights reserved.</p>
 
-    <!-- RIGHT spacer: mirrors left lockup width so copyright is truly centred
-         Sound toggle btn is position:fixed and sits over this zone -->
+    <!-- RIGHT spacer -->
     <div class="footer-spacer" aria-hidden="true"></div>
 
   </footer>
@@ -1447,8 +612,6 @@ body.site-ready {
   const iconMuted   = document.getElementById('icon-muted');
   const iconUnmuted = document.getElementById('icon-unmuted');
   const loader      = document.getElementById('loader');
-  const dropPanel   = document.getElementById('dropdown-panel');
-  const dropBackdrop= document.getElementById('dropdown-backdrop');
 
   const fCtx = fCanvas.getContext('2d');
   const lCtx = leavesC.getContext('2d');
@@ -1486,11 +649,9 @@ body.site-ready {
     if (siteRevealed) return;
     siteRevealed = true;
 
-    // Cinematic dim overlay
     bgOverlay.classList.add('visible');
-
-    // Reveal nav + footer chrome
     siteChrome.classList.add('visible');
+    document.body.classList.add('site-ready');
 
     // Fade out intro-only elements
     setTimeout(() => {
@@ -1561,73 +722,6 @@ body.site-ready {
     ['click','touchstart','keydown'].forEach(ev =>
       document.addEventListener(ev, () => video.play(), { once: true })
     );
-  });
-
-  /* ═══════════════════════════════════════════════════════
-     DROPDOWN NAVIGATION
-  ═══════════════════════════════════════════════════════ */
-  const triggers = document.querySelectorAll('.nav-trigger');
-  let activePane = null;
-
-  function openPane(paneId) {
-    // Hide all panes
-    document.querySelectorAll('.dropdown-pane').forEach(p => p.classList.remove('active'));
-    // Show target pane
-    const pane = document.getElementById('pane-' + paneId);
-    if (!pane) return;
-    pane.classList.add('active');
-
-    // Update trigger states
-    triggers.forEach(t => {
-      const isThis = t.dataset.pane === paneId;
-      t.classList.toggle('open', isThis);
-      t.setAttribute('aria-expanded', isThis ? 'true' : 'false');
-    });
-
-    // Open panel
-    dropPanel.classList.add('open');
-    dropPanel.setAttribute('aria-hidden', 'false');
-    dropBackdrop.classList.add('open');
-    activePane = paneId;
-  }
-
-  function closeDropdown() {
-    dropPanel.classList.remove('open');
-    dropPanel.setAttribute('aria-hidden', 'true');
-    dropBackdrop.classList.remove('open');
-    triggers.forEach(t => {
-      t.classList.remove('open');
-      t.setAttribute('aria-expanded', 'false');
-    });
-    activePane = null;
-  }
-
-  triggers.forEach(trigger => {
-    trigger.addEventListener('click', (e) => {
-      e.stopPropagation();
-      const paneId = trigger.dataset.pane;
-      if (activePane === paneId) {
-        closeDropdown();
-      } else {
-        openPane(paneId);
-      }
-    });
-  });
-
-  // Close on backdrop click
-  dropBackdrop.addEventListener('click', closeDropdown);
-
-  // Close on Escape
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') closeDropdown();
-  });
-
-  // Close if user clicks inside dropdown box itself (on items)
-  dropPanel.addEventListener('click', (e) => {
-    // Only close if they clicked a dp-item or dp-char-card or dp-philo-step
-    if (e.target.closest('.dp-item, .dp-char-card, .dp-philo-step')) {
-      closeDropdown();
-    }
   });
 
   /* ═══════════════════════════════════════════════════════
