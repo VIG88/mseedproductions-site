@@ -145,21 +145,41 @@ body.site-ready {
 }
 #particles-canvas.visible { opacity: 1; }
 
-/* ─── INTRO TEXT ───────────────────────────────────── */
-#intro-text {
+/* ─── GOLD DIVIDER (floats below logo, mid-screen) ─── */
+/* Appears with the intro text sequence; stays near vertical centre */
+#text-divider-wrap {
   position: fixed;
-  /* Lifted higher so it clears the footer VIG lockup with room to breathe */
-  bottom: 14%;
+  /* ~55% down the screen — below the logo, above mid-point */
+  top: 58%;
   left: 50%;
   transform: translateX(-50%);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  z-index: 50;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 2s ease;
+}
+#text-divider-wrap.visible { opacity: 1; }
+#text-divider {
+  width: clamp(40px,8vw,72px);
+  height: 1px;
+  background: linear-gradient(to right,
+    transparent, rgba(212,175,55,0.55) 30%,
+    rgba(212,175,55,0.55) 70%, transparent);
+}
+
+/* ─── PATIENCE MESSAGE (sits at true bottom-center) ── */
+/* Sits above the footer bar with clear breathing room   */
+#intro-text {
+  position: fixed;
+  bottom: 78px;    /* footer is 60px; 18px extra gap above it */
+  left: 50%;
+  transform: translateX(-50%);
   z-index: 50;
   pointer-events: none;
   opacity: 0;
   transition: opacity 2s ease;
   white-space: nowrap;
+  text-align: center;
 }
 #intro-text.visible { opacity: 1; }
 #intro-text.pulse   { animation: softPulse 7.5s ease-in-out infinite; }
@@ -167,26 +187,18 @@ body.site-ready {
   0%,100% { opacity:1; filter:brightness(1); }
   50%     { opacity:0.88; filter:brightness(1.12); }
 }
-#text-divider {
-  width: clamp(40px,8vw,72px);
-  height: 1px;
-  background: linear-gradient(to right,
-    transparent, rgba(212,175,55,0.55) 30%,
-    rgba(212,175,55,0.55) 70%, transparent);
-  margin-bottom: 20px;  /* increased: clear gap between dash and message text */
-}
 #intro-message {
-  color: rgba(212,175,55,0.78);
-  font-size: clamp(0.6rem,1.3vw,0.88rem);
-  letter-spacing: 0.22em;
+  color: rgba(212,175,55,0.62);
+  font-size: clamp(0.55rem,1.1vw,0.78rem);
+  letter-spacing: 0.24em;
   text-align: center;
   font-style: italic;
   opacity: 0;
 }
 #intro-message.grow-in { animation: seedGrow 1.8s ease forwards; }
 @keyframes seedGrow {
-  0%   { opacity:0; transform:translateY(6px); }
-  100% { opacity:0.78; transform:translateY(0); }
+  0%   { opacity:0; transform:translateY(5px); }
+  100% { opacity:0.62; transform:translateY(0); }
 }
 
 /* ─── VIG LOCKUP (intro + site footer both) ─────────── */
@@ -967,32 +979,47 @@ body.site-ready {
   flex-shrink: 0;
 }
 
-/* LEFT — VIG emblem + label */
+/* LEFT — VIG lockup: linked emblem + plain label side-by-side */
 .footer-vig-lockup {
   display: flex;
   align-items: center;
   gap: 9px;
-  pointer-events: none;  /* no link / button behaviour */
+  /* Pulse applies to the whole group */
   animation: vigGlowPulse 8s ease-in-out infinite;
 }
 @keyframes vigGlowPulse {
   0%, 78%, 100% { filter: brightness(1)    drop-shadow(0 0  0px rgba(212,175,55,0.00)); }
   86%           { filter: brightness(1.20) drop-shadow(0 0  8px rgba(212,175,55,0.26)); }
 }
-.footer-vig-lockup img {
+/* The emblem <a> link */
+.footer-vig-link {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  cursor: pointer;
+  transition: filter 0.30s ease, transform 0.30s ease;
+  flex-shrink: 0;
+}
+.footer-vig-link:hover {
+  filter: brightness(1.45) drop-shadow(0 0 10px rgba(212,175,55,0.40));
+  transform: scale(1.06);
+}
+.footer-vig-link img {
   width: clamp(22px, 2.8vw, 32px);
   height: auto;
   mix-blend-mode: screen;
   opacity: 0.55;
-  flex-shrink: 0;
+  display: block;
 }
-.footer-vig-lockup span {
+/* The plain label — not clickable */
+.footer-vig-label {
   font-family: 'Inter', sans-serif;
   font-size: clamp(0.46rem, 0.72vw, 0.58rem);
   letter-spacing: 0.30em;
   text-transform: uppercase;
   color: rgba(212,175,55,0.42);
   white-space: nowrap;
+  pointer-events: none;
 }
 
 /* CENTER — copyright */
@@ -1065,9 +1092,13 @@ body.site-ready {
 <canvas id="leaves-canvas"    aria-hidden="true"></canvas>
 <canvas id="particles-canvas" aria-hidden="true"></canvas>
 
-<!-- ── INTRO UI ── -->
-<div id="intro-text" aria-hidden="true">
+<!-- ── GOLD DIVIDER (mid-screen, below logo) ── -->
+<div id="text-divider-wrap" aria-hidden="true">
   <div id="text-divider"></div>
+</div>
+
+<!-- ── PATIENCE MESSAGE (bottom-center, above footer) ── -->
+<div id="intro-text" aria-hidden="true">
   <div id="intro-message">We are currently planting seeds&hellip; thank you for your patience.</div>
 </div>
 
@@ -1373,10 +1404,16 @@ body.site-ready {
   <!-- ── FOOTER ── -->
   <footer id="footer-chrome" aria-label="Site footer">
 
-    <!-- LEFT: VIG emblem + "A VIG Company" — subtle glow pulse, no link/button -->
+    <!-- LEFT: VIG emblem (linked) + "A VIG Company" (plain label) -->
     <div class="footer-vig-lockup" aria-label="A VIG Company">
-      <img src="/static/vig-logo-transparent.png" alt="VIG" draggable="false" />
-      <span>A VIG Company</span>
+      <a href="https://www.vigholdings.com"
+         target="_blank"
+         rel="noopener noreferrer"
+         class="footer-vig-link"
+         aria-label="VIG Holdings — opens in new tab">
+        <img src="/static/vig-logo-transparent.png" alt="VIG" draggable="false" />
+      </a>
+      <span class="footer-vig-label">A VIG Company</span>
     </div>
 
     <!-- CENTER: copyright -->
@@ -1404,6 +1441,7 @@ body.site-ready {
   const introText   = document.getElementById('intro-text');
   const introMsg    = document.getElementById('intro-message');
   const vigLockup   = document.getElementById('vig-lockup');
+  const dividerWrap = document.getElementById('text-divider-wrap');
   const siteChrome  = document.getElementById('site-chrome');
   const soundBtn    = document.getElementById('sound-btn');
   const iconMuted   = document.getElementById('icon-muted');
@@ -1458,6 +1496,10 @@ body.site-ready {
     setTimeout(() => {
       introText.style.transition = 'opacity 1.4s ease';
       introText.style.opacity    = '0';
+      if (dividerWrap) {
+        dividerWrap.style.transition = 'opacity 1.4s ease';
+        dividerWrap.style.opacity    = '0';
+      }
       vigLockup.classList.add('fade-out');
     }, 700);
   }
@@ -1495,6 +1537,7 @@ body.site-ready {
           }, 1100);
 
           setTimeout(() => {
+            if (dividerWrap) dividerWrap.classList.add('visible');
             introText.classList.add('visible');
             setTimeout(() => introMsg.classList.add('grow-in'), 800);
             setTimeout(() => introText.classList.add('pulse'), 2000);
