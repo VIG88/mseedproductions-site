@@ -476,8 +476,244 @@ body.site-ready {
   gap: 10px;
 }
 .dp-grid-2 { grid-template-columns: repeat(2, 1fr); }
+.dp-grid-3 { grid-template-columns: repeat(3, 1fr); }
 .dp-grid-4 { grid-template-columns: repeat(4, 1fr); }
 .dp-grid-5 { grid-template-columns: repeat(5, 1fr); }
+
+/* TV Properties: two-column category layout */
+.dp-tv-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+  align-items: start;
+}
+.dp-tv-category {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+.dp-tv-cat-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 20px 14px;
+  border: 1px solid rgba(212,175,55,0.12);
+  border-bottom: none;
+  background: rgba(212,175,55,0.04);
+}
+.dp-tv-cat-icon {
+  font-size: 1.2rem;
+  line-height: 1;
+  filter: drop-shadow(0 0 8px rgba(212,175,55,0.35));
+}
+.dp-tv-cat-title {
+  font-family: 'Cinzel',serif;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--gold-lt);
+}
+.dp-tv-cat-body {
+  padding: 18px 20px 20px;
+  border: 1px solid rgba(212,175,55,0.10);
+  background: rgba(8,6,0,0.35);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.dp-tv-cat-desc {
+  font-family: 'Lora',serif;
+  font-size: 0.80rem;
+  font-style: italic;
+  color: rgba(253,248,238,0.45);
+  line-height: 1.72;
+}
+.dp-tv-bullet-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+.dp-tv-bullet-list li {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  font-family: 'Inter',sans-serif;
+  font-size: 0.68rem;
+  font-weight: 300;
+  letter-spacing: 0.10em;
+  color: rgba(253,248,238,0.42);
+  transition: color 0.22s ease;
+}
+.dp-tv-bullet-list li:hover { color: rgba(240,208,96,0.70); }
+.dp-tv-bullet-list li::before {
+  content: '';
+  width: 14px;
+  height: 1px;
+  background: rgba(212,175,55,0.40);
+  flex-shrink: 0;
+  margin-top: 0.5em;
+}
+
+/* Stories: franchise featured + books side-by-side */
+.dp-stories-layout {
+  display: grid;
+  grid-template-columns: 1.6fr 1fr;
+  gap: 32px;
+  align-items: start;
+}
+.dp-franchise-block {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+.dp-franchise-header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 16px 22px;
+  border: 1px solid rgba(212,175,55,0.18);
+  border-bottom: 2px solid rgba(212,175,55,0.22);
+  background: rgba(212,175,55,0.06);
+}
+.dp-franchise-icon {
+  font-size: 1.4rem;
+  filter: drop-shadow(0 0 10px rgba(212,175,55,0.50));
+}
+.dp-franchise-name {
+  font-family: 'Cinzel',serif;
+  font-size: 0.88rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--gold-lt);
+  line-height: 1.2;
+}
+.dp-franchise-sub {
+  font-family: 'Lora',serif;
+  font-size: 0.70rem;
+  font-style: italic;
+  color: rgba(212,175,55,0.50);
+}
+.dp-franchise-chars {
+  display: grid;
+  grid-template-columns: repeat(4,1fr);
+  border: 1px solid rgba(212,175,55,0.10);
+  border-top: none;
+}
+.dp-franchise-char {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 16px 14px 14px;
+  background: rgba(6,5,0,0.40);
+  border-right: 1px solid rgba(212,175,55,0.07);
+  transition: background 0.25s ease, border-color 0.25s ease;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+.dp-franchise-char:last-child { border-right: none; }
+.dp-franchise-char::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(to right,
+    transparent, rgba(212,175,55,0.40), transparent);
+  transform: scaleX(0);
+  transition: transform 0.28s ease;
+}
+.dp-franchise-char:hover { background: rgba(18,14,0,0.60); }
+.dp-franchise-char:hover::after { transform: scaleX(1); }
+.dp-franchise-char:nth-child(1):hover .dp-fc-icon { filter: drop-shadow(0 0 10px rgba(212,175,55,0.60)); }
+.dp-franchise-char:nth-child(2):hover .dp-fc-icon { filter: drop-shadow(0 0 10px rgba(255,130,40,0.55)); }
+.dp-franchise-char:nth-child(3):hover .dp-fc-icon { filter: drop-shadow(0 0 10px rgba(60,140,255,0.50)); }
+.dp-franchise-char:nth-child(4):hover .dp-fc-icon { filter: drop-shadow(0 0 10px rgba(80,200,90,0.50)); }
+.dp-fc-icon {
+  font-size: 1.3rem;
+  margin-bottom: 4px;
+  transition: filter 0.25s ease;
+}
+.dp-fc-name {
+  font-family: 'Cinzel',serif;
+  font-size: 0.66rem;
+  font-weight: 600;
+  letter-spacing: 0.10em;
+  text-transform: uppercase;
+  color: var(--gold-lt);
+  line-height: 1.30;
+}
+.dp-fc-role {
+  font-family: 'Inter',sans-serif;
+  font-size: 0.58rem;
+  font-weight: 300;
+  letter-spacing: 0.20em;
+  text-transform: uppercase;
+  color: rgba(212,175,55,0.45);
+}
+.dp-fc-theme {
+  font-family: 'Lora',serif;
+  font-size: 0.68rem;
+  font-style: italic;
+  color: rgba(253,248,238,0.30);
+  line-height: 1.45;
+  margin-top: 2px;
+}
+
+/* Books block */
+.dp-books-block {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+.dp-books-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 20px;
+  border: 1px solid rgba(212,175,55,0.12);
+  border-bottom: 2px solid rgba(212,175,55,0.15);
+  background: rgba(8,6,0,0.45);
+}
+.dp-books-icon {
+  font-size: 1.3rem;
+  filter: drop-shadow(0 0 8px rgba(212,175,55,0.35));
+}
+.dp-books-title {
+  font-family: 'Cinzel',serif;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--gold-lt);
+}
+.dp-books-body {
+  padding: 18px 20px;
+  border: 1px solid rgba(212,175,55,0.08);
+  border-top: none;
+  background: rgba(5,4,0,0.32);
+}
+.dp-books-desc {
+  font-family: 'Lora',serif;
+  font-size: 0.80rem;
+  font-style: italic;
+  color: rgba(253,248,238,0.45);
+  line-height: 1.72;
+  margin-bottom: 14px;
+}
+.dp-books-tag {
+  display: inline-block;
+  font-family: 'Inter',sans-serif;
+  font-size: 0.58rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgba(212,175,55,0.40);
+  padding: 5px 10px;
+  border: 1px solid rgba(212,175,55,0.14);
+  background: rgba(212,175,55,0.03);
+}
 
 /* Dropdown item */
 .dp-item {
@@ -781,10 +1017,14 @@ body.site-ready {
   .nav-trigger { padding: 8px 10px; font-size: 0.62rem; }
   .dropdown-inner { padding: 0 24px; }
   .dropdown-box { padding: 28px 24px 32px; }
+  .dp-grid-3 { grid-template-columns: 1fr 1fr; }
   .dp-grid-4 { grid-template-columns: repeat(2, 1fr); }
   .dp-grid-5 { grid-template-columns: repeat(2, 1fr); }
   .dp-about-layout { grid-template-columns: 1fr; gap: 28px; }
   .dp-philo-grid { grid-template-columns: 1fr; }
+  .dp-tv-layout { grid-template-columns: 1fr; gap: 20px; }
+  .dp-stories-layout { grid-template-columns: 1fr; gap: 20px; }
+  .dp-franchise-chars { grid-template-columns: repeat(2,1fr); }
   #footer-chrome { padding: 0 24px; }
   .footer-copy { display: none; }
 }
@@ -792,6 +1032,7 @@ body.site-ready {
   .nav-brand-main { font-size: 0.68rem; }
   .dp-grid-4 { grid-template-columns: 1fr 1fr; }
   .dp-grid-5 { grid-template-columns: 1fr 1fr; }
+  .dp-franchise-chars { grid-template-columns: 1fr 1fr; }
 }
   </style>
 </head>
@@ -886,8 +1127,8 @@ body.site-ready {
       <li class="nav-item" role="none">
         <button class="nav-trigger" role="menuitem"
                 aria-haspopup="true" aria-expanded="false"
-                data-pane="characters">
-          Characters
+                data-pane="tv">
+          TV Properties
           <span class="nav-chevron" aria-hidden="true"></span>
         </button>
       </li>
@@ -959,85 +1200,113 @@ body.site-ready {
         <div class="dropdown-pane" id="pane-stories" role="menu" aria-label="Stories">
           <div class="dp-header">
             <span class="dp-title">Stories</span>
-            <span class="dp-subtitle">The worlds we are building.</span>
+            <span class="dp-subtitle">Intellectual property. The worlds we are building.</span>
           </div>
-          <div class="dp-grid dp-grid-5">
+          <div class="dp-stories-layout">
 
-            <div class="dp-item" role="menuitem">
-              <span class="dp-item-icon">🌟</span>
-              <span class="dp-item-label">Seeds of Greatness</span>
-              <span class="dp-item-desc">The flagship franchise — four characters, one shared universe of growth.</span>
+            <!-- Seeds of Greatness franchise -->
+            <div class="dp-franchise-block">
+              <div class="dp-franchise-header">
+                <span class="dp-franchise-icon">🌟</span>
+                <div>
+                  <p class="dp-franchise-name">Seeds of Greatness Series</p>
+                  <p class="dp-franchise-sub">Flagship franchise — four characters, one universe</p>
+                </div>
+              </div>
+              <div class="dp-franchise-chars">
+
+                <div class="dp-franchise-char" role="menuitem">
+                  <span class="dp-fc-icon">🧑‍🎨</span>
+                  <span class="dp-fc-name">Growing Up<br/>with Yeshua</span>
+                  <span class="dp-fc-role">The Creator</span>
+                  <span class="dp-fc-theme">"Purpose and creation."</span>
+                </div>
+
+                <div class="dp-franchise-char" role="menuitem">
+                  <span class="dp-fc-icon">🌞</span>
+                  <span class="dp-fc-name">Growing Up<br/>with Messiah</span>
+                  <span class="dp-fc-role">The Energy</span>
+                  <span class="dp-fc-theme">"Energy and expression."</span>
+                </div>
+
+                <div class="dp-franchise-char" role="menuitem">
+                  <span class="dp-fc-icon">🏆</span>
+                  <span class="dp-fc-name">Growing Up<br/>with Levi</span>
+                  <span class="dp-fc-role">The Competitor</span>
+                  <span class="dp-fc-theme">"Discipline and leadership."</span>
+                </div>
+
+                <div class="dp-franchise-char" role="menuitem">
+                  <span class="dp-fc-icon">🌱</span>
+                  <span class="dp-fc-name">Growing Up<br/>with Jadery</span>
+                  <span class="dp-fc-role">The Foundation</span>
+                  <span class="dp-fc-theme">"Identity and becoming."</span>
+                </div>
+
+              </div>
             </div>
 
-            <div class="dp-item" role="menuitem">
-              <span class="dp-item-icon">📖</span>
-              <span class="dp-item-label">Children's Books</span>
-              <span class="dp-item-desc">Beautifully crafted stories designed to live on shelves and in hearts.</span>
-            </div>
-
-            <div class="dp-item" role="menuitem">
-              <span class="dp-item-icon">✨</span>
-              <span class="dp-item-label">Animated Storytelling</span>
-              <span class="dp-item-desc">Cinematic animation bringing characters and worlds to vivid life.</span>
-            </div>
-
-            <div class="dp-item" role="menuitem">
-              <span class="dp-item-icon">🎬</span>
-              <span class="dp-item-label">TV Properties</span>
-              <span class="dp-item-desc">Original television content for families and streaming platforms.</span>
-            </div>
-
-            <div class="dp-item" role="menuitem">
-              <span class="dp-item-icon">🔮</span>
-              <span class="dp-item-label">Next-Gen Content</span>
-              <span class="dp-item-desc">Interactive and immersive experiences for the always-connected generation.</span>
+            <!-- Children's Books -->
+            <div class="dp-books-block">
+              <div class="dp-books-header">
+                <span class="dp-books-icon">📖</span>
+                <span class="dp-books-title">Children's Books</span>
+              </div>
+              <div class="dp-books-body">
+                <p class="dp-books-desc">Beautifully crafted stories designed to live on shelves, in classrooms, and across generations — rooted in purpose, written with care.</p>
+                <span class="dp-books-tag">Print &amp; Digital</span>
+              </div>
             </div>
 
           </div>
         </div>
 
-        <!-- ── CHARACTERS ── -->
-        <div class="dropdown-pane" id="pane-characters" role="menu" aria-label="Characters">
+        <!-- ── TV PROPERTIES ── -->
+        <div class="dropdown-pane" id="pane-tv" role="menu" aria-label="TV Properties">
           <div class="dp-header">
-            <span class="dp-title">Characters</span>
-            <span class="dp-subtitle">Seeds of Greatness — four stories. One universe.</span>
+            <span class="dp-title">TV Properties</span>
+            <span class="dp-subtitle">Production &amp; media expansion.</span>
           </div>
-          <div class="dp-grid dp-grid-4">
+          <div class="dp-tv-layout">
 
-            <div class="dp-char-card" role="menuitem">
-              <div class="dp-char-shimmer" aria-hidden="true"></div>
-              <span class="dp-char-icon">🧑‍🎨</span>
-              <span class="dp-char-name">Growing Up<br/>with Yeshua</span>
-              <span class="dp-char-role">The Creator</span>
-              <span class="dp-char-theme">"Purpose and creation — he builds worlds from vision and will."</span>
+            <!-- Animated Storytelling -->
+            <div class="dp-tv-category">
+              <div class="dp-tv-cat-header">
+                <span class="dp-tv-cat-icon">✨</span>
+                <span class="dp-tv-cat-title">Animated Storytelling</span>
+              </div>
+              <div class="dp-tv-cat-body">
+                <p class="dp-tv-cat-desc">Cinematic, character-driven animation that brings our stories to emotionally vivid life — designed for the highest level of visual and narrative craft.</p>
+                <ul class="dp-tv-bullet-list">
+                  <li>Animated adaptations of franchise IP</li>
+                  <li>Character-driven emotional storytelling</li>
+                  <li>Feature-quality cinematic production</li>
+                  <li>Family and youth audience focus</li>
+                </ul>
+              </div>
             </div>
 
-            <div class="dp-char-card" role="menuitem">
-              <div class="dp-char-shimmer" aria-hidden="true"></div>
-              <span class="dp-char-icon">🌞</span>
-              <span class="dp-char-name">Growing Up<br/>with Messiah</span>
-              <span class="dp-char-role">The Energy</span>
-              <span class="dp-char-theme">"Energy and expression — his presence transforms every room."</span>
-            </div>
-
-            <div class="dp-char-card" role="menuitem">
-              <div class="dp-char-shimmer" aria-hidden="true"></div>
-              <span class="dp-char-icon">🏆</span>
-              <span class="dp-char-name">Growing Up<br/>with Levi</span>
-              <span class="dp-char-role">The Competitor</span>
-              <span class="dp-char-theme">"Discipline and leadership — character matters more than winning."</span>
-            </div>
-
-            <div class="dp-char-card" role="menuitem">
-              <div class="dp-char-shimmer" aria-hidden="true"></div>
-              <span class="dp-char-icon">🌱</span>
-              <span class="dp-char-name">Growing Up<br/>with Jadery</span>
-              <span class="dp-char-role">The Foundation</span>
-              <span class="dp-char-theme">"Identity and becoming — rooted, reaching toward something extraordinary."</span>
+            <!-- Television Productions -->
+            <div class="dp-tv-category">
+              <div class="dp-tv-cat-header">
+                <span class="dp-tv-cat-icon">🎬</span>
+                <span class="dp-tv-cat-title">Television Productions</span>
+              </div>
+              <div class="dp-tv-cat-body">
+                <p class="dp-tv-cat-desc">Original television concepts developed for streaming platforms and broadcast — purposeful, premium, and built for the future of family media.</p>
+                <ul class="dp-tv-bullet-list">
+                  <li>Original series development</li>
+                  <li>Streaming-ready content pipelines</li>
+                  <li>Family and youth programming</li>
+                  <li>Long-form narrative formats</li>
+                </ul>
+              </div>
             </div>
 
           </div>
         </div>
+
+
 
         <!-- ── PHILOSOPHY ── -->
         <div class="dropdown-pane" id="pane-philosophy" role="menu" aria-label="Philosophy">
