@@ -8,11 +8,12 @@ const app = new Hono()
  *
  * Routes:
  *  /               — Cinematic landing page (motion graphic + ambient sound)
- *  /about          — About page
- *  /stories        — Stories page (Seeds of Greatness + Children's Books)
- *  /tv-properties  — TV Properties page (Animated + Television)
- *  /philosophy     — Philosophy page
- *  /static/*       — Shared static assets (favicon, VIG logo, CSS)
+ *  /about                    — About page
+ *  /stories                  — Stories page (Seeds of Greatness + Children's Books)
+ *  /tv-properties            — TV Properties page (Animated + Television)
+ *  /philosophy               — Philosophy page
+ *  /characters/yeshua        — Character page: Growing Up with Yeshua
+ *  /static/*                 — Shared static assets (favicon, VIG logo, CSS)
  */
 
 // Static assets
