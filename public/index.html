@@ -229,6 +229,78 @@
       line-height: 1;
     }
 
+    /* ── ENTER THE GARDEN BUTTON ── */
+    #enter-btn {
+      position: fixed;
+      /* Lower third — below the baked-in tagline, above the message overlay */
+      bottom: 18%;
+      left: 50%;
+      transform: translateX(-50%) translateY(10px);
+      z-index: 20;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 2s ease, transform 2s ease;
+    }
+    #enter-btn.visible {
+      opacity: 1;
+      pointer-events: all;
+      transform: translateX(-50%) translateY(0);
+    }
+    #enter-btn a {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      padding: 14px 36px;
+      border: 1px solid rgba(212,175,55,0.55);
+      border-radius: 2px;
+      background: rgba(0,0,0,0.35);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      color: #e8cc6a;
+      font-family: 'Georgia','Palatino Linotype',serif;
+      font-size: clamp(0.72rem, 1.4vw, 0.92rem);
+      font-style: italic;
+      letter-spacing: 0.32em;
+      text-transform: uppercase;
+      white-space: nowrap;
+      /* subtle inner glow */
+      box-shadow:
+        0 0 0 1px rgba(212,175,55,0.08) inset,
+        0 0 28px rgba(212,175,55,0.10);
+      transition: background 0.35s ease, border-color 0.35s ease,
+                  box-shadow 0.35s ease, color 0.35s ease, transform 0.25s ease;
+    }
+    #enter-btn a:hover {
+      background: rgba(212,175,55,0.14);
+      border-color: rgba(212,175,55,0.85);
+      color: #fff8dc;
+      box-shadow:
+        0 0 0 1px rgba(212,175,55,0.18) inset,
+        0 0 42px rgba(212,175,55,0.30),
+        0 0 80px rgba(212,175,55,0.12);
+      transform: scale(1.03);
+    }
+    /* leaf icon inside button */
+    #enter-btn a::before {
+      content: '✦';
+      font-style: normal;
+      font-size: 0.6em;
+      opacity: 0.7;
+    }
+
+    /* Full-screen cinematic fade-out overlay — plays on button click */
+    #scene-transition {
+      position: fixed;
+      inset: 0;
+      background: #000;
+      opacity: 0;
+      pointer-events: none;
+      z-index: 999;
+      transition: opacity 0.9s cubic-bezier(0.4,0,1,1);
+    }
+    #scene-transition.fade-out { opacity: 1; }
+
     /* ── SOUND TOGGLE ── */
     #sound-btn {
       position: fixed;
@@ -332,6 +404,11 @@
     <div id="message">We are currently planting seeds&hellip; thank you for your patience.</div>
   </div>
 
+  <!-- Enter the Garden CTA — fades in after VIG footer -->
+  <div id="enter-btn">
+    <a href="/garden" id="enter-link">Enter the Garden</a>
+  </div>
+
   <!-- VIG Footer Lockup: logo + label on one horizontal row, centered at bottom -->
   <div id="vig-footer">
     <a id="vig-link"
@@ -351,6 +428,9 @@
   </div>
 
 </div>
+
+<!-- Cinematic black transition overlay — activated on Enter the Garden click -->
+<div id="scene-transition"></div>
 
 <!-- Sound Toggle -->
 <button id="sound-btn" aria-label="Toggle sound">
@@ -375,6 +455,9 @@
   const textBlock    = document.getElementById('text-block');
   const message      = document.getElementById('message');
   const vigFooter    = document.getElementById('vig-footer');
+  const enterBtn     = document.getElementById('enter-btn');
+  const enterLink    = document.getElementById('enter-link');
+  const sceneTrans   = document.getElementById('scene-transition');
   const soundBtn     = document.getElementById('sound-btn');
   const iconMuted    = document.getElementById('icon-muted');
   const iconUnmuted  = document.getElementById('icon-unmuted');
@@ -772,6 +855,9 @@
           // (= 250ms hold + 3.6s = ~3.85s total from video end)
           setTimeout(() => vigFooter.classList.add('visible'), 3600);
 
+          // Enter the Garden button: appears 500ms after VIG footer
+          setTimeout(() => enterBtn.classList.add('visible'), 4200);
+
         }); // rAF 2
       }); // rAF 1
 
@@ -980,6 +1066,17 @@
       const rem = video.duration - video.currentTime;
       if (rem < 2) video.volume = Math.max(0, rem/2);
     }
+  });
+
+  /* ── ENTER THE GARDEN — cinematic scene transition ── */
+  enterLink.addEventListener('click', (e) => {
+    e.preventDefault();
+    // Fade ambient sound out
+    ambientFadeOut(800);
+    // Fade to black overlay
+    sceneTrans.classList.add('fade-out');
+    // Navigate after overlay is fully black (0.9s transition)
+    setTimeout(() => { window.location.href = '/garden'; }, 950);
   });
 
 })();
