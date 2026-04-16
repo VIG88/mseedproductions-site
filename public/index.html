@@ -39,8 +39,7 @@ body.site-ready { overflow: hidden; }
 
 /* ═══════════════════════════════════════════════════════════════
    LAYER STACK
-   0   #stage / #hero-video
-   1   #final-canvas
+   0   #stage / #hero-video  (freezes on last frame — no canvas swap)
    2   #bg-overlay
    3   #leaves-canvas
    4   #particles-canvas
@@ -66,20 +65,10 @@ body.site-ready { overflow: hidden; }
   width: 100%; height: 100%;
   object-fit: cover;
   display: block;
-  transition: opacity 1.4s cubic-bezier(0.4,0,0.2,1);
+  /* No opacity transition — video stays fully visible and freezes on last frame */
 }
 
-/* ─── FINAL-FRAME CANVAS ─────────────────────────────── */
-#final-canvas {
-  position: absolute;
-  inset: 0;
-  width: 100%; height: 100%;
-  opacity: 0;
-  transition: opacity 1.2s cubic-bezier(0.25,0,0.4,1);
-  pointer-events: none;
-  z-index: 1;
-}
-#final-canvas.visible { opacity: 1; }
+/* ─── FINAL-FRAME CANVAS — removed; video pauses on its own last frame ─── */
 
 /* ─── CINEMATIC DIM OVERLAY ──────────────────────────── */
 #bg-overlay {
@@ -495,13 +484,11 @@ body.site-ready { overflow: hidden; }
 <div id="stage" aria-hidden="true">
   <video id="hero-video"
     autoplay muted playsinline preload="auto"
-    disablePictureInPicture webkit-playsinline
-    crossorigin="anonymous">
+    disablePictureInPicture webkit-playsinline>
     <source
       src="https://pub-00891786ee42488cb8a715a9bc019602.r2.dev/mustardseed-motion.mp4"
       type="video/mp4" />
   </video>
-  <canvas id="final-canvas"></canvas>
 </div>
 
 <!-- Fixed overlays -->
@@ -598,7 +585,6 @@ body.site-ready { overflow: hidden; }
 
   /* ─── DOM REFS ──────────────────────────────────────── */
   const video       = document.getElementById('hero-video');
-  const fCanvas     = document.getElementById('final-canvas');
   const bgOverlay   = document.getElementById('bg-overlay');
   const vignette    = document.getElementById('vignette');
   const leavesC     = document.getElementById('leaves-canvas');
@@ -613,7 +599,6 @@ body.site-ready { overflow: hidden; }
   const iconUnmuted = document.getElementById('icon-unmuted');
   const loader      = document.getElementById('loader');
 
-  const fCtx = fCanvas.getContext('2d');
   const lCtx = leavesC.getContext('2d');
   const pCtx = particlesC.getContext('2d');
 
@@ -624,16 +609,11 @@ body.site-ready { overflow: hidden; }
   /* ─── RESIZE ────────────────────────────────────────── */
   function resize() {
     const w = window.innerWidth, h = window.innerHeight;
-    fCanvas.width   = leavesC.width  = particlesC.width  = w;
-    fCanvas.height  = leavesC.height = particlesC.height = h;
+    leavesC.width  = particlesC.width  = w;
+    leavesC.height = particlesC.height = h;
   }
   resize();
-  window.addEventListener('resize', () => {
-    resize();
-    if (frozen) {
-      try { fCtx.drawImage(video, 0, 0, fCanvas.width, fCanvas.height); } catch(e){}
-    }
-  }, { passive: true });
+  window.addEventListener('resize', resize, { passive: true });
 
   /* ─── LOADER ────────────────────────────────────────── */
   function hideLoader() {
@@ -666,52 +646,44 @@ body.site-ready { overflow: hidden; }
   }
 
   /* ─── FREEZE FINAL FRAME ────────────────────────────── */
+  // Simply pause the video — it stays mounted and visible at full opacity,
+  // holding its own last frame. No canvas draw, no image swap, no crossfade.
   function freezeFrame() {
     if (frozen) return;
     frozen = true;
 
-    resize();
-    try { fCtx.drawImage(video, 0, 0, fCanvas.width, fCanvas.height); } catch(e) {}
+    // Pause immediately — video element holds its last frame naturally
+    video.pause();
 
-    setTimeout(() => {
-      void fCanvas.offsetHeight;
-
+    // Small rAF delay to ensure the browser has rendered the paused frame
+    requestAnimationFrame(() => {
       requestAnimationFrame(() => {
-        requestAnimationFrame(() => {
 
-          fCanvas.classList.add('visible');
+        setTimeout(() => vignette.classList.add('visible'), 200);
 
-          setTimeout(() => {
-            video.pause();
-            video.style.opacity = '0';
-          }, 300);
+        setTimeout(() => {
+          leavesC.classList.add('visible');
+          particlesC.classList.add('visible');
+          startLeaves();
+          startParticles();
+          buildAmbient();
+          if (!muted) ambientFadeIn(1500);
+        }, 800);
 
-          setTimeout(() => vignette.classList.add('visible'), 500);
+        setTimeout(() => {
+          if (dividerWrap) dividerWrap.classList.add('visible');
+          introText.classList.add('visible');
+          setTimeout(() => introMsg.classList.add('grow-in'), 800);
+          setTimeout(() => introText.classList.add('pulse'), 2000);
+        }, 1800);
 
-          setTimeout(() => {
-            leavesC.classList.add('visible');
-            particlesC.classList.add('visible');
-            startLeaves();
-            startParticles();
-            buildAmbient();
-            if (!muted) ambientFadeIn(1500);
-          }, 1100);
+        setTimeout(() => vigLockup.classList.add('visible'), 3200);
 
-          setTimeout(() => {
-            if (dividerWrap) dividerWrap.classList.add('visible');
-            introText.classList.add('visible');
-            setTimeout(() => introMsg.classList.add('grow-in'), 800);
-            setTimeout(() => introText.classList.add('pulse'), 2000);
-          }, 2000);
+        // Site chrome reveals at 5s
+        setTimeout(() => revealSite(), 5000);
 
-          setTimeout(() => vigLockup.classList.add('visible'), 3600);
-
-          // Site chrome reveals at 5.2s
-          setTimeout(() => revealSite(), 5200);
-
-        });
       });
-    }, 250);
+    });
   }
 
   video.addEventListener('ended', freezeFrame);
