@@ -97,6 +97,22 @@ body{font-family:'Lora','Georgia',serif;background:var(--deep);color:var(--cream
 .nav-link::after{content:'';position:absolute;bottom:4px;left:16px;right:16px;height:1px;background:var(--gold-lt);transform:scaleX(0);transform-origin:center;transition:transform .28s cubic-bezier(0.4,0,0.2,1);}
 .nav-link:hover,.nav-link.active{color:var(--gold-lt);}
 .nav-link:hover::after,.nav-link.active::after{transform:scaleX(1);}
+/* ─── DROPDOWN ─── */
+.nav-dropdown{position:relative;}
+.nav-dropdown-trigger{display:flex;align-items:center;gap:7px;padding:9px 16px;font-family:'Inter',sans-serif;font-size:.68rem;font-weight:400;letter-spacing:.18em;text-transform:uppercase;color:rgba(240,220,160,0.58);text-decoration:none;white-space:nowrap;cursor:pointer;background:transparent;border:none;outline:none;transition:color .25s ease;position:relative;-webkit-tap-highlight-color:transparent;}
+.nav-dropdown-trigger::after{content:'';position:absolute;bottom:4px;left:16px;right:16px;height:1px;background:var(--gold-lt);transform:scaleX(0);transform-origin:center;transition:transform .28s cubic-bezier(0.4,0,0.2,1);}
+.nav-dropdown:hover .nav-dropdown-trigger,.nav-dropdown-trigger.active,.nav-dropdown.open .nav-dropdown-trigger{color:var(--gold-lt);}
+.nav-dropdown:hover .nav-dropdown-trigger::after,.nav-dropdown-trigger.active::after,.nav-dropdown.open .nav-dropdown-trigger::after{transform:scaleX(1);}
+.nav-caret{width:8px;height:8px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0;transition:transform .26s cubic-bezier(0.4,0,0.2,1);}
+.nav-dropdown:hover .nav-caret,.nav-dropdown.open .nav-caret{transform:rotate(180deg);}
+.nav-dropdown-panel{position:absolute;top:calc(100% + 6px);left:50%;transform:translateX(-50%) translateY(-6px);min-width:188px;background:rgba(6,4,10,0.97);border:1px solid rgba(212,175,55,0.14);border-radius:4px;padding:7px 0;opacity:0;pointer-events:none;backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);box-shadow:0 16px 48px rgba(0,0,0,0.65);transition:opacity .22s ease,transform .22s cubic-bezier(0.16,1,0.3,1);z-index:60;}
+.nav-dropdown-panel::before{content:'';position:absolute;top:0;left:14px;right:14px;height:1px;background:linear-gradient(to right,transparent,rgba(212,175,55,0.35),transparent);}
+.nav-dropdown:hover .nav-dropdown-panel,.nav-dropdown.open .nav-dropdown-panel{opacity:1;pointer-events:all;transform:translateX(-50%) translateY(0);}
+.nav-dropdown-item{display:flex;align-items:center;padding:10px 20px;font-family:'Inter',sans-serif;font-size:.64rem;font-weight:400;letter-spacing:.18em;text-transform:uppercase;color:rgba(240,220,160,0.58);text-decoration:none;white-space:nowrap;transition:color .22s ease,background .22s ease,padding-left .22s ease;position:relative;}
+.nav-dropdown-item::before{content:'';position:absolute;left:0;top:20%;bottom:20%;width:1.5px;background:rgba(212,175,55,0.55);border-radius:1px;transform:scaleY(0);transform-origin:center;transition:transform .22s ease;}
+.nav-dropdown-item:hover{color:var(--gold-lt);background:rgba(212,175,55,0.05);padding-left:26px;}
+.nav-dropdown-item:hover::before{transform:scaleY(1);}
+@media(max-width:768px){.nav-dropdown-panel{left:auto;right:0;transform:translateY(-6px);}.nav-dropdown:hover .nav-dropdown-panel,.nav-dropdown.open .nav-dropdown-panel{transform:translateY(0);}}
 
 /* ═══════════════════════════════════════════════════════════════
    HERO — FULL SCREEN CINEMATIC
@@ -898,7 +914,15 @@ body{font-family:'Lora','Georgia',serif;background:var(--deep);color:var(--cream
     <ul class="nav-items" role="list">
       <li><a href="/about" class="nav-link">About</a></li>
       <li><a href="/stories" class="nav-link active">Stories</a></li>
-      <li><a href="/tv-properties" class="nav-link">TV Properties</a></li>
+      <li class="nav-dropdown">
+        <a href="/tv-properties" class="nav-dropdown-trigger">
+          TV Properties
+          <svg class="nav-caret" viewBox="0 0 10 6" aria-hidden="true"><polyline points="1 1 5 5 9 1"/></svg>
+        </a>
+        <div class="nav-dropdown-panel" role="menu">
+          <a href="/story-in-motion" class="nav-dropdown-item active" role="menuitem">Story in Motion</a>
+        </div>
+      </li>
       <li><a href="/philosophy" class="nav-link">Philosophy</a></li>
     </ul>
   </nav>
@@ -1638,6 +1662,17 @@ soundBtn.addEventListener('click',()=>{
   }
 });
 
+})();
+</script>
+<script>
+(function(){
+  document.querySelectorAll(".nav-dropdown-trigger").forEach(function(t){
+    t.addEventListener("click",function(e){
+      var li=t.closest(".nav-dropdown");
+      if(window.matchMedia("(hover:none)").matches){e.preventDefault();var isOpen=li.classList.contains("open");document.querySelectorAll(".nav-dropdown.open").forEach(function(el){el.classList.remove("open");});if(!isOpen)li.classList.add("open");}
+    });
+  });
+  document.addEventListener("click",function(e){if(!e.target.closest(".nav-dropdown"))document.querySelectorAll(".nav-dropdown.open").forEach(function(el){el.classList.remove("open");});});
 })();
 </script>
 </body>
