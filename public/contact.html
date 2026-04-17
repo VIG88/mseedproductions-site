@@ -636,7 +636,7 @@
         <!-- Success message (hidden until submit) -->
         <div class="form-success" id="form-success" role="alert" aria-live="polite">
           <span class="success-icon" aria-hidden="true">🌱</span>
-          <h3 class="success-title">Thank you for planting with us.</h3>
+          <h3 class="success-title">Thank you for connecting with MustardSeed Productions.</h3>
           <p class="success-body">
             We look forward to growing with you. You'll hear from us soon with updates,
             releases, and ways to be part of everything we're building together.
@@ -704,10 +704,11 @@
               placeholder="Anything you'd like us to know…"></textarea>
           </div>
 
+          <div id="form-error-msg" role="alert" style="display:none;font-family:'Inter',sans-serif;font-size:0.72rem;letter-spacing:0.06em;color:rgba(220,100,60,0.90);margin-bottom:14px;padding:10px 14px;border:1px solid rgba(220,100,60,0.22);border-radius:2px;background:rgba(220,100,60,0.06);"></div>
           <div class="form-submit-row">
             <p class="form-note">Your message goes directly to our team at info@mseedproductions.com</p>
             <button type="submit" class="btn-gold" id="submit-btn">
-              Plant a Seed
+              Grow With Us
               <span class="btn-arrow" aria-hidden="true">→</span>
             </button>
           </div>
@@ -1002,27 +1003,24 @@ form.addEventListener('submit', async function(e){
     ? interests.map(v => interestMap[v] || v).join('\n- ')
     : 'None selected';
 
-  // Compose mailto
-  const subject = encodeURIComponent('MustardSeed Community — ' + name);
-  const body    = encodeURIComponent(
-    'Name: ' + name + '\n' +
-    'Email: ' + email + '\n\n' +
-    'Interests:\n- ' + interestText + '\n\n' +
-    (message ? 'Message:\n' + message : '')
-  );
-
-  // Disable button during "send"
+  // Disable button and show sending state
   submitBtn.disabled = true;
-  submitBtn.textContent = 'Planting…';
+  submitBtn.textContent = 'Sending…';
 
-  // Small deliberate pause for feel, then open mailto
-  await new Promise(r => setTimeout(r, 700));
+  try {
+    const res  = await fetch('/api/contact', {
+      method:  'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body:    JSON.stringify({ name, email, message, interests }),
+    });
+    const data = await res.json();
 
-  window.location.href =
-    'mailto:info@mseedproductions.com?subject=' + subject + '&body=' + body;
+    if (!data.ok) {
+      // Surface any server error inline without crashing UX
+      throw new Error(data.error || 'Submission failed.');
+    }
 
-  // Show success state
-  setTimeout(()=>{
+    // Success — fade out form, reveal confirmation
     form.style.transition = 'opacity 0.5s ease';
     form.style.opacity    = '0';
     setTimeout(()=>{
@@ -1030,20 +1028,41 @@ form.addEventListener('submit', async function(e){
       formSuccess.classList.add('visible');
       formSuccess.scrollIntoView({behavior:'smooth', block:'center'});
     }, 500);
-  }, 400);
+
+  } catch(err) {
+    // Re-enable button and show inline error so visitor can retry
+    submitBtn.disabled    = false;
+    submitBtn.textContent = 'Grow With Us';
+    const errMsg = document.getElementById('form-error-msg');
+    if (errMsg) {
+      errMsg.textContent = (err instanceof Error ? err.message : 'Something went wrong. Please try again.');
+      errMsg.style.display = 'block';
+      setTimeout(()=>{ errMsg.style.display='none'; }, 5000);
+    }
+  }
 });
 
 })();
 </script>
 <script>
 (function(){
-  document.querySelectorAll(".nav-dropdown-trigger").forEach(function(t){
-    t.addEventListener("click",function(e){
-      var li=t.closest(".nav-dropdown");
-      if(window.matchMedia("(hover:none)").matches){e.preventDefault();var isOpen=li.classList.contains("open");document.querySelectorAll(".nav-dropdown.open").forEach(function(el){el.classList.remove("open");});if(!isOpen)li.classList.add("open");}
+  document.querySelectorAll('.nav-dropdown').forEach(function(dd){
+    var t=null;
+    function open(){clearTimeout(t);dd.classList.add('open');}
+    function schedClose(){t=setTimeout(function(){dd.classList.remove('open');},220);}
+    dd.addEventListener('mouseenter',function(){if(!window.matchMedia('(hover:none)').matches)open();});
+    dd.addEventListener('mouseleave',function(){if(!window.matchMedia('(hover:none)').matches)schedClose();});
+    var trigger=dd.querySelector('.nav-dropdown-trigger');
+    trigger.addEventListener('click',function(e){
+      if(window.matchMedia('(hover:none)').matches){
+        e.preventDefault();
+        var isOpen=dd.classList.contains('open');
+        document.querySelectorAll('.nav-dropdown.open').forEach(function(el){el.classList.remove('open');});
+        if(!isOpen)dd.classList.add('open');
+      }
     });
   });
-  document.addEventListener("click",function(e){if(!e.target.closest(".nav-dropdown"))document.querySelectorAll(".nav-dropdown.open").forEach(function(el){el.classList.remove("open");});});
+  document.addEventListener('click',function(e){if(!e.target.closest('.nav-dropdown'))document.querySelectorAll('.nav-dropdown.open').forEach(function(el){el.classList.remove('open');});});
 })();
 </script>
 </body>
