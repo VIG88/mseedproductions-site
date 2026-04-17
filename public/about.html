@@ -58,7 +58,7 @@
       <p class="page-eyebrow">MustardSeed Productions</p>
       <h1 class="page-title">The Studio. The Mission.<br>The Vision.</h1>
       <div class="gold-rule"></div>
-      <p class="page-lead">A storytelling studio built to plant seeds of purpose, identity, and faith in the hearts of the next generation.</p>
+      <p class="page-lead">A storytelling studio built to plant seeds of purpose, identity, and faith in the hearts of the next generation. Every story we tell is rooted in something that lasts.</p>
     </header>
 
     <div class="section-wrap">
@@ -68,8 +68,9 @@
         <p class="panel-eyebrow">Our Mission</p>
         <h2 class="panel-title">Stories That Root. Worlds That Grow.</h2>
         <div class="panel-body">
-          <p>MustardSeed Productions exists to create stories that matter — narratives rooted in truth, shaped by purpose, and built to grow with the children and families who experience them.</p>
-          <p>We believe that the most powerful stories are not the ones that entertain alone, but the ones that quietly plant something deep — a sense of identity, a courage to face challenges, a vision of who a child is called to become.</p>
+          <p>MustardSeed Productions exists to create stories that matter. Narratives rooted in truth, shaped by purpose, and built to grow alongside the children and families who experience them.</p>
+          <p>We believe the most powerful stories are not the ones that entertain alone. They are the ones that quietly plant something deeper:</p>
+          <p>A sense of identity.<br>The courage to face challenges.<br>A vision of who a child is called to become.</p>
           <p>From the very first frame to the final page, every project we develop is guided by one question: <em>Does this story plant a seed that will grow into something greater?</em></p>
         </div>
       </section>
@@ -78,27 +79,27 @@
       <section class="glass-panel" aria-label="What We Create">
         <p class="panel-eyebrow">What We Create</p>
         <h2 class="panel-title">Four Pillars of Storytelling</h2>
-        <p class="panel-body" style="margin-bottom:32px;">Our creative output spans four interconnected disciplines, each designed to reach children and families at different moments of their lives.</p>
+        <p class="panel-body" style="margin-bottom:32px;">Our creative output spans four interconnected disciplines, each designed to reach children and families at different moments in their lives.</p>
         <div class="grid-2">
           <div class="content-card">
             <span class="card-icon">📖</span>
             <h3 class="card-title">Children's Books</h3>
-            <p class="card-body">Beautifully crafted picture books and chapter books that introduce young readers to characters who face real-life challenges with faith, resilience, and heart.</p>
+            <p class="card-body">Beautifully crafted picture books and chapter books that introduce young readers to characters facing real-life challenges with faith, resilience, and heart.</p>
           </div>
           <div class="content-card">
             <span class="card-icon">🎬</span>
             <h3 class="card-title">Animated Storytelling</h3>
-            <p class="card-body">Premium animated series and shorts that bring our characters to life — rich visual worlds with emotional depth, designed for the streaming age.</p>
+            <p class="card-body">Premium animated series and shorts that bring our characters to life. Rich visual worlds with emotional depth, crafted for the streaming age.</p>
           </div>
           <div class="content-card">
             <span class="card-icon">📺</span>
             <h3 class="card-title">Television Productions</h3>
-            <p class="card-body">Long-form television projects that build worlds viewers can return to — episodic storytelling that grows alongside its audience across seasons and years.</p>
+            <p class="card-body">Long-form television projects that build worlds viewers can return to. Episodic storytelling that grows alongside its audience across seasons and years.</p>
           </div>
           <div class="content-card">
             <span class="card-icon">🌱</span>
             <h3 class="card-title">Next-Generation IP</h3>
-            <p class="card-body">Franchise-ready intellectual property built for the long arc — characters and worlds designed to expand across media, merchandise, and cultural conversation.</p>
+            <p class="card-body">Franchise-ready intellectual property built for the long arc. Characters and worlds designed to expand across media, merchandise, and cultural conversation.</p>
           </div>
         </div>
       </section>
@@ -108,12 +109,12 @@
         <p class="panel-eyebrow">Parent Company</p>
         <h2 class="panel-title">A Visionaires Media Company</h2>
         <div class="panel-body">
-          <p>MustardSeed Productions is the children's storytelling and television production arm of <strong style="color:var(--gold-lt);font-weight:500;">Visionaires Media</strong> — a premium media holding company committed to building culturally significant, purpose-driven intellectual property.</p>
-          <p>Visionaires Media provides the infrastructure, investment framework, and strategic vision that allows MustardSeed Productions to operate with the creative freedom of an independent studio and the resources of a larger media enterprise.</p>
-          <p>Together, we are building a legacy — not just a catalogue of content, but a body of work that will be passed down, remembered, and returned to for generations.</p>
+          <p>MustardSeed Productions is the children's storytelling and television production arm of <strong style="color:var(--gold-lt);font-weight:500;">Visionaires Media</strong>, a premium media holding company committed to building culturally significant, purpose-driven intellectual property.</p>
+          <p>Visionaires Media provides the infrastructure, investment framework, and strategic vision that allows MustardSeed Productions to operate with the creative freedom of an independent studio, supported by the resources of a larger media enterprise.</p>
+          <p>Together, we are building a legacy. Not just a catalogue of content, but a body of work that will be passed down, remembered, and returned to for generations.</p>
         </div>
         <div class="pull-quote">
-          <blockquote>"From small faith, great stories grow. From great stories, worlds are built."</blockquote>
+          <blockquote>"From small faith, great stories grow. From great stories, worlds are built — and those worlds belong to the children who needed them most."</blockquote>
           <cite>— MustardSeed Productions</cite>
         </div>
       </section>
@@ -237,13 +238,23 @@
 </script>
 <script>
 (function(){
-  document.querySelectorAll(".nav-dropdown-trigger").forEach(function(t){
-    t.addEventListener("click",function(e){
-      var li=t.closest(".nav-dropdown");
-      if(window.matchMedia("(hover:none)").matches){e.preventDefault();var isOpen=li.classList.contains("open");document.querySelectorAll(".nav-dropdown.open").forEach(function(el){el.classList.remove("open");});if(!isOpen)li.classList.add("open");}
+  document.querySelectorAll('.nav-dropdown').forEach(function(dd){
+    var t=null;
+    function open(){clearTimeout(t);dd.classList.add('open');}
+    function schedClose(){t=setTimeout(function(){dd.classList.remove('open');},220);}
+    dd.addEventListener('mouseenter',function(){if(!window.matchMedia('(hover:none)').matches)open();});
+    dd.addEventListener('mouseleave',function(){if(!window.matchMedia('(hover:none)').matches)schedClose();});
+    var trigger=dd.querySelector('.nav-dropdown-trigger');
+    trigger.addEventListener('click',function(e){
+      if(window.matchMedia('(hover:none)').matches){
+        e.preventDefault();
+        var isOpen=dd.classList.contains('open');
+        document.querySelectorAll('.nav-dropdown.open').forEach(function(el){el.classList.remove('open');});
+        if(!isOpen)dd.classList.add('open');
+      }
     });
   });
-  document.addEventListener("click",function(e){if(!e.target.closest(".nav-dropdown"))document.querySelectorAll(".nav-dropdown.open").forEach(function(el){el.classList.remove("open");});});
+  document.addEventListener('click',function(e){if(!e.target.closest('.nav-dropdown'))document.querySelectorAll('.nav-dropdown.open').forEach(function(el){el.classList.remove('open');});});
 })();
 </script>
 </body>
