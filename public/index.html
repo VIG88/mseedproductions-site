@@ -144,38 +144,6 @@ body.site-ready { overflow: hidden; }
     rgba(212,175,55,0.55) 70%, transparent);
 }
 
-/* ─── PATIENCE MESSAGE (bottom-center, above footer) ─── */
-#intro-text {
-  position: fixed;
-  bottom: 78px;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 50;
-  pointer-events: none;
-  opacity: 0;
-  transition: opacity 2s ease;
-  white-space: nowrap;
-  text-align: center;
-}
-#intro-text.visible { opacity: 1; }
-#intro-text.pulse   { animation: softPulse 7.5s ease-in-out infinite; }
-@keyframes softPulse {
-  0%,100% { opacity:1; filter:brightness(1); }
-  50%     { opacity:0.88; filter:brightness(1.12); }
-}
-#intro-message {
-  color: rgba(212,175,55,0.62);
-  font-size: clamp(0.55rem,1.1vw,0.78rem);
-  letter-spacing: 0.24em;
-  text-align: center;
-  font-style: italic;
-  opacity: 0;
-}
-#intro-message.grow-in { animation: seedGrow 1.8s ease forwards; }
-@keyframes seedGrow {
-  0%   { opacity:0; transform:translateY(5px); }
-  100% { opacity:0.62; transform:translateY(0); }
-}
 
 /* ─── VIG LOCKUP (intro sequence only) ───────────────── */
 #vig-lockup {
@@ -545,11 +513,6 @@ body.site-ready { overflow: hidden; }
   <div id="text-divider"></div>
 </div>
 
-<!-- ── PATIENCE MESSAGE (bottom-center, above footer) ── -->
-<div id="intro-text" aria-hidden="true">
-  <div id="intro-message">We are currently planting seeds&hellip; thank you for your patience.</div>
-</div>
-
 <!-- ── VIG LOCKUP (shown during intro, then fades) ── -->
 <div id="vig-lockup">
   <a href="https://www.vigholdings.com" target="_blank" rel="noopener noreferrer"
@@ -640,8 +603,6 @@ body.site-ready { overflow: hidden; }
   const vignette    = document.getElementById('vignette');
   const leavesC     = document.getElementById('leaves-canvas');
   const particlesC  = document.getElementById('particles-canvas');
-  const introText   = document.getElementById('intro-text');
-  const introMsg    = document.getElementById('intro-message');
   const vigLockup   = document.getElementById('vig-lockup');
   const dividerWrap = document.getElementById('text-divider-wrap');
   const siteChrome  = document.getElementById('site-chrome');
@@ -686,8 +647,6 @@ body.site-ready { overflow: hidden; }
 
     // Fade out intro-only elements
     setTimeout(() => {
-      introText.style.transition = 'opacity 1.4s ease';
-      introText.style.opacity    = '0';
       if (dividerWrap) {
         dividerWrap.style.transition = 'opacity 1.4s ease';
         dividerWrap.style.opacity    = '0';
@@ -723,9 +682,6 @@ body.site-ready { overflow: hidden; }
 
         setTimeout(() => {
           if (dividerWrap) dividerWrap.classList.add('visible');
-          introText.classList.add('visible');
-          setTimeout(() => introMsg.classList.add('grow-in'), 800);
-          setTimeout(() => introText.classList.add('pulse'), 2000);
         }, 1800);
 
         setTimeout(() => vigLockup.classList.add('visible'), 3200);
