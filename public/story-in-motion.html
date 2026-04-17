@@ -967,7 +967,7 @@ body{font-family:'Lora','Georgia',serif;background:var(--deep);color:var(--cream
   <!-- ════════════════════════════════════════════════════════════
        FEATURED STORY SPOTLIGHT — YESHUA
   ════════════════════════════════════════════════════════════ -->
-  <section id="featured" aria-label="Featured story: Growing Up with Yeshua">
+  <section id="featured" aria-label="Featured story: Seeds of Greatness Growing Up with Yeshua - Finding My Gift">
     <div class="featured-wrap">
 
       <p class="featured-label reveal">Featured Story · Seeds of Greatness · Book One</p>
@@ -1002,8 +1002,9 @@ body{font-family:'Lora','Georgia',serif;background:var(--deep);color:var(--cream
         <div class="featured-info">
           <p class="featured-series">Seeds of Greatness · Book One</p>
           <h2 class="featured-title">
-            Growing Up with<br>
-            <span>Yeshua</span>
+            Seeds of Greatness:<br>
+            <span>Growing Up with Yeshua</span><br>
+            <span style="font-size:0.72em;letter-spacing:0.05em;opacity:0.88;">Finding My Gift</span>
           </h2>
           <p class="featured-archetype">The Creator</p>
           <p class="featured-quote">"You were created with purpose — being different is not a weakness, it's your gift."</p>
@@ -1320,6 +1321,7 @@ body{font-family:'Lora','Georgia',serif;background:var(--deep);color:var(--cream
 const STORIES = {
   yeshua:{
     name:'Yeshua',archetype:'The Creator',
+    fullTitle:'Seeds of Greatness: Growing Up with Yeshua — Finding My Gift',
     series:'Seeds of Greatness · Book One',
     accentClass:'tag-primary',
     accentColor:'rgba(180,210,255,0.65)',
@@ -1409,7 +1411,9 @@ function openModal(key){
   const d=STORIES[key]; if(!d) return;
   mEyebrow.textContent  = d.series;
   mName.textContent     = d.name;
-  mTitle.innerHTML      = `Growing Up with <span>${d.name}</span>`;
+  mTitle.innerHTML      = d.fullTitle
+    ? `<span style="font-size:0.88em;line-height:1.35;">${d.fullTitle}</span>`
+    : `Growing Up with <span>${d.name}</span>`;
   mArch.textContent     = d.archetype;
   mArch.style.color     = d.accentColor;
   mQuote.textContent    = d.quote;

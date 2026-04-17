@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Growing Up with Yeshua — Seeds of Greatness · MustardSeed Productions</title>
+  <title>Seeds of Greatness Growing Up with Yeshua - Finding My Gift · MustardSeed Productions</title>
   <meta name="description" content="Yeshua sees the world differently. A story about quiet confidence, creativity, and the courage to be exactly who you were made to be." />
   <link rel="icon" type="image/svg+xml" href="/static/favicon.svg" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -166,6 +166,55 @@ body{font-family:'Lora','Georgia',serif;background:var(--bg-tint);color:var(--cr
   position: absolute;
   inset: 0;
   background: linear-gradient(135deg, rgba(180,210,255,0.06) 0%, rgba(212,175,55,0.04) 100%);
+}
+
+/* ── REAL COVER REVEAL ───────────────────────────── */
+.book-cover-wrap {
+  flex-shrink: 0;
+  width: 200px;
+}
+.book-cover-reveal {
+  width: 200px;
+  position: relative;
+  border-radius: 4px;
+  overflow: hidden;
+  box-shadow:
+    0 8px 32px rgba(0,0,0,0.72),
+    0 0 0 1px rgba(212,175,55,0.22),
+    0 0 40px rgba(212,175,55,0.10),
+    inset 0 0 0 1px rgba(255,255,255,0.04);
+  animation: coverGlow 4s ease-in-out infinite;
+}
+@keyframes coverGlow {
+  0%,100% { box-shadow: 0 8px 32px rgba(0,0,0,0.72), 0 0 0 1px rgba(212,175,55,0.22), 0 0 32px rgba(212,175,55,0.08); }
+  50%      { box-shadow: 0 12px 48px rgba(0,0,0,0.80), 0 0 0 1px rgba(212,175,55,0.38), 0 0 56px rgba(212,175,55,0.18); }
+}
+.book-cover-img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 4px;
+  transition: transform 0.60s cubic-bezier(0.22,0,0.18,1), filter 0.40s ease;
+  filter: brightness(0.96) saturate(1.05);
+}
+.book-cover-reveal:hover .book-cover-img {
+  transform: scale(1.03);
+  filter: brightness(1.04) saturate(1.10);
+}
+/* Subtle warm vignette frame */
+.book-cover-reveal::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 4px;
+  background: linear-gradient(
+    to bottom,
+    rgba(0,0,0,0.04) 0%,
+    transparent 25%,
+    transparent 75%,
+    rgba(0,0,0,0.18) 100%
+  );
+  pointer-events: none;
 }
 .book-cover-icon {
   font-size: 2.4rem;
@@ -580,7 +629,8 @@ body{font-family:'Lora','Georgia',serif;background:var(--bg-tint);color:var(--cr
     <p class="hero-series">Seeds of Greatness · Book One</p>
     <h1 class="hero-title">
       Growing Up with<br>
-      <span class="hero-title-name">Yeshua</span>
+      <span class="hero-title-name">Yeshua</span><br>
+      <span style="font-size:clamp(1.1rem,2.4vw,2.0rem);letter-spacing:0.08em;background:linear-gradient(135deg,#f8e88a 0%,var(--gold-lt) 40%,#d4af37 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">Finding My Gift</span>
     </h1>
     <p class="hero-role">The Creator</p>
     <p class="hero-theme">
@@ -599,14 +649,15 @@ body{font-family:'Lora','Georgia',serif;background:var(--bg-tint);color:var(--cr
     <!-- ── BOOK SECTION ── -->
     <div class="book-panel reveal" aria-label="Book details">
       <div class="book-cover-wrap">
-        <div class="book-cover-placeholder" aria-label="Book cover coming soon">
-          <span class="book-cover-icon" aria-hidden="true">📗</span>
-          <span class="book-cover-label">Cover Reveal<br>Coming Soon</span>
+        <div class="book-cover-reveal" aria-label="Seeds of Greatness: Growing Up with Yeshua — Finding My Gift book cover">
+          <img src="/static/characters/yeshua-book-cover.jpg"
+               alt="Seeds of Greatness: Growing Up with Yeshua — Finding My Gift book cover"
+               class="book-cover-img" draggable="false" />
         </div>
       </div>
       <div class="book-info">
         <p class="book-series-tag">Seeds of Greatness Series</p>
-        <h2 class="book-title">Seeds of Greatness:<br>Growing Up with Yeshua</h2>
+        <h2 class="book-title">Seeds of Greatness<br>Growing Up with Yeshua<br><span style="font-size:0.88em;letter-spacing:0.04em;">— Finding My Gift</span></h2>
         <p class="book-ages">Ages 3–8 · Picture Book</p>
         <p class="book-synopsis">
           Yeshua sees the world differently — through quiet creativity, deep thought, and a
