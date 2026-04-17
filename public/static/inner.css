@@ -647,6 +647,23 @@ main {
   flex-shrink: 0;
 }
 
+/* Contact Us footer link */
+.footer-contact-link {
+  font-family: 'Inter',sans-serif;
+  font-size: clamp(0.46rem,0.72vw,0.58rem);
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  color: rgba(212,175,55,0.38);
+  text-decoration: none;
+  white-space: nowrap;
+  transition: color 0.28s ease, text-shadow 0.28s ease;
+  flex-shrink: 0;
+}
+.footer-contact-link:hover {
+  color: rgba(240,208,96,0.82);
+  text-shadow: 0 0 14px rgba(212,175,55,0.30);
+}
+
 /* ─── FADE-UP ANIMATION ──────────────────────────────────────── */
 @keyframes fadeUp {
   from { opacity: 0; transform: translateY(18px); }
@@ -682,6 +699,7 @@ main {
   #footer-chrome { padding: 0 24px; }
   .footer-copy { font-size: 0.44rem; padding: 0 8px; }
   .footer-spacer { min-width: 0; display: none; }
+  .footer-contact-link { font-size: 0.44rem; letter-spacing: 0.18em; }
   .pull-quote { padding: 36px 24px; }
   .philo-step { flex-direction: column; gap: 10px; }
   .philo-num { width: auto; text-align: left; }
