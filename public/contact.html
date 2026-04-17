@@ -474,15 +474,113 @@
   position: relative;
   overflow: hidden;
 }
+/* Subtle golden seed watermark — image-based, no emoji */
 .seed-panel::after {
-  content: '🌱';
+  content: '';
   position: absolute;
-  right: 48px; top: 50%;
-  transform: translateY(-50%) scale(4.5);
-  opacity: 0.04;
-  font-size: 2rem;
+  right: 40px; top: 50%;
+  transform: translateY(-50%);
+  width: 96px; height: 96px;
+  background: url('/static/golden-seed.jpg') center/cover no-repeat;
+  border-radius: 50%;
+  opacity: 0.06;
   pointer-events: none;
-  user-select: none;
+  -webkit-mask-image: radial-gradient(circle, black 38%, transparent 68%);
+  mask-image: radial-gradient(circle, black 38%, transparent 68%);
+}
+/* Donations inline form fields */
+.seed-inline-form { margin-top: 24px; }
+.seed-form-row {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 12px;
+}
+.seed-field-input {
+  flex: 1;
+  min-width: 140px;
+  background: rgba(12,8,0,0.70);
+  border: 1px solid rgba(212,175,55,0.18);
+  border-radius: 2px;
+  padding: 11px 16px;
+  font-family: 'Inter',sans-serif;
+  font-size: 0.72rem;
+  letter-spacing: 0.06em;
+  color: rgba(253,248,238,0.88);
+  outline: none;
+  transition: border-color 0.25s ease;
+}
+.seed-field-input::placeholder { color: rgba(212,175,55,0.30); }
+.seed-field-input:focus { border-color: rgba(212,175,55,0.45); }
+/* Donations success state */
+.seed-success {
+  display: none;
+  text-align: center;
+  padding: 28px 16px 8px;
+}
+.seed-success.visible {
+  display: block;
+  animation: successFadeIn 0.8s ease forwards;
+}
+.seed-success-seed-wrap {
+  display: inline-block;
+  position: relative;
+  width: 88px; height: 88px;
+  margin: 0 auto 20px;
+  opacity: 0;
+  animation: seedReveal 1.0s cubic-bezier(0.22,0,0.18,1) 0.15s forwards;
+}
+.seed-success-seed-img {
+  width: 88px; height: 88px;
+  object-fit: cover;
+  border-radius: 50%;
+  display: block;
+  -webkit-mask-image: radial-gradient(circle, black 42%, rgba(0,0,0,0.4) 58%, transparent 72%);
+  mask-image: radial-gradient(circle, black 42%, rgba(0,0,0,0.4) 58%, transparent 72%);
+  filter: brightness(1.06) saturate(1.10) drop-shadow(0 0 10px rgba(212,175,55,0.42));
+  animation:
+    seedBreath 4s cubic-bezier(0.45,0.05,0.55,0.95) 1.4s infinite,
+    seedGlow   4s cubic-bezier(0.45,0.05,0.55,0.95) 1.4s infinite;
+}
+.seed-success-ring {
+  position: absolute;
+  inset: -14px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(240,200,60,0.14) 0%, rgba(212,175,55,0.06) 40%, transparent 68%);
+  animation: ringBreath 4s cubic-bezier(0.45,0.05,0.55,0.95) 1.4s infinite;
+  pointer-events: none;
+}
+.seed-success-title {
+  font-family: 'Cinzel',serif;
+  font-size: clamp(0.88rem,1.6vw,1.15rem);
+  font-weight: 600;
+  letter-spacing: 0.07em;
+  color: var(--gold-lt);
+  margin-bottom: 12px;
+  opacity: 0;
+  animation: successFadeIn 0.7s ease 0.65s forwards;
+}
+.seed-success-body {
+  font-family: 'Lora',serif;
+  font-size: clamp(0.82rem,1.2vw,0.94rem);
+  font-style: italic;
+  color: rgba(253,248,238,0.60);
+  max-width: 420px;
+  margin: 0 auto;
+  line-height: 1.78;
+  opacity: 0;
+  animation: successFadeIn 0.7s ease 0.85s forwards;
+}
+#seed-error-msg {
+  font-family: 'Inter',sans-serif;
+  font-size: 0.70rem;
+  letter-spacing: 0.05em;
+  color: rgba(220,100,60,0.90);
+  margin-top: 10px;
+  padding: 9px 14px;
+  border: 1px solid rgba(220,100,60,0.22);
+  border-radius: 2px;
+  background: rgba(220,100,60,0.06);
 }
 .seed-eyebrow {
   font-family: 'Inter',sans-serif;
@@ -819,7 +917,22 @@
 
       <!-- ── PLANT A SEED / DONATIONS ── -->
       <section class="seed-panel reveal" aria-label="Support the mission">
-        <div class="seed-content">
+
+        <!-- Donations success state (hidden until submit) -->
+        <div class="seed-success" id="seed-success" role="alert" aria-live="polite" style="grid-column:1/-1;">
+          <div class="seed-success-seed-wrap" aria-hidden="true">
+            <div class="seed-success-ring"></div>
+            <img src="/static/golden-seed.jpg" alt="" class="seed-success-seed-img" draggable="false" />
+          </div>
+          <h3 class="seed-success-title">Thank you for supporting the mission.</h3>
+          <p class="seed-success-body">
+            Your seed helps us continue creating stories and experiences that
+            inspire the next generation. We’ll be in touch soon.
+          </p>
+        </div>
+
+        <!-- Content + form (hidden after submit) -->
+        <div class="seed-content" id="seed-content">
           <p class="seed-eyebrow">Support the Mission</p>
           <h2 class="seed-title">Plant a Seed</h2>
           <p class="seed-body">
@@ -827,14 +940,24 @@
             and plant seeds of greatness in the lives of others. Every contribution helps
             us create work that speaks to the heart of the next generation.
           </p>
+          <!-- Inline name + email so we know who is reaching out -->
+          <div class="seed-inline-form">
+            <div class="seed-form-row">
+              <input class="seed-field-input" type="text"  id="seed-name"  placeholder="Your name"        autocomplete="name" />
+              <input class="seed-field-input" type="email" id="seed-email" placeholder="your@email.com"   autocomplete="email" />
+            </div>
+            <div id="seed-error-msg" style="display:none;"></div>
+          </div>
         </div>
-        <div class="seed-cta">
-          <a href="mailto:info@mseedproductions.com?subject=I%20Want%20to%20Plant%20a%20Seed"
-             class="btn-gold" aria-label="Support the mission — send us an email">
+
+        <div class="seed-cta" id="seed-cta">
+          <button type="button" class="btn-gold" id="seed-submit-btn"
+                  aria-label="Support the mission — submit your interest">
             Support the Mission
             <span class="btn-arrow" aria-hidden="true">→</span>
-          </a>
+          </button>
         </div>
+
       </section>
 
       <!-- ── GROW WITH US / SOCIAL ── -->
@@ -1151,6 +1274,70 @@ form.addEventListener('submit', async function(e){
     }
   }
 });
+
+/* ═══ DONATIONS / PLANT A SEED ═══════════════════════════════════════════════ */
+const seedSubmitBtn = document.getElementById('seed-submit-btn');
+const seedSuccess   = document.getElementById('seed-success');
+const seedContent   = document.getElementById('seed-content');
+const seedCta       = document.getElementById('seed-cta');
+const seedErrMsg    = document.getElementById('seed-error-msg');
+
+if (seedSubmitBtn) {
+  seedSubmitBtn.addEventListener('click', async function () {
+    const name  = (document.getElementById('seed-name').value  || '').trim();
+    const email = (document.getElementById('seed-email').value || '').trim();
+
+    // Name and email are optional but if email supplied validate format
+    if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      seedErrMsg.textContent   = 'Please enter a valid email address.';
+      seedErrMsg.style.display = 'block';
+      document.getElementById('seed-email').focus();
+      setTimeout(() => { seedErrMsg.style.display = 'none'; }, 4000);
+      return;
+    }
+
+    seedSubmitBtn.disabled    = true;
+    seedSubmitBtn.textContent = 'Sending…';
+
+    try {
+      const res = await fetch('https://api.web3forms.com/submit', {
+        method:  'POST',
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        body: JSON.stringify({
+          access_key: 'b446c862-92aa-40d0-99c7-5a261b45a094',
+          subject:    'MustardSeed — Plant a Seed Interest' + (name ? ' — ' + name : ''),
+          from_name:  name || 'Website Visitor',
+          replyto:    email || 'noreply@mseedproductions.com',
+          message:
+            'A visitor expressed interest in supporting the mission (Plant a Seed).' +
+            (name  ? '\n\nName:  ' + name  : '') +
+            (email ? '\nEmail: ' + email : ''),
+        }),
+      });
+      const data = await res.json();
+      if (!data.success) throw new Error(data.message || 'Submission failed.');
+
+      // ✓ Success — fade out form content, reveal confirmation
+      seedContent.style.transition = 'opacity 0.45s ease';
+      seedCta.style.transition     = 'opacity 0.45s ease';
+      seedContent.style.opacity    = '0';
+      seedCta.style.opacity        = '0';
+      setTimeout(() => {
+        seedContent.style.display = 'none';
+        seedCta.style.display     = 'none';
+        seedSuccess.classList.add('visible');
+        seedSuccess.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }, 460);
+
+    } catch (err) {
+      seedSubmitBtn.disabled    = false;
+      seedSubmitBtn.textContent = 'Support the Mission';
+      seedErrMsg.textContent    = (err instanceof Error ? err.message : 'Something went wrong. Please try again.');
+      seedErrMsg.style.display  = 'block';
+      setTimeout(() => { seedErrMsg.style.display = 'none'; }, 5000);
+    }
+  });
+}
 
 })();
 </script>
