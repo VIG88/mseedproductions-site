@@ -412,7 +412,7 @@ body{font-family:'Lora','Georgia',serif;background:var(--deep);color:var(--cream
   display:flex;align-items:center;gap:12px;
   font-family:'Inter',sans-serif;font-size:.50rem;letter-spacing:.28em;
   text-transform:uppercase;color:rgba(212,175,55,0.38);
-  z-index:3;
+  z-index:7;
 }
 .play-circle{
   width:40px;height:40px;border-radius:50%;
@@ -627,36 +627,38 @@ body{font-family:'Lora','Georgia',serif;background:var(--deep);color:var(--cream
 .story-card.tapped .card-ctls-overlay{
   opacity:1;
 }
-/* The text itself */
+/* The text itself — larger, gold, glowing */
 .ctls-line{
   font-family:'Cinzel',serif;
-  font-size:clamp(.46rem,.80vw,.68rem);
+  font-size:clamp(.68rem,1.10vw,.92rem);
   font-weight:700;
-  letter-spacing:.36em;
+  letter-spacing:.28em;
   text-transform:uppercase;
-  color:rgba(253,248,238,0.96);
+  color:rgba(255,246,210,0.98);
   text-align:center;
   text-shadow:
-    0 0 28px rgba(212,175,55,0.70),
-    0 0 10px rgba(212,175,55,0.40),
-    0 2px 8px rgba(0,0,0,0.70);
-  transform:translateY(6px);
-  transition:transform .48s cubic-bezier(0.16,1,0.3,1) .06s;
-  line-height:1.4;
+    0 0 40px rgba(212,175,55,0.90),
+    0 0 16px rgba(212,175,55,0.55),
+    0 0  6px rgba(240,208,96,0.35),
+    0 2px 10px rgba(0,0,0,0.85);
+  transform:translateY(8px);
+  transition:transform .50s cubic-bezier(0.16,1,0.3,1) .06s;
+  line-height:1.5;
 }
 .story-card:hover .ctls-line,
 .story-card.tapped .ctls-line{
   transform:translateY(0);
 }
-/* Thin gold rule above the text */
+/* Gold rule above the text */
 .ctls-rule{
-  width:28px;height:1px;
-  background:linear-gradient(to right,transparent,rgba(212,175,55,0.70),transparent);
+  width:32px;height:1px;
+  background:linear-gradient(to right,transparent,rgba(212,175,55,0.80),transparent);
+  box-shadow:0 0 6px rgba(212,175,55,0.35);
   opacity:0;
-  transform:scaleX(0.4);
+  transform:scaleX(0.3);
   transition:
-    opacity  .42s ease .10s,
-    transform .42s cubic-bezier(0.16,1,0.3,1) .10s;
+    opacity  .44s ease .08s,
+    transform .44s cubic-bezier(0.16,1,0.3,1) .08s;
 }
 .story-card:hover .ctls-rule,
 .story-card.tapped .ctls-rule{
@@ -664,44 +666,68 @@ body{font-family:'Lora','Georgia',serif;background:var(--deep);color:var(--cream
   transform:scaleX(1);
 }
 
-/* ── FEATURED ARTWORK — COMING TO LIFE SOON banner ─────────────
-   Sits at bottom of the Yeshua artwork panel                    */
+/* ── FEATURED ARTWORK — COMING TO LIFE SOON — centered overlay ─
+   Positioned dead-center inside the Yeshua artwork panel        */
 .featured-ctls-banner{
-  position:absolute;bottom:0;left:0;right:0;z-index:5;
-  padding:22px 24px 26px;
-  background:linear-gradient(to top,rgba(0,0,0,0.82) 0%,rgba(0,0,0,0.52) 60%,transparent 100%);
+  position:absolute;
+  inset:0;
+  z-index:6;
   display:flex;flex-direction:column;
-  align-items:center;gap:8px;
+  align-items:center;justify-content:center;
+  gap:14px;
+  /* dark radial scrim behind text only — no full bleed */
+  background:radial-gradient(
+    ellipse 72% 52% at 50% 50%,
+    rgba(0,0,0,0.62) 0%,
+    rgba(0,0,0,0.28) 60%,
+    transparent 100%
+  );
   pointer-events:none;
 }
 .featured-ctls-eyebrow{
   font-family:'Inter',sans-serif;
-  font-size:.44rem;
-  letter-spacing:.44em;
+  font-size:.52rem;
+  letter-spacing:.52em;
   text-transform:uppercase;
-  color:rgba(212,175,55,0.50);
+  color:rgba(212,175,55,0.60);
+  text-shadow:0 0 18px rgba(212,175,55,0.35);
 }
 .featured-ctls-text{
   font-family:'Cinzel',serif;
-  font-size:clamp(.72rem,1.4vw,1.02rem);
+  font-size:clamp(1.10rem,2.2vw,1.72rem);
   font-weight:700;
-  letter-spacing:.26em;
+  letter-spacing:.22em;
   text-transform:uppercase;
-  color:rgba(253,248,238,0.96);
+  color:rgba(255,246,210,0.98);
   text-align:center;
+  line-height:1.18;
   text-shadow:
-    0 0 36px rgba(212,175,55,0.65),
-    0 0 14px rgba(212,175,55,0.35),
-    0 2px 10px rgba(0,0,0,0.80);
+    0 0 60px rgba(212,175,55,0.90),
+    0 0 28px rgba(212,175,55,0.60),
+    0 0 10px rgba(240,208,96,0.40),
+    0 3px 14px rgba(0,0,0,0.90);
   animation:ctlsGlow 4s ease-in-out infinite;
 }
 @keyframes ctlsGlow{
-  0%,100%{text-shadow:0 0 28px rgba(212,175,55,0.50),0 0 10px rgba(212,175,55,0.24),0 2px 8px rgba(0,0,0,0.80);}
-  50%{text-shadow:0 0 52px rgba(212,175,55,0.82),0 0 22px rgba(212,175,55,0.50),0 2px 10px rgba(0,0,0,0.80);}
+  0%,100%{
+    text-shadow:
+      0 0 48px rgba(212,175,55,0.72),
+      0 0 20px rgba(212,175,55,0.44),
+      0 0  8px rgba(240,208,96,0.28),
+      0 3px 14px rgba(0,0,0,0.90);
+  }
+  50%{
+    text-shadow:
+      0 0 80px rgba(212,175,55,1.00),
+      0 0 38px rgba(212,175,55,0.72),
+      0 0 16px rgba(240,208,96,0.55),
+      0 3px 14px rgba(0,0,0,0.90);
+  }
 }
 .featured-ctls-rule{
-  width:40px;height:1px;
-  background:linear-gradient(to right,transparent,rgba(212,175,55,0.55),transparent);
+  width:56px;height:1px;
+  background:linear-gradient(to right,transparent,rgba(212,175,55,0.72),transparent);
+  box-shadow:0 0 8px rgba(212,175,55,0.40);
 }
 
 /* ═══════════════════════════════════════════════════════════════
@@ -1107,7 +1133,7 @@ body{font-family:'Lora','Georgia',serif;background:var(--deep);color:var(--cream
           <div class="featured-ctls-banner" aria-hidden="true">
             <p class="featured-ctls-eyebrow">Story in Motion</p>
             <div class="featured-ctls-rule"></div>
-            <p class="featured-ctls-text">Coming to Life Soon</p>
+            <p class="featured-ctls-text">Coming to<br>Life Soon</p>
           </div>
 
           <div class="featured-play-hint" aria-hidden="true">
@@ -1170,7 +1196,6 @@ body{font-family:'Lora','Georgia',serif;background:var(--deep);color:var(--cream
                  class="card-char-img"
                  draggable="false"
                  aria-hidden="true" />
-            <div class="card-avatar av-yeshua" aria-hidden="true">✦</div>
             <!-- Cinematic hover overlay -->
             <div class="card-ctls-overlay" aria-hidden="true">
               <div class="ctls-rule"></div>
@@ -1202,7 +1227,6 @@ body{font-family:'Lora','Georgia',serif;background:var(--deep);color:var(--cream
                  class="card-char-img"
                  draggable="false"
                  aria-hidden="true" />
-            <div class="card-avatar av-messiah" aria-hidden="true">🔥</div>
             <!-- Cinematic hover overlay -->
             <div class="card-ctls-overlay" aria-hidden="true">
               <div class="ctls-rule"></div>
@@ -1234,7 +1258,6 @@ body{font-family:'Lora','Georgia',serif;background:var(--deep);color:var(--cream
                  class="card-char-img"
                  draggable="false"
                  aria-hidden="true" />
-            <div class="card-avatar av-levi" aria-hidden="true">💙</div>
             <!-- Cinematic hover overlay -->
             <div class="card-ctls-overlay" aria-hidden="true">
               <div class="ctls-rule"></div>
@@ -1266,7 +1289,6 @@ body{font-family:'Lora','Georgia',serif;background:var(--deep);color:var(--cream
                  class="card-char-img"
                  draggable="false"
                  aria-hidden="true" />
-            <div class="card-avatar av-jadery" aria-hidden="true">🌿</div>
             <!-- Cinematic hover overlay -->
             <div class="card-ctls-overlay" aria-hidden="true">
               <div class="ctls-rule"></div>
