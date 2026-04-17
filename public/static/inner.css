@@ -260,10 +260,20 @@ body {
   transform: rotate(180deg);
 }
 
+/* Invisible bridge — fills the gap between trigger bottom and panel top
+   so the cursor never leaves a hover-able area while moving down         */
+.nav-dropdown-trigger::before {
+  content: '';
+  position: absolute;
+  bottom: -12px; left: 0; right: 0;
+  height: 12px;            /* matches padding below trigger to panel top  */
+  background: transparent;
+}
+
 /* Dropdown panel */
 .nav-dropdown-panel {
   position: absolute;
-  top: calc(100% + 6px);
+  top: calc(100% + 2px);   /* 2 px gap — tiny, bridged by ::before above */
   left: 50%;
   transform: translateX(-50%) translateY(-6px);
   min-width: 188px;
@@ -288,9 +298,8 @@ body {
   background: linear-gradient(to right, transparent, rgba(212,175,55,0.35), transparent);
 }
 
-/* Show on hover (desktop) */
-.nav-dropdown:hover .nav-dropdown-panel,
-.nav-dropdown.open   .nav-dropdown-panel {
+/* Show — driven by JS .open class (with close-delay) not pure :hover */
+.nav-dropdown.open .nav-dropdown-panel {
   opacity: 1;
   pointer-events: all;
   transform: translateX(-50%) translateY(0);
@@ -341,8 +350,7 @@ body {
     right: 0;
     transform: translateY(-6px);
   }
-  .nav-dropdown:hover .nav-dropdown-panel,
-  .nav-dropdown.open   .nav-dropdown-panel {
+  .nav-dropdown.open .nav-dropdown-panel {
     transform: translateY(0);
   }
 }
@@ -805,20 +813,27 @@ main {
 }
 
 /* Contact Us footer link */
+@keyframes contactGlow {
+  0%,100% { text-shadow: none; color: rgba(212,175,55,0.72); }
+  50%      { text-shadow: 0 0 18px rgba(212,175,55,0.46), 0 0 6px rgba(240,208,96,0.28); color: rgba(240,208,96,0.92); }
+}
 .footer-contact-link {
   font-family: 'Inter',sans-serif;
   font-size: clamp(0.46rem,0.72vw,0.58rem);
   letter-spacing: 0.26em;
   text-transform: uppercase;
-  color: rgba(212,175,55,0.38);
+  color: rgba(212,175,55,0.72);
   text-decoration: none;
   white-space: nowrap;
   transition: color 0.28s ease, text-shadow 0.28s ease;
   flex-shrink: 0;
+  margin-right: 76px;
+  animation: contactGlow 4s ease-in-out infinite;
 }
 .footer-contact-link:hover {
-  color: rgba(240,208,96,0.82);
-  text-shadow: 0 0 14px rgba(212,175,55,0.30);
+  color: rgba(240,208,96,0.95);
+  text-shadow: 0 0 20px rgba(212,175,55,0.50), 0 0 8px rgba(240,208,96,0.35);
+  animation: none;
 }
 
 /* ─── FADE-UP ANIMATION ──────────────────────────────────────── */
