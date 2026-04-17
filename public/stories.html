@@ -159,6 +159,246 @@
   line-height: 1.80;
 }
 
+/* ══════════════════════════════════════════════════════════════
+   CINEMATIC CHARACTER REVEAL STAGE
+══════════════════════════════════════════════════════════════ */
+#char-reveal-stage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+  padding: 0 52px 72px;
+  position: relative;
+}
+
+/* ── Selector bar (four name tabs) ─────────────────────────── */
+#char-selector-bar {
+  display: flex;
+  gap: 4px;
+  background: rgba(6,4,0,0.72);
+  border: 1px solid rgba(212,175,55,0.12);
+  border-radius: 3px 3px 0 0;
+  padding: 6px 6px 0;
+  width: 100%;
+  max-width: 900px;
+  position: relative;
+  z-index: 2;
+}
+.crs-tab {
+  flex: 1;
+  font-family: 'Inter', sans-serif;
+  font-size: clamp(0.58rem, 1vw, 0.74rem);
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgba(212,175,55,0.40);
+  padding: 14px 10px 12px;
+  cursor: pointer;
+  border: none;
+  background: transparent;
+  border-bottom: 2px solid transparent;
+  transition: color 0.28s ease, border-color 0.28s ease, background 0.28s ease;
+  position: relative;
+  user-select: none;
+  -webkit-user-select: none;
+  outline: none;
+  border-radius: 2px 2px 0 0;
+}
+.crs-tab:hover {
+  color: rgba(212,175,55,0.72);
+  background: rgba(212,175,55,0.04);
+}
+.crs-tab.active {
+  color: rgba(240,208,96,0.95);
+  border-bottom-color: rgba(212,175,55,0.72);
+  background: rgba(212,175,55,0.06);
+}
+.crs-tab .crs-tab-archetype {
+  display: block;
+  font-family: 'Lora', serif;
+  font-style: italic;
+  font-size: clamp(0.46rem, 0.75vw, 0.58rem);
+  letter-spacing: 0.08em;
+  text-transform: none;
+  color: rgba(253,248,238,0.28);
+  margin-top: 3px;
+  transition: color 0.28s ease;
+}
+.crs-tab.active .crs-tab-archetype,
+.crs-tab:hover .crs-tab-archetype {
+  color: rgba(253,248,238,0.52);
+}
+
+/* ── Image display panel ────────────────────────────────────── */
+#char-reveal-display {
+  position: relative;
+  width: 100%;
+  max-width: 900px;
+  /* Portrait images → taller; landscape → shorter */
+  aspect-ratio: 16/9;
+  background: rgba(4,2,0,0.95);
+  border: 1px solid rgba(212,175,55,0.14);
+  border-top: none;
+  border-radius: 0 0 4px 4px;
+  overflow: hidden;
+  box-shadow: 0 40px 100px rgba(0,0,0,0.72), 0 0 60px rgba(212,175,55,0.05);
+}
+
+/* Individual reveal layers */
+.crs-layer {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.70s cubic-bezier(0.22,0,0.18,1);
+  will-change: opacity;
+}
+.crs-layer.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* Image inside each layer — slow cinematic zoom when active */
+.crs-layer img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  transform: scale(1.08);
+  transition: transform 6.0s cubic-bezier(0.12,0,0.08,1),
+              opacity 0.70s cubic-bezier(0.22,0,0.18,1);
+  filter: brightness(0.88) saturate(0.9);
+}
+.crs-layer.active img {
+  transform: scale(1.0);
+  filter: brightness(1.0) saturate(1.0);
+}
+
+/* ── Gold rim-light vignette ─────────────────────────────────── */
+.crs-layer::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 80% 60% at 50% 110%, rgba(212,175,55,0.14) 0%, transparent 60%),
+    linear-gradient(to bottom, rgba(0,0,0,0.28) 0%, transparent 35%, transparent 65%, rgba(0,0,0,0.52) 100%),
+    linear-gradient(to right,  rgba(0,0,0,0.32) 0%, transparent 18%, transparent 82%, rgba(0,0,0,0.32) 100%);
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* Per-character accent colors for rim glow */
+.crs-layer[data-char="yeshua"]::after  { background: radial-gradient(ellipse 80% 55% at 50% 108%, rgba(180,210,255,0.18) 0%, transparent 60%), linear-gradient(to bottom, rgba(0,0,0,0.28) 0%, transparent 35%, transparent 65%, rgba(0,0,0,0.55) 100%), linear-gradient(to right, rgba(0,0,0,0.32) 0%, transparent 18%, transparent 82%, rgba(0,0,0,0.32) 100%); }
+.crs-layer[data-char="messiah"]::after { background: radial-gradient(ellipse 80% 55% at 50% 108%, rgba(255,180,80,0.18) 0%, transparent 60%), linear-gradient(to bottom, rgba(0,0,0,0.28) 0%, transparent 35%, transparent 65%, rgba(0,0,0,0.55) 100%), linear-gradient(to right, rgba(0,0,0,0.32) 0%, transparent 18%, transparent 82%, rgba(0,0,0,0.32) 100%); }
+.crs-layer[data-char="levi"]::after    { background: radial-gradient(ellipse 80% 55% at 50% 108%, rgba(100,170,255,0.18) 0%, transparent 60%), linear-gradient(to bottom, rgba(0,0,0,0.28) 0%, transparent 35%, transparent 65%, rgba(0,0,0,0.55) 100%), linear-gradient(to right, rgba(0,0,0,0.32) 0%, transparent 18%, transparent 82%, rgba(0,0,0,0.32) 100%); }
+.crs-layer[data-char="jadery"]::after  { background: radial-gradient(ellipse 80% 55% at 50% 108%, rgba(200,140,80,0.18) 0%, transparent 60%), linear-gradient(to bottom, rgba(0,0,0,0.28) 0%, transparent 35%, transparent 65%, rgba(0,0,0,0.55) 100%), linear-gradient(to right, rgba(0,0,0,0.32) 0%, transparent 18%, transparent 82%, rgba(0,0,0,0.32) 100%); }
+
+/* ── Character info overlay (bottom of panel) ───────────────── */
+.crs-info {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  padding: 32px 40px 28px;
+  background: linear-gradient(to top, rgba(4,2,0,0.90) 0%, rgba(4,2,0,0.55) 60%, transparent 100%);
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.60s ease 0.18s, transform 0.60s ease 0.18s;
+}
+.crs-layer.active .crs-info {
+  opacity: 1;
+  transform: translateY(0);
+}
+.crs-info-series {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.52rem;
+  letter-spacing: 0.36em;
+  text-transform: uppercase;
+  color: rgba(212,175,55,0.56);
+}
+.crs-info-name {
+  font-family: 'Cinzel', serif;
+  font-size: clamp(1.3rem, 2.8vw, 2.0rem);
+  font-weight: 600;
+  color: rgba(253,248,238,0.96);
+  letter-spacing: 0.06em;
+  line-height: 1.15;
+  text-shadow: 0 2px 24px rgba(0,0,0,0.60);
+}
+.crs-info-archetype {
+  font-family: 'Lora', serif;
+  font-style: italic;
+  font-size: clamp(0.82rem, 1.4vw, 1.0rem);
+  color: rgba(212,175,55,0.72);
+  letter-spacing: 0.04em;
+}
+.crs-info-ctas {
+  display: flex;
+  gap: 12px;
+  margin-top: 12px;
+  flex-wrap: wrap;
+}
+.crs-cta-primary {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.60rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgba(10,8,2,0.95);
+  background: rgba(212,175,55,0.90);
+  border: none;
+  padding: 9px 22px;
+  cursor: pointer;
+  text-decoration: none;
+  border-radius: 2px;
+  transition: background 0.25s ease, transform 0.2s ease;
+  white-space: nowrap;
+}
+.crs-cta-primary:hover { background: rgba(240,208,96,1.0); transform: translateY(-1px); }
+.crs-cta-secondary {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.60rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgba(212,175,55,0.82);
+  background: transparent;
+  border: 1px solid rgba(212,175,55,0.36);
+  padding: 8px 22px;
+  cursor: pointer;
+  text-decoration: none;
+  border-radius: 2px;
+  transition: border-color 0.25s ease, color 0.25s ease, transform 0.2s ease;
+  white-space: nowrap;
+}
+.crs-cta-secondary:hover { border-color: rgba(212,175,55,0.72); color: rgba(240,208,96,0.95); transform: translateY(-1px); }
+
+/* ── Ambient floating particles on the panel ────────────────── */
+#crs-particles {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  overflow: hidden;
+}
+
+/* ── Responsive ──────────────────────────────────────────────── */
+@media (max-width: 900px) {
+  #char-reveal-stage { padding: 0 24px 56px; }
+  #char-reveal-display { aspect-ratio: 4/3; }
+  .crs-info { padding: 24px 24px 20px; }
+  .crs-info-ctas { gap: 8px; }
+}
+@media (max-width: 640px) {
+  #char-selector-bar { gap: 2px; padding: 4px 4px 0; }
+  .crs-tab { padding: 11px 6px 9px; font-size: 0.58rem; letter-spacing: 0.12em; }
+  .crs-tab .crs-tab-archetype { display: none; }
+  #char-reveal-display { aspect-ratio: 3/4; }
+  .crs-info-name { font-size: 1.1rem; }
+  .crs-info-ctas { flex-direction: column; gap: 6px; }
+}
+
 /* ── CHARACTER CARDS GRID ─────────────────────────────────────── */
 .char-universe {
   margin-bottom: 80px;
@@ -213,6 +453,23 @@
   position: absolute;
   inset: 0;
   width: 100%; height: 100%;
+}
+
+/* Portrait area — real photo */
+.char-portrait-area img.char-portrait-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  display: block;
+  transition: transform 0.60s cubic-bezier(0.22,0,0.18,1), filter 0.36s ease;
+  filter: brightness(0.82) saturate(0.85);
+}
+.char-cinematic-card:hover .char-portrait-area img.char-portrait-img {
+  transform: scale(1.05);
+  filter: brightness(0.96) saturate(1.0);
 }
 
 /* Glow overlay on hover */
@@ -719,6 +976,114 @@
       <p>Four young heroes. Four distinct voices. One universe built to grow with your child.</p>
     </div>
 
+    <!-- ══════════════════════════════════════════════════════════
+         CINEMATIC CHARACTER REVEAL STAGE
+    ═══════════════════════════════════════════════════════════ -->
+    <div id="char-reveal-stage" class="reveal">
+
+      <!-- Selector bar -->
+      <div id="char-selector-bar" role="tablist" aria-label="Select a character to reveal">
+
+        <button class="crs-tab active" role="tab" aria-selected="true"
+                data-char="yeshua" aria-controls="crs-panel-yeshua">
+          Yeshua
+          <span class="crs-tab-archetype">The Creator</span>
+        </button>
+
+        <button class="crs-tab" role="tab" aria-selected="false"
+                data-char="messiah" aria-controls="crs-panel-messiah">
+          Messiah
+          <span class="crs-tab-archetype">The Energy</span>
+        </button>
+
+        <button class="crs-tab" role="tab" aria-selected="false"
+                data-char="levi" aria-controls="crs-panel-levi">
+          Levi
+          <span class="crs-tab-archetype">The Competitor</span>
+        </button>
+
+        <button class="crs-tab" role="tab" aria-selected="false"
+                data-char="jadery" aria-controls="crs-panel-jadery">
+          Jadery
+          <span class="crs-tab-archetype">The Bridge</span>
+        </button>
+
+      </div><!-- #char-selector-bar -->
+
+      <!-- Display panel -->
+      <div id="char-reveal-display" role="tabpanel" aria-live="polite">
+
+        <!-- Ambient particles canvas -->
+        <canvas id="crs-particles" aria-hidden="true"></canvas>
+
+        <!-- YESHUA layer -->
+        <div class="crs-layer active" id="crs-panel-yeshua" data-char="yeshua">
+          <img src="/static/characters/yeshua-reveal.jpg"
+               alt="Yeshua — The Creator, a young boy with curly hair standing in a warm golden light"
+               loading="eager" draggable="false" />
+          <div class="crs-info">
+            <span class="crs-info-series">Seeds of Greatness</span>
+            <h3 class="crs-info-name">Growing Up with Yeshua</h3>
+            <span class="crs-info-archetype">The Creator</span>
+            <div class="crs-info-ctas">
+              <a href="/characters/yeshua" class="crs-cta-primary">Explore the Character →</a>
+              <a href="/story-in-motion" class="crs-cta-secondary">Story in Motion ↗</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- MESSIAH layer -->
+        <div class="crs-layer" id="crs-panel-messiah" data-char="messiah">
+          <img src="/static/characters/messiah-reveal.jpg"
+               alt="Messiah — The Energy, a young boy in a dark hoodie leaning forward with excitement"
+               loading="lazy" draggable="false" />
+          <div class="crs-info">
+            <span class="crs-info-series">Seeds of Greatness</span>
+            <h3 class="crs-info-name">Growing Up with Messiah</h3>
+            <span class="crs-info-archetype">The Energy</span>
+            <div class="crs-info-ctas">
+              <a href="/characters/messiah" class="crs-cta-primary">Explore the Character →</a>
+              <a href="/story-in-motion" class="crs-cta-secondary">Story in Motion ↗</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- LEVI layer -->
+        <div class="crs-layer" id="crs-panel-levi" data-char="levi">
+          <img src="/static/characters/levi-reveal.jpg"
+               alt="Levi — The Competitor, a joyful boy leaping in the air outdoors"
+               loading="lazy" draggable="false" />
+          <div class="crs-info">
+            <span class="crs-info-series">Seeds of Greatness</span>
+            <h3 class="crs-info-name">Growing Up with Levi</h3>
+            <span class="crs-info-archetype">The Competitor</span>
+            <div class="crs-info-ctas">
+              <a href="/characters/levi" class="crs-cta-primary">Explore the Character →</a>
+              <a href="/story-in-motion" class="crs-cta-secondary">Story in Motion ↗</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- JADERY layer -->
+        <div class="crs-layer" id="crs-panel-jadery" data-char="jadery">
+          <img src="/static/characters/jadery-reveal.jpg"
+               alt="Jadery — The Bridge, a girl with a flower basket walking through a sunlit garden"
+               loading="lazy" draggable="false" />
+          <div class="crs-info">
+            <span class="crs-info-series">Seeds of Greatness</span>
+            <h3 class="crs-info-name">Growing Up with Jadery</h3>
+            <span class="crs-info-archetype">The Bridge</span>
+            <div class="crs-info-ctas">
+              <a href="/characters/jadery" class="crs-cta-primary">Explore the Character →</a>
+              <a href="/story-in-motion" class="crs-cta-secondary">Story in Motion ↗</a>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- #char-reveal-display -->
+
+    </div><!-- #char-reveal-stage -->
+
     <!-- ── CHARACTER CARDS ── -->
     <div class="section-wrap">
       <div class="char-universe">
@@ -729,7 +1094,10 @@
                    style="--char-accent:linear-gradient(to right,transparent,rgba(180,210,255,0.60),transparent);--char-glow:rgba(180,210,255,0.16);--char-color:rgba(180,210,255,0.60);"
                    aria-label="Growing Up with Yeshua — The Creator">
             <div class="char-portrait-area">
-              <canvas class="char-portrait-canvas" data-char="yeshua" aria-hidden="true"></canvas>
+              <img class="char-portrait-img"
+                   src="/static/characters/yeshua-reveal.jpg"
+                   alt="Yeshua — The Creator"
+                   loading="lazy" draggable="false" />
               <div class="char-glow-overlay"></div>
             </div>
             <div class="char-card-body">
@@ -749,7 +1117,10 @@
                    style="--char-accent:linear-gradient(to right,transparent,rgba(255,180,80,0.65),transparent);--char-glow:rgba(255,160,60,0.16);--char-color:rgba(255,180,80,0.65);"
                    aria-label="Growing Up with Messiah — The Energy">
             <div class="char-portrait-area">
-              <canvas class="char-portrait-canvas" data-char="messiah" aria-hidden="true"></canvas>
+              <img class="char-portrait-img"
+                   src="/static/characters/messiah-reveal.jpg"
+                   alt="Messiah — The Energy"
+                   loading="lazy" draggable="false" />
               <div class="char-glow-overlay"></div>
             </div>
             <div class="char-card-body">
@@ -769,7 +1140,10 @@
                    style="--char-accent:linear-gradient(to right,transparent,rgba(100,170,255,0.65),transparent);--char-glow:rgba(80,150,255,0.14);--char-color:rgba(100,170,255,0.65);"
                    aria-label="Growing Up with Levi — The Competitor">
             <div class="char-portrait-area">
-              <canvas class="char-portrait-canvas" data-char="levi" aria-hidden="true"></canvas>
+              <img class="char-portrait-img"
+                   src="/static/characters/levi-reveal.jpg"
+                   alt="Levi — The Competitor"
+                   loading="lazy" draggable="false" />
               <div class="char-glow-overlay"></div>
             </div>
             <div class="char-card-body">
@@ -789,7 +1163,10 @@
                    style="--char-accent:linear-gradient(to right,transparent,rgba(200,140,80,0.65),transparent);--char-glow:rgba(200,120,60,0.16);--char-color:rgba(200,140,80,0.65);"
                    aria-label="Growing Up with Jadery — The Bridge">
             <div class="char-portrait-area">
-              <canvas class="char-portrait-canvas" data-char="jadery" aria-hidden="true"></canvas>
+              <img class="char-portrait-img"
+                   src="/static/characters/jadery-reveal.jpg"
+                   alt="Jadery — The Bridge"
+                   loading="lazy" draggable="false" />
               <div class="char-glow-overlay"></div>
             </div>
             <div class="char-card-body">
@@ -1162,6 +1539,7 @@ function drawCharPortrait(canvas, charKey){
 }
 
 function initPortraitCanvases(){
+  // Canvas fallback no longer needed — real images used; keep function stub for safety
   document.querySelectorAll('.char-portrait-canvas').forEach(canvas => {
     const charKey = canvas.dataset.char;
     const area = canvas.parentElement;
@@ -1173,6 +1551,114 @@ function initPortraitCanvases(){
 window.addEventListener('load', initPortraitCanvases);
 window.addEventListener('resize', initPortraitCanvases, {passive:true});
 initPortraitCanvases();
+
+/* ═══ CINEMATIC CHARACTER REVEAL STAGE ═══════════════════════ */
+(function initCharReveal(){
+
+  const tabs   = document.querySelectorAll('#char-selector-bar .crs-tab');
+  const layers = document.querySelectorAll('#char-reveal-display .crs-layer');
+  if(!tabs.length || !layers.length) return;
+
+  let current = 'yeshua';
+
+  function activate(charKey){
+    if(charKey === current) return;
+    current = charKey;
+
+    tabs.forEach(t => {
+      const isActive = t.dataset.char === charKey;
+      t.classList.toggle('active', isActive);
+      t.setAttribute('aria-selected', isActive ? 'true' : 'false');
+    });
+
+    layers.forEach(l => {
+      l.classList.toggle('active', l.dataset.char === charKey);
+    });
+  }
+
+  // Desktop: hover triggers reveal
+  tabs.forEach(tab => {
+    tab.addEventListener('mouseenter', function(){
+      if(!window.matchMedia('(hover:none)').matches){
+        activate(tab.dataset.char);
+      }
+    });
+    // Mobile / keyboard: click/tap triggers reveal
+    tab.addEventListener('click', function(){
+      activate(tab.dataset.char);
+    });
+  });
+
+  // Keyboard: arrow navigation between tabs
+  document.getElementById('char-selector-bar').addEventListener('keydown', function(e){
+    const tabsArr = Array.from(tabs);
+    const idx = tabsArr.findIndex(t => t.dataset.char === current);
+    if(e.key === 'ArrowRight' || e.key === 'ArrowDown'){
+      e.preventDefault();
+      const next = tabsArr[(idx + 1) % tabsArr.length];
+      next.focus();
+      activate(next.dataset.char);
+    }
+    if(e.key === 'ArrowLeft' || e.key === 'ArrowUp'){
+      e.preventDefault();
+      const prev = tabsArr[(idx - 1 + tabsArr.length) % tabsArr.length];
+      prev.focus();
+      activate(prev.dataset.char);
+    }
+  });
+
+  /* ── Ambient floating gold particles on the display panel ── */
+  const cvs = document.getElementById('crs-particles');
+  if(!cvs) return;
+  const panel = document.getElementById('char-reveal-display');
+
+  function resizeCvs(){
+    cvs.width  = panel.offsetWidth;
+    cvs.height = panel.offsetHeight;
+  }
+  resizeCvs();
+  window.addEventListener('resize', resizeCvs, {passive:true});
+
+  const ctx2 = cvs.getContext('2d');
+  const NUM_P = 28;
+  const particles = Array.from({length: NUM_P}, () => ({
+    x: Math.random(),
+    y: Math.random(),
+    r: 0.6 + Math.random() * 1.4,
+    speed: 0.00008 + Math.random() * 0.00014,
+    drift: (Math.random() - 0.5) * 0.00006,
+    alpha: 0.10 + Math.random() * 0.22,
+    phase: Math.random() * Math.PI * 2,
+  }));
+
+  let raf;
+  let t = 0;
+  function animateParticles(){
+    raf = requestAnimationFrame(animateParticles);
+    t += 0.012;
+    const W = cvs.width, H = cvs.height;
+    ctx2.clearRect(0,0,W,H);
+
+    // Only animate when panel is visible on screen
+    const rect = panel.getBoundingClientRect();
+    if(rect.bottom < 0 || rect.top > window.innerHeight) return;
+
+    particles.forEach(p => {
+      p.y -= p.speed;
+      p.x += p.drift;
+      if(p.y < 0) { p.y = 1.05; p.x = Math.random(); }
+      if(p.x < 0 || p.x > 1) p.drift *= -1;
+
+      const pulse = 0.6 + 0.4 * Math.sin(t + p.phase);
+      ctx2.beginPath();
+      ctx2.arc(p.x * W, p.y * H, p.r, 0, Math.PI * 2);
+      ctx2.fillStyle = `rgba(212,175,55,${p.alpha * pulse})`;
+      ctx2.fill();
+    });
+  }
+  animateParticles();
+
+})();
 
 /* ═══ SCROLL REVEAL ════════════════════════════════════════════ */
 (function initReveal(){
@@ -1266,13 +1752,23 @@ soundBtn.addEventListener('click',()=>{
 </script>
 <script>
 (function(){
-  document.querySelectorAll(".nav-dropdown-trigger").forEach(function(t){
-    t.addEventListener("click",function(e){
-      var li=t.closest(".nav-dropdown");
-      if(window.matchMedia("(hover:none)").matches){e.preventDefault();var isOpen=li.classList.contains("open");document.querySelectorAll(".nav-dropdown.open").forEach(function(el){el.classList.remove("open");});if(!isOpen)li.classList.add("open");}
+  document.querySelectorAll('.nav-dropdown').forEach(function(dd){
+    var t=null;
+    function open(){clearTimeout(t);dd.classList.add('open');}
+    function schedClose(){t=setTimeout(function(){dd.classList.remove('open');},220);}
+    dd.addEventListener('mouseenter',function(){if(!window.matchMedia('(hover:none)').matches)open();});
+    dd.addEventListener('mouseleave',function(){if(!window.matchMedia('(hover:none)').matches)schedClose();});
+    var trigger=dd.querySelector('.nav-dropdown-trigger');
+    trigger.addEventListener('click',function(e){
+      if(window.matchMedia('(hover:none)').matches){
+        e.preventDefault();
+        var isOpen=dd.classList.contains('open');
+        document.querySelectorAll('.nav-dropdown.open').forEach(function(el){el.classList.remove('open');});
+        if(!isOpen)dd.classList.add('open');
+      }
     });
   });
-  document.addEventListener("click",function(e){if(!e.target.closest(".nav-dropdown"))document.querySelectorAll(".nav-dropdown.open").forEach(function(el){el.classList.remove("open");});});
+  document.addEventListener('click',function(e){if(!e.target.closest('.nav-dropdown'))document.querySelectorAll('.nav-dropdown.open').forEach(function(el){el.classList.remove('open');});});
 })();
 </script>
 </body>
