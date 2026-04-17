@@ -274,6 +274,8 @@
   transform: scale(1.0);
   filter: brightness(1.0) saturate(1.0);
 }
+/* Portrait-mode layers use contain + blur-bg technique;
+   inline styles on those imgs override all of the above via higher specificity */
 
 /* ── Gold rim-light vignette ─────────────────────────────────── */
 .crs-layer::after {
@@ -1018,10 +1020,21 @@
 
         <!-- YESHUA layer -->
         <div class="crs-layer active" id="crs-panel-yeshua" data-char="yeshua">
+          <!-- blurred atmospheric bg fill -->
+          <img src="/static/characters/yeshua-reveal.jpg"
+               aria-hidden="true" draggable="false"
+               style="position:absolute;inset:0;width:100%;height:100%;
+                      object-fit:cover;object-position:center 22%;
+                      filter:blur(28px) brightness(0.45) saturate(0.6);
+                      transform:scale(1.12);transition:none;pointer-events:none;z-index:0;" />
+          <!-- contained foreground — full character visible -->
           <img src="/static/characters/yeshua-reveal.jpg"
                alt="Yeshua — The Creator, a young boy with curly hair standing in a warm golden light"
                loading="eager" draggable="false"
-               style="object-position: center 18%;" />
+               style="position:absolute;inset:0;width:100%;height:100%;
+                      object-fit:contain;object-position:center 30%;
+                      filter:brightness(1.0) saturate(1.0);
+                      transform:scale(1.0);z-index:1;" />
           <div class="crs-info">
             <span class="crs-info-series">Seeds of Greatness</span>
             <h3 class="crs-info-name">Growing Up with Yeshua</h3>
@@ -1067,10 +1080,21 @@
 
         <!-- JADERY layer -->
         <div class="crs-layer" id="crs-panel-jadery" data-char="jadery">
+          <!-- blurred atmospheric bg fill -->
+          <img src="/static/characters/jadery-reveal.jpg"
+               aria-hidden="true" draggable="false"
+               style="position:absolute;inset:0;width:100%;height:100%;
+                      object-fit:cover;object-position:45% 25%;
+                      filter:blur(28px) brightness(0.40) saturate(0.55);
+                      transform:scale(1.12);transition:none;pointer-events:none;z-index:0;" />
+          <!-- contained foreground — full character visible -->
           <img src="/static/characters/jadery-reveal.jpg"
                alt="Jadery — The Bridge, a girl with a flower basket walking through a sunlit garden"
                loading="lazy" draggable="false"
-               style="object-position: 45% 10%;" />
+               style="position:absolute;inset:0;width:100%;height:100%;
+                      object-fit:contain;object-position:center 28%;
+                      filter:brightness(1.0) saturate(1.0);
+                      transform:scale(1.0);z-index:1;" />
           <div class="crs-info">
             <span class="crs-info-series">Seeds of Greatness</span>
             <h3 class="crs-info-name">Growing Up with Jadery</h3>
