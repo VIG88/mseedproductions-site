@@ -339,17 +339,69 @@
   display: none;
   text-align: center;
   padding: 48px 32px;
+  opacity: 0;
+  transition: opacity 0.7s ease;
 }
-.form-success.visible { display: block; }
-.success-icon {
-  font-size: 2.8rem;
+.form-success.visible {
   display: block;
-  margin-bottom: 20px;
-  animation: seedPop 0.6s cubic-bezier(0.34,1.56,0.64,1) forwards;
+  animation: successFadeIn 0.8s ease forwards;
 }
-@keyframes seedPop {
-  from { transform: scale(0.4); opacity: 0; }
-  to   { transform: scale(1);   opacity: 1; }
+@keyframes successFadeIn {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+/* Seed image container — transparent bg, glow only */
+.success-seed-wrap {
+  display: inline-block;
+  position: relative;
+  width: 140px;
+  height: 140px;
+  margin: 0 auto 32px;
+  opacity: 0;
+  animation: seedReveal 1.0s cubic-bezier(0.22,0,0.18,1) 0.15s forwards;
+}
+@keyframes seedReveal {
+  from { opacity: 0; transform: scale(0.72); }
+  to   { opacity: 1; transform: scale(1); }
+}
+.success-seed-img {
+  width: 140px;
+  height: 140px;
+  object-fit: cover;
+  border-radius: 50%;
+  display: block;
+  /* Mask to transparent outside the glow circle so no black bg shows */
+  -webkit-mask-image: radial-gradient(circle, black 44%, transparent 72%);
+  mask-image: radial-gradient(circle, black 44%, transparent 72%);
+  filter: brightness(1.08) saturate(1.12);
+  animation: seedPulse 4s ease-in-out 1.2s infinite;
+}
+@keyframes seedPulse {
+  0%,100% { filter: brightness(1.08) saturate(1.12) drop-shadow(0 0 14px rgba(212,175,55,0.55)); }
+  50%      { filter: brightness(1.18) saturate(1.20) drop-shadow(0 0 32px rgba(240,200,60,0.90)); }
+}
+/* Outer ambient ring — pure CSS, no background */
+.success-seed-ring {
+  position: absolute;
+  inset: -18px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(240,200,60,0.18) 0%, rgba(212,175,55,0.06) 45%, transparent 70%);
+  animation: ringPulse 4s ease-in-out 1.2s infinite;
+  pointer-events: none;
+}
+@keyframes ringPulse {
+  0%,100% { opacity: 0.7; transform: scale(1.00); }
+  50%      { opacity: 1.0; transform: scale(1.08); }
+}
+.success-label {
+  font-family: 'Inter',sans-serif;
+  font-size: 0.52rem;
+  letter-spacing: 0.38em;
+  text-transform: uppercase;
+  color: rgba(212,175,55,0.50);
+  margin-bottom: 18px;
+  opacity: 0;
+  animation: successFadeIn 0.7s ease 0.5s forwards;
 }
 .success-title {
   font-family: 'Cinzel',serif;
@@ -358,15 +410,19 @@
   letter-spacing: 0.08em;
   color: var(--gold-lt);
   margin-bottom: 16px;
+  opacity: 0;
+  animation: successFadeIn 0.7s ease 0.65s forwards;
 }
 .success-body {
   font-family: 'Lora',serif;
   font-size: clamp(0.88rem,1.3vw,1.02rem);
   font-style: italic;
   color: rgba(253,248,238,0.65);
-  max-width: 520px;
+  max-width: 480px;
   margin: 0 auto;
   line-height: 1.82;
+  opacity: 0;
+  animation: successFadeIn 0.7s ease 0.85s forwards;
 }
 
 /* ── PLANT A SEED SECTION ─────────────────────────────────────── */
@@ -635,12 +691,23 @@
 
         <!-- Success message (hidden until submit) -->
         <div class="form-success" id="form-success" role="alert" aria-live="polite">
-          <span class="success-icon" aria-hidden="true">🌱</span>
-          <h3 class="success-title">Thank you for connecting with MustardSeed Productions.</h3>
+
+          <!-- Golden seed image — transparent background, glow only -->
+          <div class="success-seed-wrap" aria-hidden="true">
+            <div class="success-seed-ring"></div>
+            <img src="/static/golden-seed.jpg"
+                 alt=""
+                 class="success-seed-img"
+                 draggable="false" />
+          </div>
+
+          <p class="success-label">MustardSeed Productions</p>
+          <h3 class="success-title">Thank you for connecting with us.<br>We look forward to growing with you.</h3>
           <p class="success-body">
-            We look forward to growing with you. You'll hear from us soon with updates,
-            releases, and ways to be part of everything we're building together.
+            You'll hear from us soon with updates, releases, and ways to be
+            part of everything we're building together.
           </p>
+
         </div>
 
         <!-- The form -->
