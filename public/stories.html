@@ -4,71 +4,663 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Stories — MustardSeed Productions</title>
-  <meta name="description" content="Seeds of Greatness and Children's Books — the story universe of MustardSeed Productions." />
+  <meta name="description" content="Enter the Seeds of Greatness universe — cinematic characters and worlds designed to grow alongside the children who love them." />
   <link rel="icon" type="image/svg+xml" href="/static/favicon.svg" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Lora:ital,wght@0,400;0,500;1,400;1,500&family=Inter:wght@300;400;500&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="/static/inner.css" />
   <style>
-  /* Seeds of Greatness franchise banner */
-  .franchise-banner {
-    background: linear-gradient(135deg,
-      rgba(30,20,0,0.90) 0%,
-      rgba(12,10,0,0.95) 100%);
-    border: 1px solid rgba(212,175,55,0.20);
-    border-radius: 4px;
-    padding: 48px 56px 52px;
-    margin-bottom: 32px;
-    position: relative;
-    overflow: hidden;
-    opacity: 0;
-    animation: fadeUp 0.8s cubic-bezier(0.22,0,0.18,1) 0.20s forwards;
-  }
-  .franchise-banner::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 2px;
-    background: linear-gradient(to right,
-      transparent, rgba(212,175,55,0.55) 30%,
-      rgba(212,175,55,0.55) 70%, transparent);
-  }
+/* ═══════════════════════════════════════════════════════════════
+   STORIES PAGE — additional styles
+═══════════════════════════════════════════════════════════════ */
 
-  /* Characters section inside banner */
-  .char-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 20px;
-    margin-top: 36px;
-  }
+/* ── CINEMATIC HERO ───────────────────────────────────────────── */
+.stories-hero {
+  min-height: 88vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 100px 52px 110px;
+  position: relative;
+  overflow: hidden;
+}
+.stories-hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at 50% 20%, rgba(212,175,55,0.08) 0%, transparent 60%),
+    radial-gradient(ellipse at 20% 80%, rgba(180,120,30,0.06) 0%, transparent 55%),
+    radial-gradient(ellipse at 80% 70%, rgba(40,20,0,0.10) 0%, transparent 50%);
+  pointer-events: none;
+}
 
-  /* Books section */
-  .books-panel {
-    background: rgba(4,3,0,0.82);
-    border: 1px solid rgba(212,175,55,0.12);
-    border-radius: 4px;
-    padding: 48px 56px;
-    opacity: 0;
-    animation: fadeUp 0.8s cubic-bezier(0.22,0,0.18,1) 0.40s forwards;
-  }
+/* Character silhouettes in hero background */
+.hero-silhouettes {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+.hero-silhouettes canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%; height: 100%;
+}
 
-  .books-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 24px;
-    margin-top: 28px;
-  }
+.stories-hero .hero-eyebrow {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.58rem;
+  letter-spacing: 0.42em;
+  text-transform: uppercase;
+  color: rgba(212,175,55,0.48);
+  margin-bottom: 28px;
+  opacity: 0;
+  animation: fadeUp 0.9s ease 0.10s forwards;
+}
+.stories-hero .hero-headline {
+  font-family: 'Cinzel', serif;
+  font-size: clamp(2.0rem, 5.5vw, 4.4rem);
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  line-height: 1.12;
+  color: #fff;
+  margin-bottom: 30px;
+  opacity: 0;
+  animation: fadeUp 1.1s cubic-bezier(0.22,0,0.18,1) 0.22s forwards;
+}
+.stories-hero .hero-headline em {
+  display: block;
+  background: linear-gradient(135deg, #f8e88a 0%, #f0d060 45%, #d4af37 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-style: normal;
+  font-weight: 700;
+}
+.stories-hero .hero-sub {
+  font-family: 'Lora', serif;
+  font-size: clamp(0.94rem, 1.7vw, 1.16rem);
+  font-style: italic;
+  color: rgba(253,248,238,0.60);
+  max-width: 620px;
+  margin: 0 auto 20px;
+  line-height: 1.82;
+  opacity: 0;
+  animation: fadeUp 0.9s ease 0.40s forwards;
+}
+.stories-hero .hero-gold-line {
+  width: clamp(48px,8vw,88px);
+  height: 1px;
+  background: linear-gradient(to right, transparent, rgba(212,175,55,0.55) 30%, rgba(212,175,55,0.55) 70%, transparent);
+  margin: 32px auto 0;
+  opacity: 0;
+  animation: fadeIn 1.2s ease 0.60s forwards;
+}
 
-  @media (max-width: 1024px) { .char-grid { grid-template-columns: repeat(2, 1fr); } .books-grid { grid-template-columns: repeat(2, 1fr); } }
-  @media (max-width: 900px) { .franchise-banner, .books-panel { padding: 36px 28px; } }
-  @media (max-width: 600px) { .char-grid { grid-template-columns: 1fr 1fr; } .books-grid { grid-template-columns: 1fr; } }
+/* scroll cue */
+.hero-scroll-cue {
+  position: absolute;
+  bottom: 36px; left: 50%;
+  transform: translateX(-50%);
+  display: flex; flex-direction: column; align-items: center; gap: 8px;
+  opacity: 0;
+  animation: fadeIn 1.2s ease 1.6s forwards;
+}
+.scroll-line {
+  width: 1px; height: 44px;
+  background: linear-gradient(to bottom, rgba(212,175,55,0.0), rgba(212,175,55,0.45));
+  animation: scrollPulse 2.2s ease-in-out infinite;
+}
+.scroll-label {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.46rem;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: rgba(212,175,55,0.30);
+}
+@keyframes scrollPulse {
+  0%,100%{opacity:.5;transform:scaleY(1);}
+  50%{opacity:1;transform:scaleY(1.15);}
+}
+
+/* ── SECTION LABEL BAR ────────────────────────────────────────── */
+.section-intro {
+  text-align: center;
+  padding: 0 52px 56px;
+}
+.section-intro .eyebrow {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.58rem;
+  letter-spacing: 0.40em;
+  text-transform: uppercase;
+  color: rgba(212,175,55,0.48);
+  margin-bottom: 16px;
+}
+.section-intro h2 {
+  font-family: 'Cinzel', serif;
+  font-size: clamp(1.5rem, 3vw, 2.4rem);
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  color: var(--gold-lt);
+  margin-bottom: 18px;
+  line-height: 1.18;
+}
+.section-intro p {
+  font-family: 'Lora', serif;
+  font-size: clamp(0.90rem, 1.4vw, 1.05rem);
+  font-style: italic;
+  color: rgba(253,248,238,0.58);
+  max-width: 580px;
+  margin: 0 auto;
+  line-height: 1.80;
+}
+
+/* ── CHARACTER CARDS GRID ─────────────────────────────────────── */
+.char-universe {
+  margin-bottom: 80px;
+}
+.char-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+  margin-bottom: 56px;
+}
+
+/* Each character card */
+.char-cinematic-card {
+  position: relative;
+  border: 1px solid rgba(212,175,55,0.10);
+  border-radius: 4px;
+  background: rgba(6,4,0,0.82);
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform 0.32s cubic-bezier(0.22,0,0.18,1),
+              border-color 0.32s ease,
+              box-shadow 0.32s ease;
+  text-decoration: none;
+  display: flex;
+  flex-direction: column;
+  min-height: 460px;
+}
+.char-cinematic-card:hover {
+  transform: translateY(-6px);
+  border-color: rgba(212,175,55,0.35);
+  box-shadow: 0 24px 64px rgba(0,0,0,0.55), 0 0 32px rgba(212,175,55,0.08);
+}
+
+/* Top glow accent per character */
+.char-cinematic-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: var(--char-accent, linear-gradient(to right, transparent, rgba(212,175,55,0.55), transparent));
+  transition: opacity 0.32s ease;
+}
+
+/* Portrait canvas area */
+.char-portrait-area {
+  position: relative;
+  height: 220px;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+.char-portrait-area canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%; height: 100%;
+}
+
+/* Glow overlay on hover */
+.char-glow-overlay {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.36s ease;
+  background: radial-gradient(ellipse at 50% 50%, var(--char-glow, rgba(212,175,55,0.14)) 0%, transparent 70%);
+}
+.char-cinematic-card:hover .char-glow-overlay { opacity: 1; }
+
+/* Card body */
+.char-card-body {
+  padding: 24px 24px 20px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+.char-series-tag {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.52rem;
+  letter-spacing: 0.30em;
+  text-transform: uppercase;
+  color: rgba(212,175,55,0.40);
+  margin-bottom: 10px;
+}
+.char-name {
+  font-family: 'Cinzel', serif;
+  font-size: clamp(0.95rem, 1.5vw, 1.15rem);
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  color: var(--gold-lt);
+  line-height: 1.22;
+  margin-bottom: 6px;
+}
+.char-archetype {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.58rem;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--char-color, rgba(212,175,55,0.55));
+  margin-bottom: 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.char-archetype::before {
+  content: '';
+  display: block;
+  width: 18px; height: 1px;
+  background: var(--char-color, rgba(212,175,55,0.40));
+}
+
+/* Quote — hidden by default, fades in on hover */
+.char-quote {
+  font-family: 'Lora', serif;
+  font-size: 0.80rem;
+  font-style: italic;
+  color: rgba(253,248,238,0.55);
+  line-height: 1.68;
+  flex: 1;
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity 0.36s ease 0.05s, transform 0.36s ease 0.05s;
+  margin-bottom: 0;
+}
+.char-cinematic-card:hover .char-quote {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Card CTA buttons */
+.char-card-ctas {
+  padding: 0 24px 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex-shrink: 0;
+}
+.char-btn-primary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 14px;
+  font-family: 'Cinzel', serif;
+  font-size: 0.62rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(240,208,96,0.92);
+  border: 1px solid rgba(212,175,55,0.28);
+  border-radius: 2px;
+  background: transparent;
+  text-decoration: none;
+  transition: border-color 0.25s ease, color 0.25s ease,
+              background 0.25s ease, box-shadow 0.25s ease;
+}
+.char-btn-primary:hover {
+  border-color: rgba(212,175,55,0.65);
+  background: rgba(212,175,55,0.06);
+  box-shadow: 0 0 18px rgba(212,175,55,0.10);
+  color: #fff;
+}
+.char-btn-secondary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 9px 14px;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.56rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgba(212,175,55,0.42);
+  border: 1px solid rgba(212,175,55,0.10);
+  border-radius: 2px;
+  background: transparent;
+  text-decoration: none;
+  transition: border-color 0.25s ease, color 0.25s ease;
+}
+.char-btn-secondary:hover {
+  border-color: rgba(212,175,55,0.28);
+  color: rgba(212,175,55,0.72);
+}
+.btn-arrow { font-size: 0.75rem; }
+
+/* ── CHOOSE YOUR PATH ─────────────────────────────────────────── */
+.path-section {
+  padding: 80px 52px;
+  text-align: center;
+  margin-bottom: 16px;
+  position: relative;
+}
+.path-section::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 52px; right: 52px;
+  height: 1px;
+  background: linear-gradient(to right, transparent, rgba(212,175,55,0.18) 30%, rgba(212,175,55,0.18) 70%, transparent);
+}
+.path-section::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 52px; right: 52px;
+  height: 1px;
+  background: linear-gradient(to right, transparent, rgba(212,175,55,0.18) 30%, rgba(212,175,55,0.18) 70%, transparent);
+}
+.path-eyebrow {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.58rem;
+  letter-spacing: 0.40em;
+  text-transform: uppercase;
+  color: rgba(212,175,55,0.48);
+  margin-bottom: 16px;
+}
+.path-headline {
+  font-family: 'Cinzel', serif;
+  font-size: clamp(1.4rem, 2.8vw, 2.2rem);
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  color: var(--gold-lt);
+  margin-bottom: 56px;
+  line-height: 1.20;
+}
+.path-cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  max-width: 900px;
+  margin: 0 auto;
+}
+.path-card {
+  background: rgba(6,4,0,0.78);
+  border: 1px solid rgba(212,175,55,0.10);
+  border-radius: 4px;
+  padding: 40px 28px 36px;
+  text-align: center;
+  transition: border-color 0.30s ease, transform 0.30s ease, background 0.30s ease;
+  position: relative;
+  overflow: hidden;
+}
+.path-card::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 2px;
+  background: var(--path-color, linear-gradient(to right, transparent, rgba(212,175,55,0.45), transparent));
+  transform: scaleX(0);
+  transform-origin: center;
+  transition: transform 0.30s ease;
+}
+.path-card:hover {
+  border-color: rgba(212,175,55,0.26);
+  background: rgba(14,10,0,0.88);
+  transform: translateY(-4px);
+}
+.path-card:hover::after { transform: scaleX(1); }
+.path-icon {
+  font-size: 2.4rem;
+  margin-bottom: 18px;
+  display: block;
+  line-height: 1;
+  filter: drop-shadow(0 0 12px rgba(212,175,55,0.25));
+  transition: transform 0.30s ease, filter 0.30s ease;
+}
+.path-card:hover .path-icon {
+  transform: scale(1.08) translateY(-2px);
+  filter: drop-shadow(0 0 20px rgba(212,175,55,0.42));
+}
+.path-name {
+  font-family: 'Cinzel', serif;
+  font-size: 0.88rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--gold-lt);
+  margin-bottom: 10px;
+}
+.path-desc {
+  font-family: 'Lora', serif;
+  font-size: 0.82rem;
+  font-style: italic;
+  color: rgba(253,248,238,0.48);
+  line-height: 1.68;
+}
+.path-coming {
+  margin-top: 12px;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.50rem;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: rgba(212,175,55,0.30);
+}
+
+/* ── BOOK ECOSYSTEM ───────────────────────────────────────────── */
+.books-section {
+  background: rgba(4,3,0,0.84);
+  border: 1px solid rgba(212,175,55,0.12);
+  border-top: 2px solid rgba(212,175,55,0.22);
+  border-radius: 4px;
+  padding: 60px 60px 56px;
+  margin-bottom: 32px;
+  position: relative;
+  overflow: hidden;
+}
+.books-section::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 50%; transform: translateX(-50%);
+  width: 55%; height: 1px;
+  background: linear-gradient(to right, transparent, rgba(212,175,55,0.38) 30%, rgba(212,175,55,0.38) 70%, transparent);
+}
+.books-section-header {
+  margin-bottom: 44px;
+}
+.books-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+.book-type-card {
+  background: rgba(10,7,0,0.65);
+  border: 1px solid rgba(212,175,55,0.09);
+  border-radius: 3px;
+  padding: 32px 26px;
+  transition: border-color 0.28s ease, background 0.28s ease, transform 0.28s ease;
+  position: relative;
+  overflow: hidden;
+}
+.book-type-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(to right, transparent, rgba(212,175,55,0.30), transparent);
+  transform: scaleX(0);
+  transform-origin: center;
+  transition: transform 0.30s ease;
+}
+.book-type-card:hover {
+  border-color: rgba(212,175,55,0.22);
+  background: rgba(16,11,0,0.78);
+  transform: translateY(-3px);
+}
+.book-type-card:hover::before { transform: scaleX(1); }
+.book-type-icon {
+  font-size: 2.0rem;
+  margin-bottom: 16px;
+  display: block;
+  line-height: 1;
+}
+.book-type-title {
+  font-family: 'Cinzel', serif;
+  font-size: 0.88rem;
+  font-weight: 600;
+  letter-spacing: 0.10em;
+  color: var(--gold-lt);
+  margin-bottom: 6px;
+}
+.book-type-ages {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.52rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgba(212,175,55,0.40);
+  margin-bottom: 14px;
+}
+.book-type-body {
+  font-family: 'Lora', serif;
+  font-size: 0.82rem;
+  color: rgba(253,248,238,0.58);
+  line-height: 1.72;
+  font-style: italic;
+}
+
+/* ── WORLD GROWS WITH THEM ────────────────────────────────────── */
+.world-panel {
+  background: rgba(3,2,0,0.72);
+  border: 1px solid rgba(212,175,55,0.10);
+  border-left: 3px solid rgba(212,175,55,0.28);
+  border-radius: 0 4px 4px 0;
+  padding: 60px 64px;
+  margin-bottom: 32px;
+  position: relative;
+  overflow: hidden;
+  text-align: center;
+}
+.world-panel::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 50% 100%, rgba(212,175,55,0.04) 0%, transparent 68%);
+  pointer-events: none;
+}
+.world-eyebrow {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.58rem;
+  letter-spacing: 0.40em;
+  text-transform: uppercase;
+  color: rgba(212,175,55,0.42);
+  margin-bottom: 20px;
+}
+.world-title {
+  font-family: 'Cinzel', serif;
+  font-size: clamp(1.4rem, 2.8vw, 2.2rem);
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  color: var(--gold-lt);
+  margin-bottom: 24px;
+  line-height: 1.18;
+}
+.world-body {
+  font-family: 'Lora', serif;
+  font-size: clamp(0.92rem, 1.5vw, 1.10rem);
+  color: rgba(253,248,238,0.65);
+  line-height: 1.88;
+  max-width: 640px;
+  margin: 0 auto;
+  font-style: italic;
+}
+
+/* ── CLOSING PULL QUOTE ───────────────────────────────────────── */
+.closing-quote {
+  text-align: center;
+  padding: 64px 52px 80px;
+  position: relative;
+}
+.closing-quote::before {
+  content: '"';
+  position: absolute;
+  top: 20px; left: 50%; transform: translateX(-50%);
+  font-family: 'Cinzel', serif;
+  font-size: 8rem;
+  line-height: 1;
+  color: rgba(212,175,55,0.05);
+  pointer-events: none;
+  user-select: none;
+}
+.closing-quote blockquote {
+  font-family: 'Cinzel', serif;
+  font-size: clamp(1.1rem, 2.2vw, 1.75rem);
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  line-height: 1.45;
+  color: var(--gold-lt);
+  max-width: 700px;
+  margin: 0 auto 22px;
+  position: relative;
+  z-index: 1;
+}
+.closing-quote cite {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.58rem;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: rgba(212,175,55,0.42);
+  font-style: normal;
+}
+
+/* ── SCROLL REVEAL ────────────────────────────────────────────── */
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.90s cubic-bezier(0.22,0,0.18,1),
+              transform 0.90s cubic-bezier(0.22,0,0.18,1);
+}
+.reveal.revealed { opacity: 1; transform: translateY(0); }
+.reveal-d1 { transition-delay: 0.08s; }
+.reveal-d2 { transition-delay: 0.16s; }
+.reveal-d3 { transition-delay: 0.24s; }
+.reveal-d4 { transition-delay: 0.32s; }
+
+@keyframes fadeIn  { from{opacity:0;} to{opacity:1;} }
+@keyframes fadeUp  { from{opacity:0;transform:translateY(18px);} to{opacity:1;transform:translateY(0);} }
+
+/* ── RESPONSIVE ───────────────────────────────────────────────── */
+@media (max-width: 1100px) {
+  .char-cards-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 900px) {
+  .stories-hero { padding: 80px 24px 90px; min-height: 70vh; }
+  .section-intro { padding: 0 24px 48px; }
+  .path-section { padding: 64px 24px; }
+  .path-cards { grid-template-columns: 1fr; max-width: 380px; }
+  .books-section { padding: 44px 28px; }
+  .books-grid { grid-template-columns: 1fr; }
+  .world-panel { padding: 48px 28px; text-align: left; }
+  .world-panel .world-body { margin: 0; }
+  .closing-quote { padding: 48px 24px 64px; }
+}
+@media (max-width: 700px) {
+  .char-cards-grid { grid-template-columns: 1fr; gap: 16px; }
+  .char-cinematic-card { min-height: auto; }
+  .char-portrait-area { height: 180px; }
+  .char-quote { opacity: 1; transform: none; }
+}
+@media (max-width: 600px) {
+  .path-cards { grid-template-columns: 1fr; }
+  .books-section { padding: 36px 20px; }
+}
   </style>
 </head>
 <body>
 
 <div id="bg-fixed" aria-hidden="true"></div>
 <canvas id="leaves-canvas" aria-hidden="true"></canvas>
+<canvas id="silhouette-canvas" aria-hidden="true" style="position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:1;opacity:0;transition:opacity 3s ease;"></canvas>
 
 <button id="sound-btn" aria-label="Toggle ambient sound">
   <svg id="icon-muted" viewBox="0 0 24 24"><path d="M16.5 12A4.5 4.5 0 0 0 14 7.97v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51A8.796 8.796 0 0 0 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3 3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06A8.99 8.99 0 0 0 17.73 19L19 20.27 20.27 19l-9-9L4.27 3zM12 4 9.91 6.09 12 8.18V4z"/></svg>
@@ -77,6 +669,7 @@
 
 <div id="page-wrap">
 
+  <!-- ═══ NAV ═══ -->
   <nav id="nav" aria-label="Main navigation">
     <a href="/" class="nav-brand" aria-label="MustardSeed Productions home">
       <span class="nav-brand-main">MustardSeed Productions</span>
@@ -90,110 +683,218 @@
     </ul>
   </nav>
 
+  <!-- ═══ MAIN ═══ -->
   <main>
 
-    <header class="page-header">
-      <p class="page-eyebrow">Story Universe</p>
-      <h1 class="page-title">Stories That Plant Seeds<br>in the Hearts of Children</h1>
-      <div class="gold-rule"></div>
-      <p class="page-lead">Our intellectual property is built for the long arc — characters and worlds designed to grow alongside the children who love them.</p>
-    </header>
+    <!-- ── CINEMATIC HERO ── -->
+    <section class="stories-hero" aria-label="Stories hero">
+      <p class="hero-eyebrow">Seeds of Greatness · Story Universe</p>
+      <h1 class="hero-headline">
+        Stories That Plant Seeds<br>
+        <em>in the Hearts of Children</em>
+      </h1>
+      <p class="hero-sub">
+        Our intellectual property is built for the long arc — characters and worlds
+        designed to grow alongside the children who love them.
+      </p>
+      <div class="hero-gold-line" aria-hidden="true"></div>
+      <div class="hero-scroll-cue" aria-hidden="true">
+        <div class="scroll-line"></div>
+        <span class="scroll-label">Explore</span>
+      </div>
+    </section>
 
-    <div class="section-wrap">
-
-      <!-- Seeds of Greatness Franchise -->
-      <section class="franchise-banner" aria-label="Seeds of Greatness franchise">
-
-        <div class="franchise-header">
-          <span class="franchise-icon">🌱</span>
-          <div>
-            <h2 class="franchise-name">Seeds of Greatness</h2>
-            <p class="franchise-sub">Flagship Franchise — Children's Storytelling Series</p>
-          </div>
-        </div>
-
-        <div class="panel-body">
-          <p>Seeds of Greatness is our flagship children's storytelling franchise — a world of young heroes navigating real life with faith, purpose, and the courage to become who they are truly meant to be.</p>
-          <p>Each character in the series represents a distinct voice, background, and emotional journey, anchored in the universal themes every child faces: belonging, identity, challenge, and the quiet strength of knowing you are known and loved.</p>
-        </div>
-
-        <div class="gold-rule" style="margin:28px 0;"></div>
-
-        <!-- Characters -->
-        <p class="panel-eyebrow">Meet the Characters</p>
-        <div class="char-grid">
-
-          <a class="char-card" href="/characters/yeshua" style="text-decoration:none;display:block;cursor:pointer;">
-            <span class="char-icon">✨</span>
-            <h3 class="char-name">Growing Up<br>with Yeshua</h3>
-            <p class="char-role">The Creator</p>
-            <p class="char-theme">"You were created with purpose — being different is not a weakness, it's your gift."</p>
-            <p style="margin-top:14px;font-family:'Inter',sans-serif;font-size:.56rem;letter-spacing:.22em;text-transform:uppercase;color:rgba(212,175,55,0.45);">Read his story →</p>
-          </a>
-
-          <a class="char-card" href="/characters/messiah" style="text-decoration:none;display:block;cursor:pointer;">
-            <span class="char-icon">🔥</span>
-            <h3 class="char-name">Growing Up<br>with Messiah</h3>
-            <p class="char-role">The Energy</p>
-            <p class="char-theme">"Your energy is a gift — what feels like too much may be exactly what the world needs."</p>
-            <p style="margin-top:14px;font-family:'Inter',sans-serif;font-size:.56rem;letter-spacing:.22em;text-transform:uppercase;color:rgba(212,175,55,0.45);">Feel his story →</p>
-          </a>
-
-          <a class="char-card" href="/characters/levi" style="text-decoration:none;display:block;cursor:pointer;">
-            <span class="char-icon">💙</span>
-            <h3 class="char-name">Growing Up<br>with Levi</h3>
-            <p class="char-role">The Competitor</p>
-            <p class="char-theme">"Character over winning — who you are matters more than what you win."</p>
-            <p style="margin-top:14px;font-family:'Inter',sans-serif;font-size:.56rem;letter-spacing:.22em;text-transform:uppercase;color:rgba(212,175,55,0.45);">Step into his story →</p>
-          </a>
-
-          <a class="char-card" href="/characters/jadery" style="text-decoration:none;display:block;cursor:pointer;">
-            <span class="char-icon">🌿</span>
-            <h3 class="char-name">Growing Up<br>with Jadery</h3>
-            <p class="char-role">The Bridge</p>
-            <p class="char-theme">"You are stronger than what you have to figure out alone — a story of two worlds, one heart."</p>
-            <p style="margin-top:14px;font-family:'Inter',sans-serif;font-size:.56rem;letter-spacing:.22em;text-transform:uppercase;color:rgba(212,175,55,0.45);">Discover her story →</p>
-          </a>
-
-        </div><!-- .char-grid -->
-
-        <div class="pull-quote">
-          <blockquote>"Every great story begins with a small seed. Every great life begins with a story."</blockquote>
-          <cite>— Seeds of Greatness</cite>
-        </div>
-
-      </section><!-- .franchise-banner -->
-
-      <!-- Children's Books -->
-      <section class="books-panel" aria-label="Children's Books">
-
-        <p class="panel-eyebrow">Children's Books</p>
-        <h2 class="panel-title">Where the Stories Begin</h2>
-        <p class="panel-body">Our children's book line brings the Seeds of Greatness world to life on the page — beautifully illustrated, emotionally resonant, and built for the moments that matter most: bedtime, discovery, and the quiet conversations between a child and a parent that shape who they become.</p>
-
-        <div class="books-grid" style="margin-top:36px;">
-          <div class="content-card">
-            <span class="card-icon">📚</span>
-            <h3 class="card-title">Picture Books</h3>
-            <p class="card-body">Full-color illustrated stories for ages 3–8, featuring the Seeds of Greatness characters in age-appropriate adventures that introduce core emotional and spiritual themes.</p>
-          </div>
-          <div class="content-card">
-            <span class="card-icon">📖</span>
-            <h3 class="card-title">Chapter Books</h3>
-            <p class="card-body">Longer-form stories for ages 8–12, expanding the world with deeper narrative, character development, and the challenges that shape who our heroes are becoming.</p>
-          </div>
-          <div class="content-card">
-            <span class="card-icon">🎨</span>
-            <h3 class="card-title">Activity & Journal Editions</h3>
-            <p class="card-body">Interactive companion books that invite children to explore their own identity, purpose, and faith journey alongside the characters they love.</p>
-          </div>
-        </div>
-
-      </section><!-- .books-panel -->
-
+    <!-- ── CHARACTERS SECTION INTRO ── -->
+    <div class="section-intro reveal">
+      <p class="eyebrow">Meet the Characters</p>
+      <h2>A World of Living Stories</h2>
+      <p>Four young heroes. Four distinct voices. One universe built to grow with your child.</p>
     </div>
+
+    <!-- ── CHARACTER CARDS ── -->
+    <div class="section-wrap">
+      <div class="char-universe">
+        <div class="char-cards-grid">
+
+          <!-- YESHUA -->
+          <article class="char-cinematic-card reveal reveal-d1"
+                   style="--char-accent:linear-gradient(to right,transparent,rgba(180,210,255,0.60),transparent);--char-glow:rgba(180,210,255,0.16);--char-color:rgba(180,210,255,0.60);"
+                   aria-label="Growing Up with Yeshua — The Creator">
+            <div class="char-portrait-area">
+              <canvas class="char-portrait-canvas" data-char="yeshua" aria-hidden="true"></canvas>
+              <div class="char-glow-overlay"></div>
+            </div>
+            <div class="char-card-body">
+              <p class="char-series-tag">Seeds of Greatness</p>
+              <h3 class="char-name">Growing Up<br>with Yeshua</h3>
+              <p class="char-archetype">The Creator</p>
+              <p class="char-quote">"You were created with purpose — being different is not a weakness, it's your gift."</p>
+            </div>
+            <div class="char-card-ctas">
+              <a href="/characters/yeshua" class="char-btn-primary">Read the Story <span class="btn-arrow">→</span></a>
+              <a href="/story-in-motion" class="char-btn-secondary">Experience the Story <span class="btn-arrow">↗</span></a>
+            </div>
+          </article>
+
+          <!-- MESSIAH -->
+          <article class="char-cinematic-card reveal reveal-d2"
+                   style="--char-accent:linear-gradient(to right,transparent,rgba(255,180,80,0.65),transparent);--char-glow:rgba(255,160,60,0.16);--char-color:rgba(255,180,80,0.65);"
+                   aria-label="Growing Up with Messiah — The Energy">
+            <div class="char-portrait-area">
+              <canvas class="char-portrait-canvas" data-char="messiah" aria-hidden="true"></canvas>
+              <div class="char-glow-overlay"></div>
+            </div>
+            <div class="char-card-body">
+              <p class="char-series-tag">Seeds of Greatness</p>
+              <h3 class="char-name">Growing Up<br>with Messiah</h3>
+              <p class="char-archetype">The Energy</p>
+              <p class="char-quote">"Your energy is a gift — what feels like too much may be exactly what the world needs."</p>
+            </div>
+            <div class="char-card-ctas">
+              <a href="/characters/messiah" class="char-btn-primary">Read the Story <span class="btn-arrow">→</span></a>
+              <a href="/story-in-motion" class="char-btn-secondary">Experience the Story <span class="btn-arrow">↗</span></a>
+            </div>
+          </article>
+
+          <!-- LEVI -->
+          <article class="char-cinematic-card reveal reveal-d3"
+                   style="--char-accent:linear-gradient(to right,transparent,rgba(100,170,255,0.65),transparent);--char-glow:rgba(80,150,255,0.14);--char-color:rgba(100,170,255,0.65);"
+                   aria-label="Growing Up with Levi — The Competitor">
+            <div class="char-portrait-area">
+              <canvas class="char-portrait-canvas" data-char="levi" aria-hidden="true"></canvas>
+              <div class="char-glow-overlay"></div>
+            </div>
+            <div class="char-card-body">
+              <p class="char-series-tag">Seeds of Greatness</p>
+              <h3 class="char-name">Growing Up<br>with Levi</h3>
+              <p class="char-archetype">The Competitor</p>
+              <p class="char-quote">"Character over winning — who you are matters more than what you win."</p>
+            </div>
+            <div class="char-card-ctas">
+              <a href="/characters/levi" class="char-btn-primary">Read the Story <span class="btn-arrow">→</span></a>
+              <a href="/story-in-motion" class="char-btn-secondary">Experience the Story <span class="btn-arrow">↗</span></a>
+            </div>
+          </article>
+
+          <!-- JADERY -->
+          <article class="char-cinematic-card reveal reveal-d4"
+                   style="--char-accent:linear-gradient(to right,transparent,rgba(200,140,80,0.65),transparent);--char-glow:rgba(200,120,60,0.16);--char-color:rgba(200,140,80,0.65);"
+                   aria-label="Growing Up with Jadery — The Bridge">
+            <div class="char-portrait-area">
+              <canvas class="char-portrait-canvas" data-char="jadery" aria-hidden="true"></canvas>
+              <div class="char-glow-overlay"></div>
+            </div>
+            <div class="char-card-body">
+              <p class="char-series-tag">Seeds of Greatness</p>
+              <h3 class="char-name">Growing Up<br>with Jadery</h3>
+              <p class="char-archetype">The Bridge</p>
+              <p class="char-quote">"You are stronger than what you have to figure out alone — a story of two worlds, one heart."</p>
+            </div>
+            <div class="char-card-ctas">
+              <a href="/characters/jadery" class="char-btn-primary">Read the Story <span class="btn-arrow">→</span></a>
+              <a href="/story-in-motion" class="char-btn-secondary">Experience the Story <span class="btn-arrow">↗</span></a>
+            </div>
+          </article>
+
+        </div><!-- .char-cards-grid -->
+      </div><!-- .char-universe -->
+    </div><!-- .section-wrap -->
+
+    <!-- ── CHOOSE YOUR PATH ── -->
+    <section class="path-section reveal" aria-label="Choose your path">
+      <p class="path-eyebrow">Explore the Universe</p>
+      <h2 class="path-headline">How Do You Want to<br>Experience the Story?</h2>
+      <div class="path-cards">
+
+        <div class="path-card" style="--path-color:linear-gradient(to right,transparent,rgba(212,175,55,0.55),transparent);">
+          <span class="path-icon" aria-hidden="true">📚</span>
+          <h3 class="path-name">Read</h3>
+          <p class="path-desc">Picture books and chapter books that open doors to a living world.</p>
+        </div>
+
+        <div class="path-card" style="--path-color:linear-gradient(to right,transparent,rgba(180,210,255,0.50),transparent);">
+          <span class="path-icon" aria-hidden="true">🎬</span>
+          <h3 class="path-name">Experience</h3>
+          <p class="path-desc">Story in Motion — animated storytelling that breathes life into every page.</p>
+          <p class="path-coming">Coming soon</p>
+        </div>
+
+        <div class="path-card" style="--path-color:linear-gradient(to right,transparent,rgba(150,220,150,0.45),transparent);">
+          <span class="path-icon" aria-hidden="true">✍🏽</span>
+          <h3 class="path-name">Grow</h3>
+          <p class="path-desc">Activity and journal experiences that invite children to discover their own story.</p>
+          <p class="path-coming">Coming soon</p>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ── BOOK ECOSYSTEM ── -->
+    <div class="section-wrap">
+      <section class="books-section reveal" aria-label="Book ecosystem">
+        <header class="books-section-header">
+          <p class="panel-eyebrow">Children's Books</p>
+          <h2 class="panel-title">Where the Stories Begin</h2>
+          <div class="gold-rule" style="margin:0 0 18px;"></div>
+          <p class="panel-body" style="max-width:600px;">
+            Our children's book line brings the Seeds of Greatness world to life on the page —
+            beautifully illustrated, emotionally resonant, and built for the moments that matter
+            most: bedtime, discovery, and the quiet conversations between a child and a parent
+            that shape who they become.
+          </p>
+        </header>
+        <div class="books-grid">
+
+          <div class="book-type-card">
+            <span class="book-type-icon" aria-hidden="true">📚</span>
+            <h3 class="book-type-title">Picture Books</h3>
+            <p class="book-type-ages">Ages 3–8</p>
+            <p class="book-type-body">Full-color illustrated stories featuring Seeds of Greatness characters in age-appropriate adventures that introduce core emotional and spiritual themes with warmth and wonder.</p>
+          </div>
+
+          <div class="book-type-card">
+            <span class="book-type-icon" aria-hidden="true">📖</span>
+            <h3 class="book-type-title">Chapter Books</h3>
+            <p class="book-type-ages">Ages 8–12</p>
+            <p class="book-type-body">Longer-form stories that expand the world with deeper narrative, character development, and the challenges that shape who our heroes are quietly becoming.</p>
+          </div>
+
+          <div class="book-type-card">
+            <span class="book-type-icon" aria-hidden="true">🎨</span>
+            <h3 class="book-type-title">Activity &amp; Journal Editions</h3>
+            <p class="book-type-ages">All Ages</p>
+            <p class="book-type-body">Interactive companion books that invite children to explore their own identity, purpose, and faith journey alongside the characters they love.</p>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- ── A WORLD THAT GROWS ── -->
+      <section class="world-panel reveal" aria-label="A world that grows with them">
+        <p class="world-eyebrow">The Long Arc</p>
+        <h2 class="world-title">A World That Grows With Them</h2>
+        <div class="gold-rule"></div>
+        <p class="world-body">
+          These stories are designed to evolve as children grow — meeting them where they are,
+          and walking with them into who they are becoming. Not just books or characters,
+          but companions for the journey.
+        </p>
+      </section>
+
+    </div><!-- .section-wrap -->
+
+    <!-- ── CLOSING PULL QUOTE ── -->
+    <div class="closing-quote reveal" aria-label="Closing statement">
+      <blockquote>
+        "Every great story begins with a small seed.<br>
+        Every great life begins with a story."
+      </blockquote>
+      <cite>— Seeds of Greatness</cite>
+    </div>
+
   </main>
 
+  <!-- ═══ FOOTER ═══ -->
   <footer id="footer-chrome" aria-label="Site footer">
     <div class="footer-vig-lockup" aria-label="A VIG Company">
       <a href="https://www.vigholdings.com" target="_blank" rel="noopener noreferrer"
@@ -206,35 +907,353 @@
     <a href="/contact" class="footer-contact-link">Contact Us</a>
   </footer>
 
-</div>
+</div><!-- #page-wrap -->
 
 <script>
 (function(){
-  "use strict";
-  const leavesC=document.getElementById('leaves-canvas'),lCtx=leavesC.getContext('2d');
-  let leavesStarted=false;const LEAF_N=14,leaves=[];
-  function resizeL(){leavesC.width=window.innerWidth;leavesC.height=window.innerHeight;}
-  resizeL();window.addEventListener('resize',resizeL,{passive:true});
-  function drawLeaf(c,sz,sh){const g=c.createRadialGradient(0,-sz*.25,sz*.04,0,0,sz*1.1);g.addColorStop(0,'rgba(255,232,110,.95)');g.addColorStop(.35,'rgba(212,175,55,.88)');g.addColorStop(.75,'rgba(180,140,28,.78)');g.addColorStop(1,'rgba(130,95,15,.55)');c.beginPath();c.moveTo(0,-sz);c.bezierCurveTo(sz*.65,-sz*.45,sz*.72,sz*.28,0,sz);c.bezierCurveTo(-sz*.72,sz*.28,-sz*.65,-sz*.45,0,-sz);c.closePath();c.fillStyle=g;c.fill();c.beginPath();c.moveTo(0,-sz*.82);c.quadraticCurveTo(sz*.07,0,0,sz*.82);c.strokeStyle='rgba(255,210,70,.35)';c.lineWidth=Math.max(.5,sz*.055);c.stroke();if(sh){c.beginPath();c.moveTo(sz*.05,-sz*.55);c.bezierCurveTo(sz*.38,-sz*.18,sz*.32,sz*.12,sz*.05,sz*.45);c.strokeStyle='rgba(255,248,190,.5)';c.lineWidth=Math.max(.4,sz*.04);c.stroke();}}
-  function mkL(s){const W=leavesC.width,H=leavesC.height;return{x:Math.random()*W*1.3-W*.15,y:s?-Math.random()*H*1.4:-(20+Math.random()*80),sz:6+Math.random()*10,vx:(Math.random()-.5)*.5,vy:.45+Math.random()*.85,rot:Math.random()*Math.PI*2,rotV:(Math.random()-.5)*.022,wob:Math.random()*Math.PI*2,wobS:.009+Math.random()*.013,wobA:.35+Math.random()*.6,shi:Math.random()>.45,alp:.50+Math.random()*.42,gPh:Math.random()*Math.PI*2,gSpd:.018+Math.random()*.022};}
-  function tickL(){const W=leavesC.width,H=leavesC.height;lCtx.clearRect(0,0,W,H);leaves.forEach(l=>{l.wob+=l.wobS;l.rot+=l.rotV;l.x+=l.vx+Math.sin(l.wob)*l.wobA;l.y+=l.vy;l.gPh+=l.gSpd;if(l.y>H+30)Object.assign(l,mkL(false));const a=l.shi?l.alp*(.72+.28*Math.sin(l.gPh)):l.alp;lCtx.save();lCtx.translate(l.x,l.y);lCtx.rotate(l.rot);lCtx.globalAlpha=a;if(l.shi&&Math.sin(l.gPh)>.3){lCtx.shadowColor='rgba(255,210,60,.65)';lCtx.shadowBlur=l.sz*1.6;}drawLeaf(lCtx,l.sz,l.shi);lCtx.shadowBlur=0;lCtx.restore();});requestAnimationFrame(tickL);}
-  setTimeout(()=>{if(leavesStarted)return;leavesStarted=true;for(let i=0;i<LEAF_N;i++)leaves.push(mkL(true));leavesC.classList.add('visible');tickL();},400);
+"use strict";
 
-  let ambCtx=null,masterGain=null,ambientReady=false,ambientActive=false,gustTimer=null,rustleTimer=null;
-  const MASTER_VOL=0.32;let windSource=null,panner=null;
-  function makeNoise(ac,sec){const l=ac.sampleRate*sec,b=ac.createBuffer(1,l,ac.sampleRate),d=b.getChannelData(0);for(let i=0;i<l;i++)d[i]=Math.random()*2-1;return b;}
-  function rampGain(g,t,ms){const ac=g.context,now=ac.currentTime;g.gain.cancelScheduledValues(now);g.gain.setValueAtTime(g.gain.value,now);g.gain.linearRampToValueAtTime(t,now+ms/1000);}
-  function buildWindBed(ac){windSource=ac.createBufferSource();windSource.buffer=makeNoise(ac,4);windSource.loop=true;const bp=ac.createBiquadFilter();bp.type='bandpass';bp.frequency.value=320;bp.Q.value=.55;const hp=ac.createBiquadFilter();hp.type='highpass';hp.frequency.value=90;hp.Q.value=.5;const wg=ac.createGain();wg.gain.value=.18;panner=ac.createStereoPanner?ac.createStereoPanner():ac.createPanner();if(panner.pan)panner.pan.value=0;windSource.connect(bp);bp.connect(hp);hp.connect(wg);wg.connect(panner);panner.connect(masterGain);windSource.start();}
-  function fireGust(ac){if(!ambientActive)return;const src=ac.createBufferSource();src.buffer=makeNoise(ac,2.5);const bp=ac.createBiquadFilter();bp.type='bandpass';bp.frequency.value=550+Math.random()*200;bp.Q.value=.7;const env=ac.createGain();env.gain.value=0;src.connect(bp);bp.connect(env);env.connect(masterGain);const now=ac.currentTime,peak=.10+Math.random()*.08,dur=1.6+Math.random()*.8;env.gain.setValueAtTime(0,now);env.gain.linearRampToValueAtTime(peak,now+dur*.35);env.gain.linearRampToValueAtTime(0,now+dur);src.start(now);src.stop(now+dur+.05);gustTimer=setTimeout(()=>fireGust(ac),6000+Math.random()*4000);}
-  function fireRustle(ac){if(!ambientActive)return;const dur=.35+Math.random()*.3,src=ac.createBufferSource();src.buffer=makeNoise(ac,dur+.1);const hp=ac.createBiquadFilter();hp.type='highpass';hp.frequency.value=1800+Math.random()*1700;hp.Q.value=.4;const env=ac.createGain();env.gain.value=0;src.connect(hp);hp.connect(env);env.connect(masterGain);const now=ac.currentTime,peak=.05+Math.random()*.04;env.gain.setValueAtTime(0,now);env.gain.linearRampToValueAtTime(peak,now+.02);env.gain.exponentialRampToValueAtTime(.0001,now+dur);src.start(now);src.stop(now+dur+.05);rustleTimer=setTimeout(()=>fireRustle(ac),3000+Math.random()*4000);}
-  function buildAmbient(){if(ambientReady)return;ambientReady=true;ambCtx=new(window.AudioContext||window.webkitAudioContext)();masterGain=ambCtx.createGain();masterGain.gain.value=0;masterGain.connect(ambCtx.destination);buildWindBed(ambCtx);}
-  function ambientFadeIn(){if(!ambientReady||ambientActive)return;ambientActive=true;if(ambCtx.state==='suspended')ambCtx.resume();rampGain(masterGain,MASTER_VOL,2000);setTimeout(()=>{if(!ambientActive)return;gustTimer=setTimeout(()=>fireGust(ambCtx),1200+Math.random()*2000);rustleTimer=setTimeout(()=>fireRustle(ambCtx),800+Math.random()*1500);},2100);}
-  function ambientFadeOut(){if(!ambientReady||!ambientActive)return;ambientActive=false;clearTimeout(gustTimer);clearTimeout(rustleTimer);rampGain(masterGain,0,600);}
-  document.addEventListener('click',()=>{if(ambCtx&&ambCtx.state==='suspended')ambCtx.resume();},{passive:true});
+/* ═══ LEAVES ═══════════════════════════════════════════════════ */
+const leavesC = document.getElementById('leaves-canvas');
+const lCtx    = leavesC.getContext('2d');
+let leavesStarted = false;
+const LEAF_N = 16, leaves = [];
 
-  let muted=true;
-  const soundBtn=document.getElementById('sound-btn'),iconMuted=document.getElementById('icon-muted'),iconUnmuted=document.getElementById('icon-unmuted');
-  soundBtn.addEventListener('click',()=>{muted=!muted;if(!muted){iconMuted.style.display='none';iconUnmuted.style.display='block';buildAmbient();ambientFadeIn();}else{iconMuted.style.display='block';iconUnmuted.style.display='none';ambientFadeOut();}});
+function resizeL(){
+  leavesC.width  = window.innerWidth;
+  leavesC.height = window.innerHeight;
+}
+resizeL();
+window.addEventListener('resize', resizeL, {passive:true});
+
+function drawLeaf(c,sz,sh){
+  const g=c.createRadialGradient(0,-sz*.25,sz*.04,0,0,sz*1.1);
+  g.addColorStop(0,'rgba(255,232,110,.95)');
+  g.addColorStop(.35,'rgba(212,175,55,.88)');
+  g.addColorStop(.75,'rgba(180,140,28,.78)');
+  g.addColorStop(1,'rgba(130,95,15,.55)');
+  c.beginPath();c.moveTo(0,-sz);
+  c.bezierCurveTo(sz*.65,-sz*.45,sz*.72,sz*.28,0,sz);
+  c.bezierCurveTo(-sz*.72,sz*.28,-sz*.65,-sz*.45,0,-sz);
+  c.closePath();c.fillStyle=g;c.fill();
+  c.beginPath();c.moveTo(0,-sz*.82);c.quadraticCurveTo(sz*.07,0,0,sz*.82);
+  c.strokeStyle='rgba(255,210,70,.35)';c.lineWidth=Math.max(.5,sz*.055);c.stroke();
+  if(sh){
+    c.beginPath();c.moveTo(sz*.05,-sz*.55);
+    c.bezierCurveTo(sz*.38,-sz*.18,sz*.32,sz*.12,sz*.05,sz*.45);
+    c.strokeStyle='rgba(255,248,190,.5)';c.lineWidth=Math.max(.4,sz*.04);c.stroke();
+  }
+}
+function mkL(s){
+  const W=leavesC.width,H=leavesC.height;
+  return{x:Math.random()*W*1.3-W*.15,y:s?-Math.random()*H*1.4:-(20+Math.random()*80),
+    sz:6+Math.random()*10,vx:(Math.random()-.5)*.5,vy:.45+Math.random()*.85,
+    rot:Math.random()*Math.PI*2,rotV:(Math.random()-.5)*.022,
+    wob:Math.random()*Math.PI*2,wobS:.009+Math.random()*.013,wobA:.35+Math.random()*.6,
+    shi:Math.random()>.45,alp:.50+Math.random()*.42,
+    gPh:Math.random()*Math.PI*2,gSpd:.018+Math.random()*.022};
+}
+function tickL(){
+  const W=leavesC.width,H=leavesC.height;
+  lCtx.clearRect(0,0,W,H);
+  leaves.forEach(l=>{
+    l.wob+=l.wobS;l.rot+=l.rotV;
+    l.x+=l.vx+Math.sin(l.wob)*l.wobA;l.y+=l.vy;l.gPh+=l.gSpd;
+    if(l.y>H+30)Object.assign(l,mkL(false));
+    const a=l.shi?l.alp*(.72+.28*Math.sin(l.gPh)):l.alp;
+    lCtx.save();lCtx.translate(l.x,l.y);lCtx.rotate(l.rot);lCtx.globalAlpha=a;
+    if(l.shi&&Math.sin(l.gPh)>.3){lCtx.shadowColor='rgba(255,210,60,.65)';lCtx.shadowBlur=l.sz*1.6;}
+    drawLeaf(lCtx,l.sz,l.shi);lCtx.shadowBlur=0;lCtx.restore();
+  });
+  requestAnimationFrame(tickL);
+}
+setTimeout(()=>{
+  if(leavesStarted)return;leavesStarted=true;
+  for(let i=0;i<LEAF_N;i++)leaves.push(mkL(true));
+  leavesC.classList.add('visible');tickL();
+},350);
+
+/* ═══ SILHOUETTE CANVAS (hero depth) ══════════════════════════ */
+const silC = document.getElementById('silhouette-canvas');
+const silCtx = silC.getContext('2d');
+let silStarted = false;
+
+function resizeSil(){
+  silC.width  = window.innerWidth;
+  silC.height = window.innerHeight;
+}
+resizeSil();
+window.addEventListener('resize', resizeSil, {passive:true});
+
+function drawSilhouette(ctx, x, y, h, alpha, phase){
+  // Soft abstract human silhouette suggestion — just a gentle glow pillar
+  const r = h * 0.22;
+  const g = ctx.createRadialGradient(x, y - h*0.3, r*0.1, x, y - h*0.4, r*3);
+  g.addColorStop(0, `rgba(212,175,55,${alpha * 0.18})`);
+  g.addColorStop(0.5, `rgba(212,175,55,${alpha * 0.06})`);
+  g.addColorStop(1, 'rgba(212,175,55,0)');
+  ctx.fillStyle = g;
+  ctx.beginPath();
+  ctx.ellipse(x, y - h*0.4, r*3, h*0.6, 0, 0, Math.PI*2);
+  ctx.fill();
+}
+
+let silPhase = 0;
+function tickSil(){
+  if(!silStarted) return;
+  silPhase += 0.008;
+  const W = silC.width, H = silC.height;
+  silCtx.clearRect(0,0,W,H);
+  const chars = [
+    {xr:0.18, yr:0.75, h:H*0.55},
+    {xr:0.38, yr:0.80, h:H*0.62},
+    {xr:0.62, yr:0.78, h:H*0.58},
+    {xr:0.82, yr:0.72, h:H*0.52},
+  ];
+  chars.forEach((c,i)=>{
+    const a = 0.55 + 0.45 * Math.sin(silPhase + i * 1.2);
+    drawSilhouette(silCtx, c.xr*W, c.yr*H, c.h, a, silPhase);
+  });
+  requestAnimationFrame(tickSil);
+}
+setTimeout(()=>{
+  silStarted = true;
+  silC.style.opacity = '0.55';
+  tickSil();
+}, 600);
+
+/* ═══ CHARACTER PORTRAIT CANVASES ══════════════════════════════ */
+const CHAR_PORTRAITS = {
+  yeshua: {
+    bg: ['rgba(20,30,60,0.88)','rgba(8,6,18,0.95)'],
+    glow: 'rgba(180,210,255,0.22)',
+    rimL: 'rgba(180,210,255,0.70)',
+    rimR: 'rgba(212,175,55,0.40)',
+    skinBase: '#c8a882',
+    label: 'Y',
+    labelColor: 'rgba(180,210,255,0.80)',
+  },
+  messiah: {
+    bg: ['rgba(40,20,5,0.88)','rgba(12,8,0,0.95)'],
+    glow: 'rgba(255,160,60,0.22)',
+    rimL: 'rgba(255,180,80,0.72)',
+    rimR: 'rgba(212,175,55,0.35)',
+    skinBase: '#a06030',
+    label: 'M',
+    labelColor: 'rgba(255,180,80,0.80)',
+  },
+  levi: {
+    bg: ['rgba(10,20,45,0.88)','rgba(6,8,18,0.95)'],
+    glow: 'rgba(100,170,255,0.20)',
+    rimL: 'rgba(100,170,255,0.70)',
+    rimR: 'rgba(212,175,55,0.38)',
+    skinBase: '#b88860',
+    label: 'L',
+    labelColor: 'rgba(100,170,255,0.80)',
+  },
+  jadery: {
+    bg: ['rgba(35,15,5,0.88)','rgba(10,5,0,0.95)'],
+    glow: 'rgba(200,140,80,0.22)',
+    rimL: 'rgba(200,140,80,0.70)',
+    rimR: 'rgba(212,175,55,0.38)',
+    skinBase: '#c09060',
+    label: 'J',
+    labelColor: 'rgba(200,140,80,0.80)',
+  },
+};
+
+function drawCharPortrait(canvas, charKey){
+  const cfg = CHAR_PORTRAITS[charKey];
+  if(!cfg) return;
+  const W = canvas.width, H = canvas.height;
+  const ctx = canvas.getContext('2d');
+
+  // bg gradient
+  const bg = ctx.createLinearGradient(0,0,0,H);
+  bg.addColorStop(0, cfg.bg[0]);
+  bg.addColorStop(1, cfg.bg[1]);
+  ctx.fillStyle = bg;
+  ctx.fillRect(0,0,W,H);
+
+  // central glow
+  const cg = ctx.createRadialGradient(W*0.5, H*0.4, 0, W*0.5, H*0.4, W*0.55);
+  cg.addColorStop(0, cfg.glow);
+  cg.addColorStop(1, 'transparent');
+  ctx.fillStyle = cg;
+  ctx.fillRect(0,0,W,H);
+
+  // figure silhouette
+  const cx = W * 0.50, cy = H * 0.78;
+  const figH = H * 0.72, figW = figH * 0.32;
+
+  // rim light left
+  const rlg = ctx.createLinearGradient(cx - figW, 0, cx, 0);
+  rlg.addColorStop(0, cfg.rimL);
+  rlg.addColorStop(1, 'transparent');
+
+  // body
+  ctx.save();
+  ctx.beginPath();
+  ctx.moveTo(cx - figW*0.44, cy);
+  ctx.bezierCurveTo(cx - figW*0.55, cy - figH*0.25, cx - figW*0.40, cy - figH*0.62, cx, cy - figH*0.70);
+  ctx.bezierCurveTo(cx + figW*0.40, cy - figH*0.62, cx + figW*0.55, cy - figH*0.25, cx + figW*0.44, cy);
+  ctx.closePath();
+  ctx.fillStyle = 'rgba(10,8,2,0.72)';
+  ctx.fill();
+
+  // left rim on body
+  ctx.save();
+  ctx.beginPath();
+  ctx.moveTo(cx - figW*0.44, cy);
+  ctx.bezierCurveTo(cx - figW*0.55, cy - figH*0.25, cx - figW*0.40, cy - figH*0.62, cx, cy - figH*0.70);
+  ctx.bezierCurveTo(cx, cy - figH*0.60, cx - figW*0.28, cy - figH*0.20, cx - figW*0.34, cy);
+  ctx.closePath();
+  ctx.fillStyle = rlg;
+  ctx.globalAlpha = 0.55;
+  ctx.fill();
+  ctx.restore();
+
+  // head
+  const headR = figH * 0.11;
+  const headY = cy - figH * 0.82;
+  ctx.beginPath();
+  ctx.arc(cx, headY, headR, 0, Math.PI*2);
+  ctx.fillStyle = cfg.skinBase;
+  ctx.globalAlpha = 0.78;
+  ctx.fill();
+  ctx.globalAlpha = 1;
+
+  // head rim glow
+  const hrg = ctx.createRadialGradient(cx - headR*0.5, headY - headR*0.3, 0, cx, headY, headR*1.4);
+  hrg.addColorStop(0, cfg.rimL);
+  hrg.addColorStop(1, 'transparent');
+  ctx.beginPath();
+  ctx.arc(cx, headY, headR*1.3, 0, Math.PI*2);
+  ctx.fillStyle = hrg;
+  ctx.globalAlpha = 0.40;
+  ctx.fill();
+  ctx.globalAlpha = 1;
+
+  // initial letter
+  ctx.font = `600 ${headR * 1.0}px Cinzel, serif`;
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+  ctx.fillStyle = cfg.labelColor;
+  ctx.globalAlpha = 0.72;
+  ctx.fillText(cfg.label, cx, headY);
+  ctx.globalAlpha = 1;
+
+  // bottom fade
+  const bf = ctx.createLinearGradient(0, H*0.72, 0, H);
+  bf.addColorStop(0, 'transparent');
+  bf.addColorStop(1, cfg.bg[1]);
+  ctx.fillStyle = bf;
+  ctx.fillRect(0, H*0.72, W, H*0.28);
+
+  ctx.restore();
+}
+
+function initPortraitCanvases(){
+  document.querySelectorAll('.char-portrait-canvas').forEach(canvas => {
+    const charKey = canvas.dataset.char;
+    const area = canvas.parentElement;
+    canvas.width  = area.offsetWidth  || 300;
+    canvas.height = area.offsetHeight || 220;
+    drawCharPortrait(canvas, charKey);
+  });
+}
+window.addEventListener('load', initPortraitCanvases);
+window.addEventListener('resize', initPortraitCanvases, {passive:true});
+initPortraitCanvases();
+
+/* ═══ SCROLL REVEAL ════════════════════════════════════════════ */
+(function initReveal(){
+  const els = document.querySelectorAll('.reveal');
+  if(!('IntersectionObserver' in window)){
+    els.forEach(el=>el.classList.add('revealed')); return;
+  }
+  const obs = new IntersectionObserver(entries=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){ e.target.classList.add('revealed'); obs.unobserve(e.target); }
+    });
+  },{threshold:0.08});
+  els.forEach(el=>obs.observe(el));
+})();
+
+/* ═══ AMBIENT SOUND ════════════════════════════════════════════ */
+let ambCtx=null,masterGain=null,ambientReady=false,ambientActive=false;
+let gustTimer=null,rustleTimer=null;
+const MASTER_VOL=0.30;
+
+function makeNoise(ac,sec){
+  const l=ac.sampleRate*sec,b=ac.createBuffer(1,l,ac.sampleRate),d=b.getChannelData(0);
+  for(let i=0;i<l;i++)d[i]=Math.random()*2-1; return b;
+}
+function rampGain(g,t,ms){
+  const ac=g.context,now=ac.currentTime;
+  g.gain.cancelScheduledValues(now);g.gain.setValueAtTime(g.gain.value,now);
+  g.gain.linearRampToValueAtTime(t,now+ms/1000);
+}
+function buildAmbient(){
+  if(ambientReady)return; ambientReady=true;
+  ambCtx=new(window.AudioContext||window.webkitAudioContext)();
+  masterGain=ambCtx.createGain();masterGain.gain.value=0;masterGain.connect(ambCtx.destination);
+  const ws=ambCtx.createBufferSource();ws.buffer=makeNoise(ambCtx,4);ws.loop=true;
+  const bp=ambCtx.createBiquadFilter();bp.type='bandpass';bp.frequency.value=300;bp.Q.value=.48;
+  const hp=ambCtx.createBiquadFilter();hp.type='highpass';hp.frequency.value=80;hp.Q.value=.4;
+  const wg=ambCtx.createGain();wg.gain.value=.14;
+  ws.connect(bp);bp.connect(hp);hp.connect(wg);wg.connect(masterGain);ws.start();
+}
+function fireGust(ac){
+  if(!ambientActive)return;
+  const src=ac.createBufferSource();src.buffer=makeNoise(ac,2.5);
+  const bp=ac.createBiquadFilter();bp.type='bandpass';bp.frequency.value=480+Math.random()*180;bp.Q.value=.6;
+  const env=ac.createGain();env.gain.value=0;
+  src.connect(bp);bp.connect(env);env.connect(masterGain);
+  const now=ac.currentTime,peak=.08+Math.random()*.07,dur=1.8+Math.random()*1.0;
+  env.gain.setValueAtTime(0,now);env.gain.linearRampToValueAtTime(peak,now+dur*.38);
+  env.gain.linearRampToValueAtTime(0,now+dur);src.start(now);src.stop(now+dur+.05);
+  gustTimer=setTimeout(()=>fireGust(ac),6500+Math.random()*4500);
+}
+function fireRustle(ac){
+  if(!ambientActive)return;
+  const dur=.40+Math.random()*.32,src=ac.createBufferSource();
+  src.buffer=makeNoise(ac,dur+.1);
+  const hp=ac.createBiquadFilter();hp.type='highpass';hp.frequency.value=1700+Math.random()*1600;hp.Q.value=.38;
+  const env=ac.createGain();env.gain.value=0;
+  src.connect(hp);hp.connect(env);env.connect(masterGain);
+  const now=ac.currentTime,peak=.038+Math.random()*.028;
+  env.gain.setValueAtTime(0,now);env.gain.linearRampToValueAtTime(peak,now+.022);
+  env.gain.exponentialRampToValueAtTime(.0001,now+dur);
+  src.start(now);src.stop(now+dur+.05);
+  rustleTimer=setTimeout(()=>fireRustle(ac),4000+Math.random()*5000);
+}
+function ambientFadeIn(){
+  if(!ambientReady||ambientActive)return;ambientActive=true;
+  if(ambCtx.state==='suspended')ambCtx.resume();
+  rampGain(masterGain,MASTER_VOL,2200);
+  setTimeout(()=>{
+    if(!ambientActive)return;
+    gustTimer  =setTimeout(()=>fireGust(ambCtx),1500+Math.random()*2000);
+    rustleTimer=setTimeout(()=>fireRustle(ambCtx),1000+Math.random()*1800);
+  },2400);
+}
+function ambientFadeOut(){
+  if(!ambientReady||!ambientActive)return;ambientActive=false;
+  clearTimeout(gustTimer);clearTimeout(rustleTimer);rampGain(masterGain,0,700);
+}
+document.addEventListener('click',()=>{if(ambCtx&&ambCtx.state==='suspended')ambCtx.resume();},{passive:true});
+
+let muted=true;
+const soundBtn=document.getElementById('sound-btn');
+const iconMuted=document.getElementById('icon-muted');
+const iconUnmuted=document.getElementById('icon-unmuted');
+soundBtn.addEventListener('click',()=>{
+  muted=!muted;
+  if(!muted){iconMuted.style.display='none';iconUnmuted.style.display='block';buildAmbient();ambientFadeIn();}
+  else{iconMuted.style.display='block';iconUnmuted.style.display='none';ambientFadeOut();}
+});
+
 })();
 </script>
 </body>

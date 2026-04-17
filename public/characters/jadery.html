@@ -3,120 +3,38 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Growing Up with Jadery — MustardSeed Productions</title>
+  <title>Growing Up with Jadery — Seeds of Greatness · MustardSeed Productions</title>
   <meta name="description" content="Jadery is learning how to navigate two worlds. A story about language, identity, and the quiet courage it takes to grow up between cultures — told with care, dignity, and purpose." />
   <link rel="icon" type="image/svg+xml" href="/static/favicon.svg" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Lora:ital,wght@0,400;0,500;1,400;1,500&family=Inter:wght@300;400;500&display=swap" rel="stylesheet" />
   <style>
-/* ═══════════════════════════════════════════════════════════════
-   RESET + ROOT
-═══════════════════════════════════════════════════════════════ */
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
 :root{
-  --gold:       #d4af37;
-  --gold-lt:    #f0d060;
-  --gold-dim:   rgba(212,175,55,0.55);
-  --cream:      #fdf8ee;
-  --black:      #000;
-  --deep:       #0a0600;
-  --nav-h:      68px;
-  /* Jadery accent — warm terracotta-gold: earth, home, culture, love */
-  --terra:      rgba(200,100,55,0.22);
-  --terra-lt:   rgba(235,145,80,0.75);
-  --terra-mid:  rgba(210,120,60,0.55);
-  --rose:       rgba(220,140,100,0.60);
-  --warm-gold:  rgba(230,175,80,0.70);
+  --gold:      #d4af37;
+  --gold-lt:   #f0d060;
+  --gold-dim:  rgba(212,175,55,0.55);
+  --cream:     #fdf8ee;
+  --black:     #000;
+  --nav-h:     68px;
+  /* Jadery — warm terracotta: earth, home, culture, two worlds */
+  --accent:    rgba(220,130,75,0.78);
+  --accent-dim:rgba(200,100,55,0.32);
+  --bg-tint:   #0b0702;
 }
 html{scroll-behavior:smooth;font-size:16px;}
-body{
-  font-family:'Lora','Georgia',serif;
-  background:#0b0702;
-  color:var(--cream);
-  min-height:100vh;
-  line-height:1.75;
-  overflow-x:hidden;
-}
-::-webkit-scrollbar{width:3px;}
-::-webkit-scrollbar-track{background:transparent;}
-::-webkit-scrollbar-thumb{background:rgba(200,100,55,0.24);border-radius:2px;}
-
-/* ═══════════════════════════════════════════════════════════════
-   FIXED BACKGROUND — deep warm earth, terracotta-amber depth
-═══════════════════════════════════════════════════════════════ */
-#bg-fixed{
-  position:fixed;inset:0;z-index:0;
-  background:
-    radial-gradient(ellipse at 30% 20%,  rgba(80,35,10,0.80)  0%, transparent 55%),
-    radial-gradient(ellipse at 75% 70%,  rgba(60,28,8,0.65)   0%, transparent 52%),
-    radial-gradient(ellipse at 50% 100%, rgba(100,50,15,0.40) 0%, transparent 48%),
-    radial-gradient(ellipse at 50% 5%,   rgba(180,90,30,0.08) 0%, transparent 44%),
-    linear-gradient(172deg, #0e0803 0%, #0b0702 50%, #090601 100%);
-}
-#bg-fixed::after{
-  content:'';position:absolute;inset:0;
-  background:radial-gradient(ellipse at center,transparent 20%,rgba(0,0,0,0.78) 100%);
-  pointer-events:none;
-}
-
-/* ═══════════════════════════════════════════════════════════════
-   CANVAS LAYERS
-═══════════════════════════════════════════════════════════════ */
-#warmth-canvas,#float-canvas,#leaves-canvas{
-  position:fixed;inset:0;
-  width:100%;height:100%;
-  pointer-events:none;
-  z-index:1;
-  opacity:0;
-  transition:opacity 2.8s ease;
-}
-#warmth-canvas.visible {opacity:1;}
-#float-canvas.visible  {opacity:1;}
-#leaves-canvas.visible {opacity:0.42;}
-
-/* ═══════════════════════════════════════════════════════════════
-   SOUND BUTTON
-═══════════════════════════════════════════════════════════════ */
-#sound-btn{
-  position:fixed;bottom:26px;right:26px;
-  width:46px;height:46px;border-radius:50%;
-  border:1.5px solid rgba(200,100,55,0.40);
-  background:rgba(10,6,2,0.86);
-  backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
-  color:var(--gold);cursor:pointer;
-  display:flex;align-items:center;justify-content:center;
-  z-index:80;outline:none;
-  transition:border-color .3s,transform .2s,box-shadow .3s;
-}
-#sound-btn:hover{
-  border-color:rgba(235,145,80,0.78);
-  transform:scale(1.1);
-  box-shadow:0 0 14px rgba(200,100,40,0.30);
-}
+body{font-family:'Lora','Georgia',serif;background:var(--bg-tint);color:var(--cream);min-height:100vh;line-height:1.75;overflow-x:hidden;}
+::-webkit-scrollbar{width:3px;}::-webkit-scrollbar-track{background:transparent;}::-webkit-scrollbar-thumb{background:rgba(212,175,55,0.20);border-radius:2px;}
+#bg-fixed{position:fixed;inset:0;z-index:0;background:radial-gradient(ellipse at 28% 32%,rgba(60,25,5,0.75) 0%,transparent 62%),radial-gradient(ellipse at 72% 70%,rgba(35,15,0,0.52) 0%,transparent 58%),radial-gradient(ellipse at 50% 8%,rgba(212,175,55,0.07) 0%,transparent 50%),linear-gradient(170deg,#0d0602 0%,#080400 45%,#060200 100%);}
+#bg-fixed::after{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at center,transparent 25%,rgba(0,0,0,0.80) 100%);pointer-events:none;}
+#warmth-canvas,#leaves-canvas{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:1;opacity:0;transition:opacity 2.8s ease;}
+#warmth-canvas.visible{opacity:1;}#leaves-canvas.visible{opacity:0.44;}
+#sound-btn{position:fixed;bottom:26px;right:26px;width:46px;height:46px;border-radius:50%;border:1.5px solid rgba(212,175,55,0.38);background:rgba(11,7,2,0.85);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);color:var(--gold);cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:80;outline:none;transition:border-color .3s,transform .2s,box-shadow .3s;}
+#sound-btn:hover{border-color:rgba(212,175,55,0.80);transform:scale(1.1);box-shadow:0 0 14px rgba(212,175,55,0.26);}
 #sound-btn svg{width:19px;height:19px;fill:var(--gold);}
-
-/* ═══════════════════════════════════════════════════════════════
-   PAGE WRAPPER
-═══════════════════════════════════════════════════════════════ */
-#page-wrap{
-  position:relative;z-index:10;
-  min-height:100vh;
-  display:flex;flex-direction:column;
-}
-
-/* ═══════════════════════════════════════════════════════════════
-   NAV
-═══════════════════════════════════════════════════════════════ */
-#nav{
-  position:sticky;top:0;z-index:50;
-  height:var(--nav-h);padding:0 52px;
-  display:flex;align-items:center;justify-content:space-between;
-  background:linear-gradient(to bottom,rgba(10,6,2,0.92),rgba(10,6,2,0.0));
-  backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
-  border-bottom:1px solid rgba(200,100,55,0.06);
-  flex-shrink:0;
-}
+#page-wrap{position:relative;z-index:10;min-height:100vh;display:flex;flex-direction:column;}
+#nav{position:sticky;top:0;z-index:50;height:var(--nav-h);padding:0 52px;display:flex;align-items:center;justify-content:space-between;background:linear-gradient(to bottom,rgba(11,7,2,0.90),rgba(11,7,2,0.0));backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid rgba(212,175,55,0.06);flex-shrink:0;}
 .nav-brand{display:flex;flex-direction:column;gap:2px;text-decoration:none;flex-shrink:0;}
 .nav-brand-main{font-family:'Cinzel',serif;font-size:.80rem;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:var(--gold-lt);line-height:1;}
 .nav-brand-sub{font-family:'Inter',sans-serif;font-size:.50rem;font-weight:300;letter-spacing:.38em;text-transform:uppercase;color:rgba(212,175,55,0.45);line-height:1;}
@@ -125,1392 +43,338 @@ body{
 .nav-link::after{content:'';position:absolute;bottom:4px;left:16px;right:16px;height:1px;background:var(--gold-lt);transform:scaleX(0);transform-origin:center;transition:transform .28s cubic-bezier(0.4,0,0.2,1);}
 .nav-link:hover,.nav-link.active{color:var(--gold-lt);}
 .nav-link:hover::after,.nav-link.active::after{transform:scaleX(1);}
-
-/* ═══════════════════════════════════════════════════════════════
-   HERO SECTION
-═══════════════════════════════════════════════════════════════ */
-#hero{
-  min-height:100vh;
-  display:flex;flex-direction:column;
-  align-items:center;justify-content:center;
-  text-align:center;
-  padding:80px 52px 100px;
-  position:relative;
-}
-
-/* Breadcrumb */
-.hero-breadcrumb{
-  font-family:'Inter',sans-serif;
-  font-size:.58rem;letter-spacing:.38em;text-transform:uppercase;
-  color:rgba(212,175,55,0.40);
-  margin-bottom:32px;
-  position:relative;z-index:2;
-  opacity:0;animation:fadeUp .9s ease .1s forwards;
-}
+#hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:80px 52px 100px;position:relative;}
+.hero-breadcrumb{font-family:'Inter',sans-serif;font-size:.58rem;letter-spacing:.38em;text-transform:uppercase;color:rgba(212,175,55,0.40);margin-bottom:32px;opacity:0;animation:fadeUp .9s ease .10s forwards;}
 .hero-breadcrumb a{color:inherit;text-decoration:none;transition:color .2s;}
 .hero-breadcrumb a:hover{color:rgba(212,175,55,0.70);}
 .hero-breadcrumb span{margin:0 10px;opacity:.4;}
-
-/* Series label */
-.hero-series{
-  font-family:'Inter',sans-serif;
-  font-size:.60rem;letter-spacing:.32em;text-transform:uppercase;
-  color:rgba(200,120,60,0.60);
-  margin-bottom:20px;
-  position:relative;z-index:2;
-  opacity:0;animation:fadeUp .9s ease .2s forwards;
-}
-
-/* Main title */
-.hero-title{
-  font-family:'Cinzel',serif;
-  font-size:clamp(2.6rem,6vw,5.2rem);
-  font-weight:600;
-  letter-spacing:.05em;
-  line-height:1.10;
-  color:#fff;
-  margin-bottom:12px;
-  position:relative;z-index:2;
-  opacity:0;animation:fadeUp 1.1s cubic-bezier(0.22,0,0.18,1) .35s forwards;
-}
-.hero-title-name{
-  display:block;
-  background:linear-gradient(135deg, #ffecd0 0%, #f5c880 30%, #e8964a 65%, #c86830 100%);
-  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
-  background-clip:text;
-}
-
-/* Role tag */
-.hero-role{
-  display:inline-flex;align-items:center;gap:10px;
-  font-family:'Inter',sans-serif;
-  font-size:.68rem;letter-spacing:.28em;text-transform:uppercase;
-  color:rgba(225,150,85,0.78);
-  margin-bottom:36px;
-  position:relative;z-index:2;
-  opacity:0;animation:fadeUp .9s ease .5s forwards;
-}
-.hero-role::before,.hero-role::after{
-  content:'';display:block;
-  width:clamp(20px,3vw,40px);height:1px;
-  background:linear-gradient(to right,transparent,rgba(200,100,55,0.45));
-}
+.hero-series{font-family:'Inter',sans-serif;font-size:.60rem;letter-spacing:.32em;text-transform:uppercase;color:var(--accent-dim);margin-bottom:20px;opacity:0;animation:fadeUp .9s ease .2s forwards;}
+.hero-title{font-family:'Cinzel',serif;font-size:clamp(2.6rem,6vw,5.2rem);font-weight:600;letter-spacing:.05em;line-height:1.10;color:#fff;margin-bottom:12px;opacity:0;animation:fadeUp 1.1s cubic-bezier(0.22,0,0.18,1) .35s forwards;}
+.hero-title-name{display:block;background:linear-gradient(135deg,#f8e88a 0%,var(--gold-lt) 40%,#d4af37 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.hero-role{display:inline-flex;align-items:center;gap:10px;font-family:'Inter',sans-serif;font-size:.68rem;letter-spacing:.28em;text-transform:uppercase;color:var(--accent);margin-bottom:36px;opacity:0;animation:fadeUp .9s ease .5s forwards;}
+.hero-role::before,.hero-role::after{content:'';display:block;width:clamp(20px,3vw,40px);height:1px;background:linear-gradient(to right,transparent,var(--accent-dim));}
 .hero-role::after{transform:scaleX(-1);}
-
-/* Theme line */
-.hero-theme{
-  font-family:'Lora',serif;
-  font-size:clamp(1.05rem,2vw,1.40rem);
-  font-style:italic;
-  color:rgba(253,248,238,0.62);
-  max-width:600px;
-  line-height:1.72;
-  margin-bottom:64px;
-  position:relative;z-index:2;
-  opacity:0;animation:fadeUp .9s ease .65s forwards;
-}
-.hero-theme em{color:rgba(230,165,90,0.90);font-style:normal;}
-
-/* Warm glow arc beneath title — hearth/home motif */
-.hero-warmth-arc{
-  position:absolute;
-  bottom:0;left:50%;
-  transform:translateX(-50%);
-  width:min(620px,80vw);
-  height:260px;
-  pointer-events:none;
-  z-index:1;
-  opacity:0;
-  animation:fadeIn 2.8s ease 0.6s forwards;
-  background:radial-gradient(ellipse at 50% 100%,
-    rgba(180,80,20,0.14) 0%,
-    rgba(200,100,40,0.07) 35%,
-    transparent 68%);
-}
-
-/* Scroll cue */
-.hero-scroll-cue{
-  position:absolute;bottom:40px;left:50%;transform:translateX(-50%);
-  display:flex;flex-direction:column;align-items:center;gap:8px;
-  z-index:2;
-  opacity:0;animation:fadeIn 1.2s ease 1.8s forwards;
-}
-.scroll-line{
-  width:1px;height:44px;
-  background:linear-gradient(to bottom,rgba(200,100,55,0.0),rgba(200,100,55,0.55));
-  animation:scrollPulse 2.4s ease-in-out infinite;
-}
-.scroll-label{
-  font-family:'Inter',sans-serif;
-  font-size:.46rem;letter-spacing:.32em;text-transform:uppercase;
-  color:rgba(200,100,55,0.38);
-}
-@keyframes scrollPulse{0%,100%{opacity:.5;transform:scaleY(1);}50%{opacity:1;transform:scaleY(1.18);}}
-
-/* ═══════════════════════════════════════════════════════════════
-   CONTENT SECTIONS
-═══════════════════════════════════════════════════════════════ */
-.section-wrap{
-  max-width:1060px;
-  margin:0 auto;
-  padding:0 52px;
-}
-
-/* ── reveal on scroll */
-.reveal{
-  opacity:0;transform:translateY(22px);
-  transition:opacity .88s cubic-bezier(0.22,0,0.18,1),
-             transform .88s cubic-bezier(0.22,0,0.18,1);
-}
+.hero-theme{font-family:'Lora',serif;font-size:clamp(1.05rem,2vw,1.40rem);font-style:italic;color:rgba(253,248,238,0.62);max-width:540px;line-height:1.70;margin-bottom:64px;opacity:0;animation:fadeUp .9s ease .65s forwards;}
+.hero-scroll-cue{position:absolute;bottom:40px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:8px;opacity:0;animation:fadeIn 1.2s ease 1.8s forwards;}
+.scroll-line{width:1px;height:44px;background:linear-gradient(to bottom,rgba(212,175,55,0.0),rgba(212,175,55,0.45));animation:scrollPulse 2.2s ease-in-out infinite;}
+.scroll-label{font-family:'Inter',sans-serif;font-size:.46rem;letter-spacing:.32em;text-transform:uppercase;color:rgba(212,175,55,0.32);}
+@keyframes scrollPulse{0%,100%{opacity:.5;transform:scaleY(1);}50%{opacity:1;transform:scaleY(1.15);}}
+.section-wrap{max-width:1060px;margin:0 auto;padding:0 52px 100px;}
+.reveal{opacity:0;transform:translateY(22px);transition:opacity .88s cubic-bezier(0.22,0,0.18,1),transform .88s cubic-bezier(0.22,0,0.18,1);}
 .reveal.revealed{opacity:1;transform:translateY(0);}
-
-/* ── gold rule */
-.gold-rule{
-  width:clamp(36px,6vw,64px);height:1px;
-  background:linear-gradient(to right,transparent,rgba(212,175,55,0.55) 30%,rgba(212,175,55,0.55) 70%,transparent);
-  margin:0 auto 32px;
-}
+.reveal-d1{transition-delay:.08s;}.reveal-d2{transition-delay:.16s;}
+.gold-rule{width:clamp(36px,6vw,64px);height:1px;background:linear-gradient(to right,transparent,rgba(212,175,55,0.55) 30%,rgba(212,175,55,0.55) 70%,transparent);margin:0 auto 32px;}
 .gold-rule.left{margin:0 0 24px;}
-
-/* ── terra rule */
-.terra-rule{
-  width:clamp(36px,6vw,64px);height:1px;
-  background:linear-gradient(to right,transparent,rgba(200,110,55,0.58) 30%,rgba(200,110,55,0.58) 70%,transparent);
-  margin:0 0 24px;
+.sec-label{font-family:'Inter',sans-serif;font-size:.58rem;letter-spacing:.38em;text-transform:uppercase;color:rgba(212,175,55,0.42);margin-bottom:14px;}
+.glass{background:rgba(14,8,2,0.78);border:1px solid rgba(212,175,55,0.10);border-radius:4px;backdrop-filter:blur(22px);-webkit-backdrop-filter:blur(22px);padding:52px 56px;margin-bottom:28px;}
+.sec-title{font-family:'Cinzel',serif;font-size:clamp(1.15rem,2.2vw,1.65rem);font-weight:600;letter-spacing:.06em;color:var(--gold-lt);margin-bottom:20px;line-height:1.22;}
+.sec-body{font-family:'Lora',serif;font-size:clamp(.88rem,1.3vw,1.02rem);color:rgba(253,248,238,0.72);line-height:1.85;}
+.sec-body p+p{margin-top:1em;}
+/* Two Worlds Bridge Panel */
+.bridge-panel {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
+  border-radius: 4px;
+  overflow: hidden;
+  border: 1px solid rgba(212,175,55,0.10);
+  margin-bottom: 28px;
 }
-
-/* ── section label */
-.sec-label{
-  font-family:'Inter',sans-serif;
-  font-size:.58rem;letter-spacing:.38em;text-transform:uppercase;
-  color:rgba(200,110,55,0.50);
-  margin-bottom:14px;
+.bridge-side {
+  padding: 40px 36px;
 }
-.sec-label.gold{color:rgba(212,175,55,0.44);}
-
-/* ── glass panels */
-.glass{
-  background:rgba(14,8,2,0.80);
-  border:1px solid rgba(200,100,55,0.10);
-  border-radius:4px;
-  backdrop-filter:blur(22px);-webkit-backdrop-filter:blur(22px);
-  padding:52px 56px;
-  margin-bottom:28px;
+.bridge-side-home {
+  background: rgba(45,18,5,0.85);
+  border-right: 1px solid rgba(212,175,55,0.12);
 }
-
-/* ── section headings */
-.sec-title{
-  font-family:'Cinzel',serif;
-  font-size:clamp(1.15rem,2.2vw,1.65rem);
-  font-weight:600;letter-spacing:.06em;
-  color:var(--gold-lt);
-  margin-bottom:20px;line-height:1.22;
+.bridge-side-outside {
+  background: rgba(5,12,30,0.85);
 }
-.sec-title.terra{color:rgba(235,165,95,0.98);}
-
-/* ── body text */
-.sec-body{
-  font-family:'Lora',serif;
-  font-size:clamp(.88rem,1.3vw,1.02rem);
-  color:rgba(253,248,238,0.72);
-  line-height:1.88;
+.bridge-side-tag {
+  font-family: 'Inter', sans-serif;
+  font-size: .54rem;
+  letter-spacing: .34em;
+  text-transform: uppercase;
+  margin-bottom: 12px;
 }
-.sec-body p+p{margin-top:1.1em;}
-
-/* ── Spanish / bilingual word accent */
-.palabra{
-  font-style:italic;
-  color:rgba(235,165,95,0.88);
+.tag-home { color: rgba(220,130,75,0.65); }
+.tag-outside { color: rgba(120,170,255,0.55); }
+.bridge-side-title {
+  font-family: 'Cinzel', serif;
+  font-size: clamp(.92rem,1.5vw,1.15rem);
+  font-weight: 600;
+  letter-spacing: .06em;
+  color: var(--gold-lt);
+  margin-bottom: 14px;
 }
-
-/* ═══════════════════════════════════════════════════════════════
-   CHARACTER INTRO — two-col split
-═══════════════════════════════════════════════════════════════ */
-.intro-grid{
-  display:grid;
-  grid-template-columns:1fr 1.4fr;
-  gap:52px;
-  align-items:center;
+.bridge-side-body {
+  font-family: 'Lora', serif;
+  font-size: .84rem;
+  color: rgba(253,248,238,0.58);
+  line-height: 1.78;
+  font-style: italic;
 }
-.intro-portrait{
-  position:relative;
-  aspect-ratio:3/4;
-  border-radius:3px;
-  overflow:hidden;
-  border:1px solid rgba(200,100,55,0.15);
+.bridge-center {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 28px 36px;
+  background: rgba(20,12,3,0.90);
+  border-top: 1px solid rgba(212,175,55,0.10);
 }
-.portrait-canvas{width:100%;height:100%;display:block;}
-.intro-portrait-label{
-  position:absolute;bottom:0;left:0;right:0;
-  padding:24px 20px 18px;
-  background:linear-gradient(to top,rgba(10,6,2,0.93),transparent);
-  font-family:'Inter',sans-serif;
-  font-size:.52rem;letter-spacing:.28em;text-transform:uppercase;
-  color:rgba(220,145,80,0.50);
-  text-align:center;
+.bridge-center-quote {
+  font-family: 'Lora', serif;
+  font-size: clamp(.92rem,1.5vw,1.12rem);
+  font-style: italic;
+  color: rgba(253,248,238,0.68);
+  max-width: 580px;
+  margin: 0 auto;
+  line-height: 1.80;
 }
-
-/* ═══════════════════════════════════════════════════════════════
-   EMOTIONAL MOMENT — full-width cinematic quote block
-═══════════════════════════════════════════════════════════════ */
-.moment-panel{
-  background:rgba(18,10,3,0.72);
-  border:1px solid rgba(200,110,55,0.10);
-  border-left:3px solid rgba(200,100,55,0.35);
-  border-radius:0 4px 4px 0;
-  padding:44px 52px;
-  margin-bottom:28px;
-  position:relative;
-  overflow:hidden;
+.book-panel{background:rgba(14,8,2,0.82);border:1px solid rgba(212,175,55,0.12);border-top:2px solid rgba(212,175,55,0.24);border-radius:4px;padding:56px 60px;margin-bottom:28px;display:grid;grid-template-columns:auto 1fr;gap:56px;align-items:start;position:relative;overflow:hidden;}
+.book-panel::before{content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);width:55%;height:1px;background:linear-gradient(to right,transparent,rgba(212,175,55,0.38) 30%,rgba(212,175,55,0.38) 70%,transparent);}
+.book-cover-wrap{flex-shrink:0;width:160px;}
+.book-cover-placeholder{width:160px;height:210px;background:rgba(14,8,2,0.80);border:1px solid rgba(212,175,55,0.18);border-radius:3px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;position:relative;overflow:hidden;}
+.book-cover-placeholder::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(200,100,55,0.08) 0%,rgba(212,175,55,0.04) 100%);}
+.book-cover-icon{font-size:2.4rem;line-height:1;filter:drop-shadow(0 0 12px rgba(200,100,55,0.40));}
+.book-cover-label{font-family:'Cinzel',serif;font-size:.52rem;letter-spacing:.22em;text-transform:uppercase;color:rgba(212,175,55,0.38);text-align:center;padding:0 12px;}
+.book-series-tag{font-family:'Inter',sans-serif;font-size:.56rem;letter-spacing:.34em;text-transform:uppercase;color:rgba(212,175,55,0.44);margin-bottom:12px;}
+.book-title{font-family:'Cinzel',serif;font-size:clamp(1.05rem,2vw,1.45rem);font-weight:600;letter-spacing:.06em;color:var(--gold-lt);margin-bottom:10px;line-height:1.22;}
+.book-ages{font-family:'Inter',sans-serif;font-size:.56rem;letter-spacing:.22em;text-transform:uppercase;color:var(--accent);margin-bottom:20px;display:flex;align-items:center;gap:8px;}
+.book-ages::before{content:'';display:block;width:18px;height:1px;background:var(--accent-dim);}
+.book-synopsis{font-family:'Lora',serif;font-size:clamp(.86rem,1.3vw,1.0rem);color:rgba(253,248,238,0.65);line-height:1.82;font-style:italic;margin-bottom:32px;}
+.cta-row{display:flex;flex-wrap:wrap;gap:12px;align-items:center;}
+.btn-primary{display:inline-flex;align-items:center;gap:12px;font-family:'Cinzel',serif;font-size:.68rem;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:rgba(240,208,96,0.97);border:1px solid rgba(212,175,55,0.45);padding:13px 28px;border-radius:2px;background:transparent;cursor:pointer;text-decoration:none;transition:color .28s,border-color .28s,box-shadow .28s,transform .20s,background .28s;position:relative;overflow:hidden;}
+.btn-primary::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(212,175,55,0.10),transparent);opacity:0;transition:opacity .28s ease;}
+.btn-primary:hover{color:#fff;border-color:rgba(240,208,96,0.88);box-shadow:0 0 28px rgba(212,175,55,0.22),0 8px 32px rgba(0,0,0,0.40);transform:translateY(-2px);}
+.btn-primary:hover::before{opacity:1;}
+.btn-secondary{display:inline-flex;align-items:center;gap:10px;font-family:'Inter',sans-serif;font-size:.60rem;letter-spacing:.24em;text-transform:uppercase;color:var(--accent);border:1px solid rgba(200,100,55,0.22);padding:12px 24px;border-radius:2px;background:transparent;text-decoration:none;transition:color .28s,border-color .28s,box-shadow .28s;}
+.btn-secondary:hover{color:rgba(240,180,120,0.95);border-color:rgba(200,100,55,0.52);box-shadow:0 0 18px rgba(200,100,55,0.10);}
+.btn-ghost{display:inline-flex;align-items:center;gap:10px;font-family:'Inter',sans-serif;font-size:.58rem;letter-spacing:.22em;text-transform:uppercase;color:rgba(212,175,55,0.42);border:1px solid rgba(212,175,55,0.12);padding:11px 22px;border-radius:2px;background:transparent;text-decoration:none;transition:color .25s,border-color .25s;}
+.btn-ghost:hover{color:rgba(212,175,55,0.72);border-color:rgba(212,175,55,0.30);}
+.btn-arrow{transition:transform .28s ease;}
+.btn-primary:hover .btn-arrow,.btn-secondary:hover .btn-arrow{transform:translateX(3px);}
+.motion-panel{background:rgba(12,6,0,0.88);border:1px solid rgba(200,100,55,0.14);border-left:3px solid rgba(200,100,55,0.35);border-radius:0 4px 4px 0;padding:52px 56px;margin-bottom:28px;position:relative;overflow:hidden;}
+.motion-panel::after{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 20% 50%,rgba(200,100,55,0.05) 0%,transparent 65%);pointer-events:none;}
+.motion-label{font-family:'Inter',sans-serif;font-size:.56rem;letter-spacing:.36em;text-transform:uppercase;color:var(--accent-dim);margin-bottom:12px;}
+.motion-title{font-family:'Cinzel',serif;font-size:clamp(1.10rem,2.2vw,1.60rem);font-weight:600;letter-spacing:.06em;color:var(--gold-lt);margin-bottom:18px;line-height:1.22;}
+.motion-body{font-family:'Lora',serif;font-size:clamp(.88rem,1.3vw,1.0rem);color:rgba(253,248,238,0.60);line-height:1.82;font-style:italic;margin-bottom:32px;max-width:560px;}
+.motion-preview{background:rgba(10,5,0,0.82);border:1px solid rgba(200,100,55,0.10);border-radius:3px;height:200px;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:14px;margin-bottom:28px;position:relative;overflow:hidden;}
+.motion-preview::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(200,100,55,0.05) 0%,rgba(212,175,55,0.03) 100%);}
+.motion-play-icon{width:52px;height:52px;border-radius:50%;border:1.5px solid rgba(200,100,55,0.30);background:rgba(10,5,0,0.88);display:flex;align-items:center;justify-content:center;position:relative;z-index:1;}
+.motion-play-icon svg{width:18px;height:18px;fill:rgba(200,100,55,0.60);transform:translateX(1px);}
+.motion-preview-label{font-family:'Inter',sans-serif;font-size:.52rem;letter-spacing:.26em;text-transform:uppercase;color:rgba(200,100,55,0.30);position:relative;z-index:1;}
+.traits-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:20px;margin-bottom:28px;}
+.trait-card{background:rgba(14,8,2,0.72);border:1px solid rgba(212,175,55,0.09);border-radius:3px;padding:28px 26px;position:relative;overflow:hidden;transition:border-color .28s ease,background .28s ease;}
+.trait-card::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(to right,transparent,rgba(212,175,55,0.28),transparent);transform:scaleX(0);transform-origin:center;transition:transform .30s ease;}
+.trait-card:hover{border-color:rgba(212,175,55,0.20);background:rgba(20,10,3,0.82);}
+.trait-card:hover::before{transform:scaleX(1);}
+.trait-number{font-family:'Cinzel',serif;font-size:.56rem;letter-spacing:.28em;color:rgba(212,175,55,0.30);margin-bottom:10px;}
+.trait-title{font-family:'Cinzel',serif;font-size:.88rem;font-weight:600;letter-spacing:.08em;color:var(--gold-lt);margin-bottom:10px;line-height:1.25;}
+.trait-body{font-family:'Lora',serif;font-size:.82rem;color:rgba(253,248,238,0.55);line-height:1.72;font-style:italic;}
+/* Signature line */
+.signature-line {
+  text-align: center;
+  padding: 48px 52px;
+  background: rgba(8,5,0,0.82);
+  border: 1px solid rgba(212,175,55,0.10);
+  border-top: 1px solid rgba(200,100,55,0.18);
+  border-radius: 4px;
+  margin-bottom: 28px;
 }
-.moment-panel::before{
-  content:'"';
-  position:absolute;
-  top:-18px;left:18px;
-  font-family:'Lora',serif;
-  font-size:9rem;
-  line-height:1;
-  color:rgba(200,100,55,0.06);
-  pointer-events:none;
-  user-select:none;
+.signature-quote {
+  font-family: 'Cinzel', serif;
+  font-size: clamp(1.0rem,1.8vw,1.35rem);
+  font-weight: 600;
+  letter-spacing: .06em;
+  color: var(--gold-lt);
+  line-height: 1.45;
+  max-width: 640px;
+  margin: 0 auto 16px;
 }
-.moment-title{
-  font-family:'Cinzel',serif;
-  font-size:.72rem;font-weight:600;
-  letter-spacing:.20em;text-transform:uppercase;
-  color:rgba(200,110,55,0.55);
-  margin-bottom:22px;
+.signature-sub {
+  font-family: 'Lora', serif;
+  font-size: .80rem;
+  font-style: italic;
+  color: rgba(253,248,238,0.42);
 }
-.moment-body{
-  font-family:'Lora',serif;
-  font-size:clamp(.92rem,1.4vw,1.06rem);
-  color:rgba(253,248,238,0.75);
-  line-height:1.92;
-  font-style:italic;
-}
-.moment-body strong{
-  color:rgba(235,165,95,0.95);
-  font-style:normal;font-weight:500;
-}
-
-/* ═══════════════════════════════════════════════════════════════
-   STRUGGLE / GROWTH — trait cards
-═══════════════════════════════════════════════════════════════ */
-.two-col{display:grid;grid-template-columns:1fr 1fr;gap:24px;}
-
-.trait-card{
-  background:rgba(16,9,2,0.65);
-  border:1px solid rgba(200,100,55,0.09);
-  border-radius:3px;
-  padding:32px 28px 28px;
-  transition:border-color .3s,transform .3s;
-  position:relative;overflow:hidden;
-}
-.trait-card::after{
-  content:'';position:absolute;bottom:0;left:0;right:0;height:2px;
-  background:linear-gradient(to right,transparent,rgba(200,100,55,0.44),transparent);
-  transform:scaleX(0);transform-origin:center;
-  transition:transform .35s ease;
-}
-.trait-card:hover{border-color:rgba(200,100,55,0.26);transform:translateY(-3px);}
-.trait-card:hover::after{transform:scaleX(1);}
-.trait-icon{font-size:1.5rem;margin-bottom:14px;display:block;line-height:1;}
-.trait-title{
-  font-family:'Cinzel',serif;font-size:.82rem;font-weight:600;
-  letter-spacing:.10em;text-transform:uppercase;
-  color:rgba(235,165,95,0.94);margin-bottom:10px;
-}
-.trait-body{
-  font-family:'Lora',serif;font-size:.84rem;
-  color:rgba(253,248,238,0.60);line-height:1.74;
-}
-
-/* ═══════════════════════════════════════════════════════════════
-   GROWTH ARC — numbered steps
-═══════════════════════════════════════════════════════════════ */
-.arc-steps{display:flex;flex-direction:column;gap:0;}
-.arc-step{
-  display:flex;gap:24px;
-  padding:28px 0;
-  border-bottom:1px solid rgba(200,100,55,0.07);
-}
-.arc-step:last-child{border-bottom:none;padding-bottom:0;}
-.arc-step:first-child{padding-top:0;}
-.arc-num{
-  font-family:'Cinzel',serif;font-size:2rem;font-weight:700;
-  color:rgba(200,100,55,0.13);line-height:1;
-  flex-shrink:0;width:44px;text-align:right;padding-top:3px;
-}
-.arc-content{flex:1;}
-.arc-title{
-  font-family:'Cinzel',serif;font-size:1rem;font-weight:600;
-  letter-spacing:.07em;color:rgba(235,165,95,0.96);margin-bottom:8px;
-}
-.arc-body{font-family:'Lora',serif;font-size:.88rem;color:rgba(253,248,238,0.62);line-height:1.82;}
-
-/* ═══════════════════════════════════════════════════════════════
-   FAMILY DYNAMIC — deep cultural panel
-═══════════════════════════════════════════════════════════════ */
-.family-panel{
-  background:rgba(16,9,2,0.84);
-  border:1px solid rgba(200,110,55,0.10);
-  border-left:3px solid rgba(200,100,55,0.40);
-  border-radius:0 4px 4px 0;
-  padding:40px 44px;
-  margin-bottom:28px;
-}
-.family-icon{font-size:1.8rem;margin-bottom:16px;display:block;}
-.family-tags{
-  display:flex;flex-wrap:wrap;gap:10px;
-  margin-top:22px;
-}
-.tag{
-  font-family:'Inter',sans-serif;font-size:.56rem;
-  letter-spacing:.22em;text-transform:uppercase;
-  color:rgba(225,145,80,0.62);
-  border:1px solid rgba(200,100,55,0.22);
-  padding:5px 12px;border-radius:2px;
-}
-
-/* ═══════════════════════════════════════════════════════════════
-   BRIDGE PANEL — unique to Jadery (two-worlds concept)
-═══════════════════════════════════════════════════════════════ */
-.bridge-panel{
-  background:rgba(14,8,2,0.78);
-  border:1px solid rgba(200,100,55,0.10);
-  border-radius:4px;
-  padding:52px 56px;
-  margin-bottom:28px;
-  display:grid;
-  grid-template-columns:1fr auto 1fr;
-  gap:0;
-  align-items:center;
-}
-.bridge-side{
-  padding:0 32px;
-}
-.bridge-side.left{padding-left:0;}
-.bridge-side.right{padding-right:0;}
-.bridge-side-label{
-  font-family:'Inter',sans-serif;
-  font-size:.56rem;letter-spacing:.30em;text-transform:uppercase;
-  margin-bottom:12px;
-}
-.bridge-side.left  .bridge-side-label{color:rgba(235,165,95,0.55);}
-.bridge-side.right .bridge-side-label{color:rgba(160,200,240,0.50);}
-.bridge-side-title{
-  font-family:'Cinzel',serif;
-  font-size:clamp(1rem,1.8vw,1.35rem);
-  font-weight:600;letter-spacing:.06em;
-  line-height:1.28;margin-bottom:16px;
-}
-.bridge-side.left  .bridge-side-title{color:rgba(235,165,95,0.95);}
-.bridge-side.right .bridge-side-title{color:rgba(160,200,240,0.90);}
-.bridge-side-body{
-  font-family:'Lora',serif;font-size:.86rem;
-  color:rgba(253,248,238,0.60);line-height:1.78;
-}
-.bridge-divider{
-  width:1px;
-  height:clamp(80px,18vh,160px);
-  background:linear-gradient(to bottom,
-    transparent,
-    rgba(200,100,55,0.35) 30%,
-    rgba(200,100,55,0.35) 70%,
-    transparent);
-  flex-shrink:0;
-  position:relative;
-}
-.bridge-divider::after{
-  content:'✦';
-  position:absolute;
-  top:50%;left:50%;
-  transform:translate(-50%,-50%);
-  font-size:.70rem;
-  color:rgba(235,165,95,0.55);
-  background:#0e0802;
-  padding:5px;
-}
-
-/* ═══════════════════════════════════════════════════════════════
-   SIGNATURE LINE — centred, cinematic
-═══════════════════════════════════════════════════════════════ */
-.signature-wrap{
-  text-align:center;
-  padding:72px 52px 68px;
-}
-.signature-quote{
-  font-family:'Lora',serif;
-  font-size:clamp(1.05rem,2.0vw,1.55rem);
-  font-style:italic;
-  color:rgba(253,248,238,0.78);
-  max-width:740px;margin:0 auto 20px;
-  line-height:1.72;
-}
-.signature-quote strong{
-  color:rgba(235,175,95,0.98);
-  font-style:normal;font-weight:500;
-}
-.signature-attr{
-  font-family:'Inter',sans-serif;font-size:.58rem;
-  letter-spacing:.30em;text-transform:uppercase;
-  color:rgba(200,100,55,0.42);
-}
-.terra-divider{
-  width:clamp(40px,8vw,80px);height:1px;
-  background:linear-gradient(to right,transparent,rgba(200,110,55,0.52) 30%,rgba(200,110,55,0.52) 70%,transparent);
-  margin:0 auto;
-}
-
-/* ═══════════════════════════════════════════════════════════════
-   CTA SECTION
-═══════════════════════════════════════════════════════════════ */
-.cta-wrap{text-align:center;padding:0 52px 96px;}
-.cta-eyebrow{
-  font-family:'Inter',sans-serif;font-size:.58rem;
-  letter-spacing:.38em;text-transform:uppercase;
-  color:rgba(200,100,55,0.44);margin-bottom:28px;
-}
-.btn-terra{
-  display:inline-flex;align-items:center;gap:12px;
-  font-family:'Cinzel',serif;font-size:.72rem;
-  font-weight:600;letter-spacing:.22em;text-transform:uppercase;
-  color:rgba(235,175,95,0.97);
-  border:1px solid rgba(200,100,55,0.50);
-  padding:16px 36px;border-radius:2px;
-  text-decoration:none;
-  background:transparent;cursor:pointer;
-  transition:color .3s,border-color .3s,background .3s,box-shadow .3s,transform .2s;
-  position:relative;overflow:hidden;
-}
-.btn-terra::before{
-  content:'';position:absolute;inset:0;
-  background:linear-gradient(135deg,rgba(200,100,55,0.13),transparent);
-  opacity:0;transition:opacity .3s ease;
-}
-.btn-terra:hover{
-  color:#fff;border-color:rgba(235,145,80,0.88);
-  box-shadow:0 0 28px rgba(180,80,20,0.24),0 8px 32px rgba(0,0,0,0.40);
-  transform:translateY(-2px);
-}
-.btn-terra:hover::before{opacity:1;}
-.btn-arrow{font-size:.80rem;transition:transform .3s ease;}
-.btn-terra:hover .btn-arrow{transform:translateX(4px);}
-.btn-ghost{
-  display:inline-flex;align-items:center;gap:8px;
-  font-family:'Inter',sans-serif;font-size:.62rem;
-  letter-spacing:.18em;text-transform:uppercase;
-  color:rgba(212,175,55,0.45);
-  text-decoration:none;margin-top:20px;
-  transition:color .25s;
-}
-.btn-ghost:hover{color:rgba(212,175,55,0.80);}
-
-/* ═══════════════════════════════════════════════════════════════
-   FOOTER
-═══════════════════════════════════════════════════════════════ */
-#footer-chrome{
-  position:relative;z-index:15;
-  padding:0 52px;height:60px;
-  display:flex;align-items:center;justify-content:space-between;
-  background:linear-gradient(to top,rgba(0,0,0,0.82),rgba(0,0,0,0.0));
-  border-top:1px solid rgba(212,175,55,0.05);
-  flex-shrink:0;margin-top:auto;
-}
-.footer-vig-lockup{display:flex;align-items:center;gap:9px;animation:vigGlow 8s ease-in-out infinite;}
-@keyframes vigGlow{0%,78%,100%{filter:brightness(1) drop-shadow(0 0 0px rgba(212,175,55,0));}86%{filter:brightness(1.20) drop-shadow(0 0 8px rgba(212,175,55,0.26));}}
-.footer-vig-link{display:flex;align-items:center;text-decoration:none;cursor:pointer;transition:filter .30s,transform .30s;flex-shrink:0;}
-.footer-vig-link:hover{filter:brightness(1.45) drop-shadow(0 0 10px rgba(212,175,55,0.40));transform:scale(1.06);}
-.footer-vig-link img{width:clamp(22px,2.8vw,32px);height:auto;mix-blend-mode:screen;opacity:.55;display:block;}
-.footer-vig-label{font-family:'Inter',sans-serif;font-size:clamp(.46rem,.72vw,.58rem);letter-spacing:.30em;text-transform:uppercase;color:rgba(212,175,55,0.42);white-space:nowrap;pointer-events:none;}
-.footer-copy{font-family:'Inter',sans-serif;font-size:.52rem;letter-spacing:.14em;color:rgba(212,175,55,0.18);text-align:center;flex-shrink:1;padding:0 12px;}
-.footer-spacer{min-width:80px;flex-shrink:0;}
-
-/* ═══════════════════════════════════════════════════════════════
-   KEYFRAMES
-═══════════════════════════════════════════════════════════════ */
-@keyframes fadeUp{from{opacity:0;transform:translateY(18px);}to{opacity:1;transform:translateY(0);}}
+.closing-panel{text-align:center;padding:60px 52px 48px;position:relative;}
+.closing-panel::before{content:'';position:absolute;top:0;left:52px;right:52px;height:1px;background:linear-gradient(to right,transparent,rgba(212,175,55,0.18) 30%,rgba(212,175,55,0.18) 70%,transparent);}
+.closing-quote-mark{font-family:'Cinzel',serif;font-size:4rem;line-height:.8;color:rgba(212,175,55,0.10);display:block;margin-bottom:20px;user-select:none;}
+.closing-statement{font-family:'Lora',serif;font-size:clamp(1.0rem,1.8vw,1.30rem);font-style:italic;color:rgba(253,248,238,0.70);max-width:580px;margin:0 auto 32px;line-height:1.78;}
+.closing-statement em{color:rgba(212,175,55,0.80);font-style:normal;}
+.back-link{display:inline-flex;align-items:center;gap:8px;font-family:'Inter',sans-serif;font-size:.58rem;letter-spacing:.26em;text-transform:uppercase;color:rgba(212,175,55,0.40);text-decoration:none;transition:color .25s ease;margin-top:12px;}
+.back-link:hover{color:rgba(212,175,55,0.72);}
+#footer-chrome{position:relative;z-index:10;padding:28px 52px 32px;display:flex;align-items:center;justify-content:space-between;gap:20px;background:linear-gradient(to top,rgba(0,0,0,0.78),transparent);flex-shrink:0;}
+.footer-vig-lockup{display:flex;align-items:center;gap:9px;animation:vigGlowPulse 8s ease-in-out infinite;}
+.footer-vig-link{display:flex;align-items:center;text-decoration:none;transition:filter .30s,transform .30s;}
+.footer-vig-link:hover{filter:brightness(1.45) drop-shadow(0 0 10px rgba(212,175,55,0.55));transform:scale(1.06);}
+.footer-vig-link img{height:clamp(22px,2.8vw,32px);width:auto;filter:brightness(0.85);mix-blend-mode:screen;opacity:.55;}
+.footer-vig-label{font-family:'Inter',sans-serif;font-size:clamp(.38rem,.55vw,.50rem);letter-spacing:.28em;text-transform:uppercase;color:rgba(212,175,55,0.42);}
+.footer-copy{font-family:'Inter',sans-serif;font-size:.52rem;letter-spacing:.14em;text-transform:uppercase;color:rgba(212,175,55,0.18);text-align:center;flex-shrink:1;padding:0 12px;}
+.footer-contact-link{font-family:'Inter',sans-serif;font-size:clamp(.46rem,.72vw,.58rem);letter-spacing:.26em;text-transform:uppercase;color:rgba(212,175,55,0.38);text-decoration:none;white-space:nowrap;transition:color .28s ease,text-shadow .28s ease;flex-shrink:0;}
+.footer-contact-link:hover{color:rgba(240,208,96,0.82);text-shadow:0 0 14px rgba(212,175,55,0.30);}
+@keyframes vigGlowPulse{0%,100%{filter:brightness(.92) drop-shadow(0 0 6px rgba(212,175,55,0.0));}50%{filter:brightness(1.05) drop-shadow(0 0 14px rgba(212,175,55,0.22));}}
 @keyframes fadeIn{from{opacity:0;}to{opacity:1;}}
-
-/* ═══════════════════════════════════════════════════════════════
-   RESPONSIVE
-═══════════════════════════════════════════════════════════════ */
-@media(max-width:900px){
-  #nav{padding:0 24px;}
-  .nav-items{gap:0;}
-  .nav-link{padding:8px 10px;font-size:.62rem;}
-  .section-wrap{padding:0 24px;}
-  .glass{padding:36px 28px;}
-  .intro-grid{grid-template-columns:1fr;gap:32px;}
-  .two-col{grid-template-columns:1fr;}
-  .bridge-panel{grid-template-columns:1fr;gap:32px;padding:36px 28px;}
-  .bridge-divider{width:clamp(50px,30vw,140px);height:1px;background:linear-gradient(to right,transparent,rgba(200,100,55,0.35) 30%,rgba(200,100,55,0.35) 70%,transparent);margin:0 auto;}
-  .bridge-divider::after{top:50%;left:50%;}
-  .bridge-side{padding:0;}
-  .moment-panel{padding:32px 28px;}
-  .signature-wrap,.cta-wrap{padding-left:24px;padding-right:24px;}
-  #hero{padding:60px 24px 80px;}
-  #footer-chrome{padding:0 24px;}
-  .footer-spacer{min-width:0;display:none;}
-  .footer-copy{font-size:.44rem;}
-  .arc-step{flex-direction:column;gap:8px;}
-  .arc-num{width:auto;text-align:left;}
-}
-@media(max-width:600px){
-  .nav-brand-main{font-size:.68rem;}
-  .nav-link{padding:8px 8px;font-size:.58rem;letter-spacing:.10em;}
-  .hero-title{font-size:2.2rem;}
-  .family-panel,.moment-panel{padding:28px 22px;}
-}
+@keyframes fadeUp{from{opacity:0;transform:translateY(18px);}to{opacity:1;transform:translateY(0);}}
+@media(max-width:900px){#nav{padding:0 24px;}#hero{padding:80px 24px 100px;}.section-wrap{padding:0 24px 80px;}.glass,.book-panel,.motion-panel{padding:36px 24px;}.book-panel{grid-template-columns:1fr;gap:32px;}.traits-grid{grid-template-columns:1fr;}.bridge-panel{grid-template-columns:1fr;}.bridge-side-home{border-right:none;border-bottom:1px solid rgba(212,175,55,0.12);}.closing-panel{padding:48px 24px;}#footer-chrome{padding:24px 24px 28px;}}
+@media(max-width:600px){.cta-row{flex-direction:column;align-items:flex-start;}.book-cover-wrap{width:100%;}.book-cover-placeholder{width:100%;height:180px;}}
   </style>
 </head>
 <body>
-
-<!-- Cinematic fixed background -->
 <div id="bg-fixed" aria-hidden="true"></div>
-
-<!-- Canvas layers: warm hearth glow | floating embers/words | falling leaves -->
 <canvas id="warmth-canvas" aria-hidden="true"></canvas>
-<canvas id="float-canvas"  aria-hidden="true"></canvas>
 <canvas id="leaves-canvas" aria-hidden="true"></canvas>
-
-<!-- Sound toggle -->
 <button id="sound-btn" aria-label="Toggle ambient sound">
   <svg id="icon-muted" viewBox="0 0 24 24"><path d="M16.5 12A4.5 4.5 0 0 0 14 7.97v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51A8.796 8.796 0 0 0 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3 3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06A8.99 8.99 0 0 0 17.73 19L19 20.27 20.27 19l-9-9L4.27 3zM12 4 9.91 6.09 12 8.18V4z"/></svg>
   <svg id="icon-unmuted" viewBox="0 0 24 24" style="display:none"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3A4.5 4.5 0 0 0 14 7.97v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77 0-4.28-2.99-7.86-7-8.77z"/></svg>
 </button>
-
 <div id="page-wrap">
-
-  <!-- ═══ NAV ═══ -->
   <nav id="nav" aria-label="Main navigation">
-    <a href="/" class="nav-brand" aria-label="MustardSeed Productions home">
-      <span class="nav-brand-main">MustardSeed Productions</span>
-      <span class="nav-brand-sub">Where Stories Grow</span>
-    </a>
+    <a href="/" class="nav-brand"><span class="nav-brand-main">MustardSeed Productions</span><span class="nav-brand-sub">Where Stories Grow</span></a>
     <ul class="nav-items" role="list">
-      <li><a href="/about"         class="nav-link">About</a></li>
-      <li><a href="/stories"       class="nav-link active">Stories</a></li>
+      <li><a href="/about" class="nav-link">About</a></li>
+      <li><a href="/stories" class="nav-link active">Stories</a></li>
       <li><a href="/tv-properties" class="nav-link">TV Properties</a></li>
-      <li><a href="/philosophy"    class="nav-link">Philosophy</a></li>
+      <li><a href="/philosophy" class="nav-link">Philosophy</a></li>
     </ul>
   </nav>
-
-  <!-- ═══ HERO ═══ -->
-  <section id="hero" aria-label="Character introduction">
-
-    <!-- Hearth warmth glow arc -->
-    <div class="hero-warmth-arc" aria-hidden="true"></div>
-
-    <p class="hero-breadcrumb">
-      <a href="/stories">Stories</a>
-      <span>›</span>
-      <a href="/stories">Seeds of Greatness</a>
-      <span>›</span>
-      Jadery
-    </p>
-
-    <p class="hero-series">Seeds of Greatness Series</p>
-
-    <h1 class="hero-title">
-      Growing Up with
-      <span class="hero-title-name">Jadery</span>
-    </h1>
-
+  <section id="hero" aria-label="Character hero">
+    <p class="hero-breadcrumb"><a href="/stories">Stories</a><span>/</span>Seeds of Greatness</p>
+    <p class="hero-series">Seeds of Greatness · Book Four</p>
+    <h1 class="hero-title">Growing Up with<br><span class="hero-title-name">Jadery</span></h1>
     <p class="hero-role">The Bridge</p>
-
-    <p class="hero-theme">
-      <em>"You are stronger than what you have to figure out alone."</em>
-    </p>
-
-    <div class="hero-scroll-cue" aria-hidden="true">
-      <div class="scroll-line"></div>
-      <span class="scroll-label">Walk her world</span>
-    </div>
-
+    <p class="hero-theme">"You are stronger than what you have to figure out alone —<br>a story of two worlds, one heart."</p>
+    <div class="hero-scroll-cue" aria-hidden="true"><div class="scroll-line"></div><span class="scroll-label">Discover</span></div>
   </section>
+  <div class="section-wrap">
 
-  <!-- ═══ MAIN CONTENT ═══ -->
-  <main>
-
-    <!-- ── CHARACTER INTRO ── -->
-    <div class="section-wrap" style="margin-bottom:28px;">
-      <div class="glass reveal">
-        <div class="intro-grid">
-
-          <!-- Portrait -->
-          <div class="intro-portrait" aria-hidden="true">
-            <canvas class="portrait-canvas" id="portrait-canvas"></canvas>
-            <p class="intro-portrait-label">Growing Up with Jadery</p>
-          </div>
-
-          <!-- Text -->
-          <div>
-            <p class="sec-label">Character Introduction</p>
-            <h2 class="sec-title terra">She Is Learning Two Worlds at Once</h2>
-            <div class="terra-rule"></div>
-            <div class="sec-body">
-              <p>Jadery is learning how to navigate two worlds.</p>
-              <p>At home, everything is rooted in love, culture, and <span class="palabra">español</span> — the language of her family, her heart, and where she feels most like herself. Her parents fill the home with warmth, laughter, and everything they built when they came from Mexico to California and decided to stay.</p>
-              <p>But outside — in school, in the world beyond the front door — everything sounds different. The words are unfamiliar. The expectations feel like a code she hasn't finished learning. And sometimes, the loneliest feeling of all: <em>she has to figure it out on her own.</em></p>
-              <p>At just six years old, Jadery is doing something most adults would find hard. She is translating the world — and in doing so, she is slowly becoming something extraordinary: a bridge between everything she was born into and everything she is growing toward.</p>
-            </div>
-          </div>
+    <!-- Book section -->
+    <div class="book-panel reveal">
+      <div class="book-cover-wrap">
+        <div class="book-cover-placeholder">
+          <span class="book-cover-icon" aria-hidden="true">🌿</span>
+          <span class="book-cover-label">Cover Reveal<br>Coming Soon</span>
+        </div>
+      </div>
+      <div class="book-info">
+        <p class="book-series-tag">Seeds of Greatness Series</p>
+        <h2 class="book-title">Seeds of Greatness:<br>Growing Up with Jadery</h2>
+        <p class="book-ages">Ages 3–8 · Picture Book</p>
+        <p class="book-synopsis">Jadery moves between two worlds every single day — home, where Spanish flows warm and easy, and school, where everything is new and English feels like a wall. Her story is about the courage it takes to grow up between cultures, and the discovery that being the bridge between two worlds is not a burden — it is her greatest strength.</p>
+        <div class="cta-row">
+          <a href="/contact" class="btn-primary">Read the Book <span class="btn-arrow">→</span></a>
+          <a href="/story-in-motion" class="btn-secondary">Experience the Story <span class="btn-arrow">↗</span></a>
+          <a href="#activities" class="btn-ghost">Explore Activities</a>
         </div>
       </div>
     </div>
 
-    <!-- ── EMOTIONAL MOMENT ── -->
-    <div class="section-wrap" style="margin-bottom:28px;">
-      <div class="moment-panel reveal" aria-label="A quiet moment">
-        <p class="moment-title">A Quiet Moment</p>
-        <div class="moment-body">
-          <p>Jadery sits quietly in class, listening carefully, trying to understand. The words land in her ears but take a moment longer to find their meaning. She doesn't raise her hand — not yet. But she doesn't give up, either.</p>
-          <p>Later at home, she repeats the words softly to herself. Practicing. Learning. Not giving up.</p>
-          <p>Her parents may not speak the language — but <strong>they see her trying.</strong> And they believe in her with a kind of love that doesn't need words.</p>
-          <p>That belief is the ground beneath her feet.</p>
-        </div>
+    <!-- Two worlds -->
+    <div class="bridge-panel reveal reveal-d1" aria-label="Two worlds">
+      <div class="bridge-side bridge-side-home">
+        <p class="bridge-side-tag tag-home">En Casa · At Home</p>
+        <h3 class="bridge-side-title">The World of Love &amp; Culture</h3>
+        <p class="bridge-side-body">At home, everything is warm — Spanish voices, family meals, the smell of something familiar, the feeling of being fully known. This is where Jadery is most herself.</p>
+      </div>
+      <div class="bridge-side bridge-side-outside">
+        <p class="bridge-side-tag tag-outside">At School · Outside</p>
+        <h3 class="bridge-side-title">The World of Learning &amp; Adaptation</h3>
+        <p class="bridge-side-body">Outside, the world speaks a different language. School asks her to adapt quickly — and sometimes it feels like she has to leave part of herself at the door.</p>
+      </div>
+      <div class="bridge-center">
+        <p class="bridge-center-quote">"I may be learning on my own… but I'm not alone in who I'm becoming."</p>
       </div>
     </div>
 
-    <!-- ── CORE STRUGGLES ── -->
-    <div class="section-wrap" style="margin-bottom:28px;">
-      <div class="reveal">
-        <p class="sec-label" style="padding:0 0 14px;">What Jadery Carries</p>
-        <div class="two-col">
-
-          <div class="trait-card">
-            <span class="trait-icon">🗣️</span>
-            <h3 class="trait-title">The Language Gap</h3>
-            <p class="trait-body"><span class="palabra">En casa</span>, she is fluent — in love, in warmth, in everything that matters. But at school, English moves fast and doesn't wait. Jadery lives in the space between two languages, and the effort it takes to cross that space every single day is invisible to most people around her.</p>
-          </div>
-
-          <div class="trait-card">
-            <span class="trait-icon">🌿</span>
-            <h3 class="trait-title">Figuring It Out Alone</h3>
-            <p class="trait-body">There are things Jadery encounters — homework formats, classroom rules, cultural references — that she can't bring home and ask about, because her parents didn't experience those systems. She has to find the answers herself. That kind of quiet independence at six years old is a weight and a power at the same time.</p>
-          </div>
-
-          <div class="trait-card">
-            <span class="trait-icon">⏳</span>
-            <h3 class="trait-title">Pressure to Adapt</h3>
-            <p class="trait-body">The world outside moves at a pace that doesn't account for her. She is expected to keep up, to blend in, to arrive already knowing what she hasn't been taught yet. The unspoken message — that she is somehow behind — is one she carries silently and is learning, slowly, to put down.</p>
-          </div>
-
-          <div class="trait-card" style="border-color:rgba(212,175,55,0.12);">
-            <span class="trait-icon">🌺</span>
-            <h3 class="trait-title" style="color:rgba(240,200,100,0.90);">Her Identity, Whole</h3>
-            <p class="trait-body">Jadery is not half of two worlds — she is all of both. Her culture is not a limitation to grow past; it is a richness she carries. Learning to hold that with pride rather than hiding it is the most important thing her story teaches — to her, and to every child who has ever felt caught between belonging and becoming.</p>
-          </div>
-
-        </div>
+    <!-- Character intro -->
+    <div class="glass reveal reveal-d1">
+      <p class="sec-label">Who Is Jadery</p>
+      <h2 class="sec-title">The Bridge</h2>
+      <div class="gold-rule left"></div>
+      <div class="sec-body">
+        <p>Jadery is a young Mexican-American girl growing up in an immigrant household filled with love, tradition, and the warmth of a culture she carries everywhere. Her parents work hard and love deeply — and their strength runs through her like a current.</p>
+        <p>Her challenge is the gap between her two worlds. At home she is whole. Outside, she is still finding her words — in English, in identity, in how to make both parts of who she is feel welcome at the same time.</p>
+        <p>Her story is for every child who has ever felt caught between two places — and for every parent who has watched their child carry that weight with quiet courage. Jadery's journey teaches that being bilingual, bicultural, and between worlds is not a limitation. It is a gift.</p>
       </div>
     </div>
 
-    <!-- ── TWO WORLDS / BRIDGE ── -->
-    <div class="section-wrap" style="margin-bottom:28px;">
-      <div class="bridge-panel reveal" aria-label="Two worlds, one bridge">
-        <div class="bridge-side left">
-          <p class="bridge-side-label">En Casa — At Home</p>
-          <h3 class="bridge-side-title">Where She Is Rooted</h3>
-          <p class="bridge-side-body"><span class="palabra">Español</span>. The smell of her mother's cooking. Stories from Guadalajara and Oaxaca. The way her parents' hands look after a long day of work. Faith spoken quietly at the dinner table. Love that doesn't need to be translated because it is felt in every single room.</p>
-        </div>
-
-        <div class="bridge-divider" aria-hidden="true"></div>
-
-        <div class="bridge-side right">
-          <p class="bridge-side-label" style="color:rgba(160,205,245,0.50);">En el Mundo — In the World</p>
-          <h3 class="bridge-side-title" style="color:rgba(160,205,245,0.92);">Where She Is Growing</h3>
-          <p class="bridge-side-body" style="color:rgba(253,248,238,0.58);">English. Classrooms with rules she is still learning. Friends who grew up in a different kind of home. A country that was built on the sacrifice of people like her parents — even if it doesn't always remember that. Jadery is learning this world. And she is changing it by being in it.</p>
-        </div>
+    <!-- Growth arc -->
+    <div class="reveal reveal-d1">
+      <p class="sec-label" style="text-align:center;margin-bottom:28px;">The Journey</p>
+      <div class="traits-grid">
+        <div class="trait-card"><p class="trait-number">Step 01</p><h3 class="trait-title">Two Worlds</h3><p class="trait-body">Feeling the pull between home culture and outside world — and learning that both belong to her.</p></div>
+        <div class="trait-card"><p class="trait-number">Step 02</p><h3 class="trait-title">The Language of Courage</h3><p class="trait-body">Discovering that speaking up — in any language — is an act of quiet, steady bravery.</p></div>
+        <div class="trait-card"><p class="trait-number">Step 03</p><h3 class="trait-title">Cultural Pride</h3><p class="trait-body">Learning to carry her heritage not as a weight, but as a crown — visible and worn with dignity.</p></div>
+        <div class="trait-card"><p class="trait-number">Step 04</p><h3 class="trait-title">The Bridge</h3><p class="trait-body">Understanding that the ability to move between worlds is one of the rarest gifts a person can hold.</p></div>
       </div>
     </div>
 
-    <!-- ── GROWTH ARC ── -->
-    <div class="section-wrap" style="margin-bottom:28px;">
-      <div class="glass reveal">
-        <p class="sec-label">Her Journey</p>
-        <h2 class="sec-title terra">What Jadery Learns to Carry with Pride</h2>
-        <div class="terra-rule" style="margin-bottom:36px;"></div>
-        <div class="arc-steps">
+    <!-- Signature line -->
+    <div class="signature-line reveal" aria-label="Jadery's signature line">
+      <p class="signature-quote">"You are stronger than what you have to figure out alone."</p>
+      <p class="signature-sub">— Jadery's theme · Seeds of Greatness</p>
+    </div>
 
-          <div class="arc-step">
-            <span class="arc-num">01</span>
-            <div class="arc-content">
-              <h3 class="arc-title">Confidence Within Unfamiliarity</h3>
-              <p class="arc-body">Jadery learns that not knowing something yet is not the same as not being capable. She discovers that confidence doesn't come from already having the answers — it comes from trusting yourself enough to keep looking for them. In every moment she pushes through what's hard and uncomfortable, she is building something that no classroom can take from her.</p>
-            </div>
-          </div>
-
-          <div class="arc-step">
-            <span class="arc-num">02</span>
-            <div class="arc-content">
-              <h3 class="arc-title">Learning Is Growing, Not Falling Behind</h3>
-              <p class="arc-body">The world told her she was behind. Jadery learns the truth: she was never behind. She was on a different path — a harder one — and every step she took on it counted. Being a learner is not a lesser thing. It is the most honest, courageous, and powerful thing a person can be.</p>
-            </div>
-          </div>
-
-          <div class="arc-step">
-            <span class="arc-num">03</span>
-            <div class="arc-content">
-              <h3 class="arc-title">Her Culture Is Something to Carry with Pride</h3>
-              <p class="arc-body"><span class="palabra">Su cultura no es algo que esconder.</span> It is not something to hide. It is something to carry the way her parents carried everything they had across a border to give her a better life — with sacrifice, love, and dignity. When Jadery stops apologising for who she is and starts presenting it, something in her changes forever.</p>
-            </div>
-          </div>
-
-          <div class="arc-step">
-            <span class="arc-num">04</span>
-            <div class="arc-content">
-              <h3 class="arc-title">Being Different Is Her Strength</h3>
-              <p class="arc-body">Jadery eventually understands what took her a long time to see: the exact thing that made her feel out of place — navigating two worlds, thinking in two languages, building bridges others don't know how to cross — is a gift. The world needs people who can stand in the space between different things and hold them together. That is who she is. That is her purpose.</p>
-            </div>
-          </div>
-
-        </div>
+    <!-- Story in motion -->
+    <div class="motion-panel reveal">
+      <p class="motion-label">Coming Soon</p>
+      <h2 class="motion-title">Story in Motion</h2>
+      <p class="motion-body">Watch Jadery's story come alive through warm cinematic visuals and bilingual storytelling — a gentle, emotional experience designed to resonate with children and parents alike.</p>
+      <div class="motion-preview">
+        <div class="motion-play-icon"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+        <span class="motion-preview-label">Story in Motion · Preview Coming Soon</span>
       </div>
+      <div class="cta-row"><a href="/story-in-motion" class="btn-secondary">Learn More <span class="btn-arrow">→</span></a></div>
     </div>
 
-    <!-- ── FAMILY DYNAMIC ── -->
-    <div class="section-wrap" style="margin-bottom:28px;">
-      <div class="family-panel reveal" aria-label="Family dynamic">
-        <span class="family-icon">🏡</span>
-        <p class="sec-label">Family Dynamic</p>
-        <h2 class="sec-title terra">Built on Love, Sacrifice, and <span class="palabra">Cultura</span></h2>
-        <div class="sec-body">
-          <p>Jadery's parents immigrated from Mexico and built their life in California — not because it was easy, but because love for their family made the cost worth paying. The home they created is full: full of warmth, full of <span class="palabra">cultura</span>, full of faith, and full of a very particular kind of strength that comes from people who have given up everything familiar to build something new.</p>
-          <p>They support Jadery deeply — even when they cannot always guide her through the specific things she is navigating. Their belief in her is not conditional on her understanding. It is given freely, in the language that has always mattered most: presence, sacrifice, and love.</p>
-          <p>This creates the dynamic that makes Jadery's story so powerful. She is not alone — she is deeply loved. But she is also learning, in real time, things her parents did not have access to. In that space, she becomes something extraordinary: the first bridge. The one who carries both worlds and makes them make sense to each other.</p>
-        </div>
-        <div class="family-tags">
-          <span class="tag">Mexican-American</span>
-          <span class="tag">California</span>
-          <span class="tag">Immigrant Family</span>
-          <span class="tag">Spanish-Speaking Home</span>
-          <span class="tag">Bicultural Identity</span>
-          <span class="tag">Generational Strength</span>
-        </div>
-      </div>
+    <!-- Closing -->
+    <div class="closing-panel reveal" id="activities">
+      <span class="closing-quote-mark" aria-hidden="true">"</span>
+      <p class="closing-statement">Every child who carries two worlds<br>deserves a story that says — <em>both worlds belong to you</em>.</p>
+      <div class="gold-rule"></div>
+      <div class="cta-row" style="justify-content:center;"><a href="/contact" class="btn-primary">Stay Connected <span class="btn-arrow">→</span></a></div>
+      <a href="/stories" class="back-link">← Back to All Stories</a>
     </div>
 
-    <!-- ── SIGNATURE LINE ── -->
-    <div class="reveal">
-      <div class="signature-wrap">
-        <div class="terra-divider" style="margin-bottom:40px;"></div>
-        <p class="signature-quote">
-          "I may be learning on my own…
-          <strong>but I'm not alone in who I'm becoming.</strong>"
-        </p>
-        <p class="signature-attr">— Jadery, Seeds of Greatness</p>
-        <div class="terra-divider" style="margin-top:40px;"></div>
-      </div>
-    </div>
-
-    <!-- ── CTA ── -->
-    <div class="cta-wrap reveal">
-      <p class="cta-eyebrow">Seeds of Greatness Series</p>
-      <div style="display:flex;flex-direction:column;align-items:center;gap:0;">
-        <a href="/stories" class="btn-terra">
-          Discover Jadery's Story
-          <span class="btn-arrow" aria-hidden="true">→</span>
-        </a>
-        <a href="/stories" class="btn-ghost" style="margin-top:18px;">
-          ← Back to Seeds of Greatness
-        </a>
-      </div>
-    </div>
-
-  </main>
-
-  <!-- ═══ FOOTER ═══ -->
-  <footer id="footer-chrome" aria-label="Site footer">
-    <div class="footer-vig-lockup" aria-label="A VIG Company">
-      <a href="https://www.vigholdings.com" target="_blank" rel="noopener noreferrer"
-         class="footer-vig-link" aria-label="VIG Holdings — opens in new tab">
-        <img src="/static/vig-logo-transparent.png" alt="VIG" draggable="false" />
-      </a>
-      <span class="footer-vig-label">A VIG Company</span>
-    </div>
+  </div>
+  <footer id="footer-chrome">
+    <div class="footer-vig-lockup"><a href="https://www.vigholdings.com" target="_blank" rel="noopener noreferrer" class="footer-vig-link"><img src="/static/vig-logo-transparent.png" alt="VIG" draggable="false" /></a><span class="footer-vig-label">A VIG Company</span></div>
     <p class="footer-copy">&copy; 2026 MustardSeed Productions. All rights reserved.</p>
     <a href="/contact" class="footer-contact-link">Contact Us</a>
   </footer>
-
-</div><!-- #page-wrap -->
-
+</div>
 <script>
 (function(){
 "use strict";
-
-/* ═══════════════════════════════════════════
-   CANVAS SETUP
-═══════════════════════════════════════════ */
-const warmthC  = document.getElementById('warmth-canvas');
-const floatC   = document.getElementById('float-canvas');
-const leavesC  = document.getElementById('leaves-canvas');
-const portraitC= document.getElementById('portrait-canvas');
-
-const wCtx  = warmthC.getContext('2d');
-const fCtx  = floatC.getContext('2d');
-const lCtx  = leavesC.getContext('2d');
-const pCtx  = portraitC.getContext('2d');
-
-function resizeAll(){
-  const W=window.innerWidth, H=window.innerHeight;
-  warmthC.width=floatC.width=leavesC.width=W;
-  warmthC.height=floatC.height=leavesC.height=H;
-  const pr=portraitC.parentElement.getBoundingClientRect();
-  portraitC.width  = pr.width  || 300;
-  portraitC.height = pr.height || 400;
-  drawPortrait();
-}
-window.addEventListener('resize', resizeAll, {passive:true});
-
-/* ═══════════════════════════════════════════
-   HEARTH WARMTH GLOW
-   Three slow-breathing radial glows from the
-   lower portion of the screen — home-fire, candlelight,
-   warm ambient light of a Mexican household at dusk
-═══════════════════════════════════════════ */
-const GLOWS = [
-  {cx:0.50, cy:1.05, rx:0.45, ry:0.38, alpha:0.055, phase:0.00, speed:0.00016, color:[200,90,35]},
-  {cx:0.20, cy:0.88, rx:0.28, ry:0.22, alpha:0.035, phase:2.10, speed:0.00022, color:[210,110,45]},
-  {cx:0.82, cy:0.92, rx:0.25, ry:0.20, alpha:0.030, phase:4.20, speed:0.00018, color:[190,80,28]},
-];
-
-function tickWarmth(){
-  const W=warmthC.width, H=warmthC.height;
-  wCtx.clearRect(0,0,W,H);
-
-  GLOWS.forEach(g=>{
-    g.phase += g.speed;
-    const breathe = 0.72 + 0.28 * Math.sin(g.phase);
-    const a = g.alpha * breathe;
-    const [r,gv,b] = g.color;
-
-    const grad = wCtx.createRadialGradient(
-      g.cx*W, g.cy*H, 0,
-      g.cx*W, g.cy*H, Math.max(g.rx*W, g.ry*H)
-    );
-    grad.addColorStop(0,   `rgba(${r},${gv},${b},${a})`);
-    grad.addColorStop(0.45,`rgba(${r},${gv},${b},${a*0.35})`);
-    grad.addColorStop(1,   'rgba(0,0,0,0)');
-
-    wCtx.save();
-    wCtx.scale(1, g.ry/g.rx);
-    wCtx.beginPath();
-    wCtx.arc(g.cx*W, (g.cy*H)*(g.rx/g.ry), g.rx*W, 0, Math.PI*2);
-    wCtx.fillStyle = grad;
-    wCtx.fill();
-    wCtx.restore();
-  });
-
-  requestAnimationFrame(tickWarmth);
-}
-
-/* ═══════════════════════════════════════════
-   FLOATING EMBERS + WORD PARTICLES
-   Small glowing ember dots that drift slowly upward,
-   plus very faint letterform dots that evoke words
-   being learned — the act of studying, practicing,
-   repeating quietly to oneself
-═══════════════════════════════════════════ */
-const FLOAT_N = 36;
-const floats  = [];
-
-// A handful of simple letter-dot clusters (not readable text — just evocative)
-const WORD_SEEDS = [
-  [{dx:-6,dy:0},{dx:-2,dy:0},{dx:2,dy:0},{dx:6,dy:0}],            // ····
-  [{dx:-5,dy:-3},{dx:-5,dy:3},{dx:0,dy:-3},{dx:0,dy:3}],          // :: ::
-  [{dx:-4,dy:0},{dx:0,dy:-4},{dx:4,dy:0},{dx:0,dy:4}],            // diamond
-  [{dx:-6,dy:0},{dx:-3,dy:-3},{dx:0,dy:0},{dx:3,dy:-3},{dx:6,dy:0}], // wave
-];
-
-function mkFloat(){
-  const W=floatC.width, H=floatC.height;
-  const isEmber = Math.random() > 0.28;
-  return {
-    type:   isEmber ? 'ember' : 'word',
-    x:      W * (0.08 + Math.random() * 0.84),
-    y:      H * (0.55 + Math.random() * 0.40),
-    vx:     (Math.random()-0.5) * 0.22,
-    vy:     -(0.18 + Math.random() * 0.38),
-    alpha:  isEmber ? 0.06 + Math.random()*0.10 : 0.04 + Math.random()*0.06,
-    r:      isEmber ? 1.2 + Math.random()*2.0 : 0,
-    phase:  Math.random()*Math.PI*2,
-    speed:  0.008 + Math.random()*0.014,
-    seed:   Math.floor(Math.random()*WORD_SEEDS.length),
-    color:  Math.random() > 0.45
-              ? [220,140,65]   // warm amber ember
-              : [235,175,95],  // soft gold
-  };
-}
-
-function initFloats(){
-  for(let i=0;i<FLOAT_N;i++){
-    const f = mkFloat();
-    f.y = floatC.height * Math.random();  // stagger vertically at start
-    floats.push(f);
-  }
-}
-
-function tickFloats(){
-  const W=floatC.width, H=floatC.height;
-  fCtx.clearRect(0,0,W,H);
-
-  floats.forEach(f=>{
-    f.phase += f.speed;
-    f.x     += f.vx + Math.sin(f.phase * 0.7) * 0.18;
-    f.y     += f.vy;
-
-    if(f.y < -40 || f.x < -40 || f.x > W+40){
-      Object.assign(f, mkFloat());
-      return;
-    }
-
-    const breathe = 0.55 + 0.45 * Math.sin(f.phase);
-    const a = f.alpha * breathe;
-    const [r,gv,b] = f.color;
-
-    if(f.type === 'ember'){
-      // Soft glowing ember dot
-      const grad = fCtx.createRadialGradient(f.x,f.y,0, f.x,f.y, f.r*3.5);
-      grad.addColorStop(0,   `rgba(${r},${gv},${b},${a*1.6})`);
-      grad.addColorStop(0.4, `rgba(${r},${gv},${b},${a*0.5})`);
-      grad.addColorStop(1,   'rgba(0,0,0,0)');
-      fCtx.beginPath();
-      fCtx.arc(f.x, f.y, f.r*3.5, 0, Math.PI*2);
-      fCtx.fillStyle = grad;
-      fCtx.fill();
-      // Bright centre
-      fCtx.beginPath();
-      fCtx.arc(f.x, f.y, f.r, 0, Math.PI*2);
-      fCtx.fillStyle = `rgba(${r},${gv},${b},${a*2.2})`;
-      fCtx.fill();
-    } else {
-      // Word-dot cluster — evokes letters being written / learned
-      const pts = WORD_SEEDS[f.seed];
-      pts.forEach(pt=>{
-        fCtx.beginPath();
-        fCtx.arc(f.x + pt.dx, f.y + pt.dy, 1.0, 0, Math.PI*2);
-        fCtx.fillStyle = `rgba(${r},${gv},${b},${a})`;
-        fCtx.fill();
-      });
-    }
-  });
-
-  requestAnimationFrame(tickFloats);
-}
-
-/* ═══════════════════════════════════════════
-   PORTRAIT CANVAS
-   Young girl — quiet, thoughtful, seated study
-   pose. Warm terracotta light from one side
-   (home window), cooler ambient on the other.
-   Open book/notebook in her lap. Soft,
-   emotionally resonant, cinematic.
-═══════════════════════════════════════════ */
-function drawPortrait(){
-  const W=portraitC.width, H=portraitC.height;
-  pCtx.clearRect(0,0,W,H);
-
-  // Background — deep warm earth
-  const bgG = pCtx.createLinearGradient(0,0,W,H);
-  bgG.addColorStop(0,  '#100804');
-  bgG.addColorStop(0.5,'#0d0602');
-  bgG.addColorStop(1,  '#080401');
-  pCtx.fillStyle = bgG;
-  pCtx.fillRect(0,0,W,H);
-
-  // Warm window light from the left (home — terracotta glow)
-  const winG = pCtx.createRadialGradient(0, H*0.38, 0, W*0.15, H*0.42, H*0.72);
-  winG.addColorStop(0,   'rgba(220,120,45,0.26)');
-  winG.addColorStop(0.38,'rgba(190,90,30,0.10)');
-  winG.addColorStop(1,   'rgba(0,0,0,0)');
-  pCtx.fillStyle = winG;
-  pCtx.fillRect(0,0,W,H);
-
-  // Cooler ambient from upper right (world outside)
-  const ambG = pCtx.createRadialGradient(W*0.92, H*0.10, 0, W*0.75, H*0.35, H*0.60);
-  ambG.addColorStop(0,   'rgba(140,175,210,0.10)');
-  ambG.addColorStop(0.5, 'rgba(100,140,185,0.04)');
-  ambG.addColorStop(1,   'rgba(0,0,0,0)');
-  pCtx.fillStyle = ambG;
-  pCtx.fillRect(0,0,W,H);
-
-  const cx = W * 0.50;
-  const by = H * 0.92;
-
-  // Soft ground glow — warm
-  const gG = pCtx.createRadialGradient(cx, by, 0, cx, by, W*0.36);
-  gG.addColorStop(0,'rgba(180,80,20,0.12)');
-  gG.addColorStop(1,'rgba(0,0,0,0)');
-  pCtx.fillStyle = gG;
-  pCtx.beginPath();
-  pCtx.ellipse(cx, by, W*0.38, H*0.05, 0, 0, Math.PI*2);
-  pCtx.fill();
-
-  // Body gradient — warm dark
-  const bodyG = pCtx.createLinearGradient(cx-W*0.18, H*0.42, cx+W*0.18, H*0.88);
-  bodyG.addColorStop(0,  'rgba(36,18,6,0.90)');
-  bodyG.addColorStop(0.5,'rgba(22,10,3,0.94)');
-  bodyG.addColorStop(1,  'rgba(8,4,1,0.97)');
-
-  // Torso — girl, slightly smaller frame, seated lean forward
-  pCtx.beginPath();
-  pCtx.moveTo(cx-W*0.105, H*0.46);
-  pCtx.bezierCurveTo(cx-W*0.120,H*0.58, cx-W*0.110,H*0.72, cx-W*0.085,H*0.84);
-  pCtx.lineTo(cx+W*0.105,H*0.84);
-  pCtx.bezierCurveTo(cx+W*0.125,H*0.72, cx+W*0.130,H*0.58, cx+W*0.115,H*0.46);
-  pCtx.closePath();
-  pCtx.fillStyle = bodyG;
-  pCtx.fill();
-
-  // LEFT arm — resting on open book in lap, elbow bent
-  pCtx.beginPath();
-  pCtx.moveTo(cx-W*0.105, H*0.49);
-  pCtx.bezierCurveTo(cx-W*0.17, H*0.53, cx-W*0.21, H*0.64, cx-W*0.16, H*0.78);
-  pCtx.lineTo(cx-W*0.10, H*0.77);
-  pCtx.bezierCurveTo(cx-W*0.14, H*0.64, cx-W*0.10, H*0.55, cx-W*0.04, H*0.51);
-  pCtx.closePath();
-  pCtx.fillStyle = bodyG;
-  pCtx.fill();
-
-  // RIGHT arm — down and slightly forward, hand near book
-  pCtx.beginPath();
-  pCtx.moveTo(cx+W*0.115, H*0.49);
-  pCtx.bezierCurveTo(cx+W*0.175, H*0.54, cx+W*0.195, H*0.65, cx+W*0.160, H*0.78);
-  pCtx.lineTo(cx+W*0.100, H*0.78);
-  pCtx.bezierCurveTo(cx+W*0.130, H*0.65, cx+W*0.110, H*0.54, cx+W*0.050, H*0.50);
-  pCtx.closePath();
-  pCtx.fillStyle = bodyG;
-  pCtx.fill();
-
-  // Head — slightly tilted down (reading/thinking)
-  const headR = W * 0.108;
-  const headY = H * 0.33;
-  const headCx = cx + W * 0.008;  // barely off-centre
-  const headG = pCtx.createRadialGradient(
-    headCx - headR*0.32, headY - headR*0.28, headR*0.06,
-    headCx, headY, headR
-  );
-  headG.addColorStop(0,  'rgba(68,35,12,0.95)');
-  headG.addColorStop(0.5,'rgba(42,20,6,0.96)');
-  headG.addColorStop(1,  'rgba(14,6,1,0.98)');
-  pCtx.beginPath();
-  pCtx.arc(headCx, headY, headR, 0, Math.PI*2);
-  pCtx.fillStyle = headG;
-  pCtx.fill();
-
-  // Neck
-  pCtx.beginPath();
-  pCtx.moveTo(headCx-W*0.034, headY+headR*0.78);
-  pCtx.lineTo(headCx+W*0.034, headY+headR*0.78);
-  pCtx.lineTo(cx+W*0.040, H*0.46);
-  pCtx.lineTo(cx-W*0.038, H*0.46);
-  pCtx.closePath();
-  pCtx.fillStyle = bodyG;
-  pCtx.fill();
-
-  // ── Warm terracotta rim light on left (home window)
-  pCtx.save();
-  pCtx.beginPath();
-  pCtx.arc(headCx, headY, headR, Math.PI*0.48, Math.PI*1.38);
-  pCtx.strokeStyle = 'rgba(220,120,45,0.38)';
-  pCtx.lineWidth = 3.2;
-  pCtx.stroke();
-  pCtx.restore();
-
-  // ── Cooler light on right edge (world outside)
-  pCtx.save();
-  pCtx.beginPath();
-  pCtx.arc(headCx, headY, headR, -Math.PI*0.08, Math.PI*0.40);
-  pCtx.strokeStyle = 'rgba(140,180,220,0.14)';
-  pCtx.lineWidth = 1.6;
-  pCtx.stroke();
-  pCtx.restore();
-
-  // ── Warm rim light on left torso
-  pCtx.save();
-  pCtx.globalAlpha = 0.20;
-  pCtx.strokeStyle = 'rgba(220,120,45,1)';
-  pCtx.lineWidth = 1.0;
-  pCtx.beginPath();
-  pCtx.moveTo(cx-W*0.107, H*0.46);
-  pCtx.bezierCurveTo(cx-W*0.120,H*0.58, cx-W*0.112,H*0.72, cx-W*0.087,H*0.84);
-  pCtx.stroke();
-  pCtx.restore();
-
-  // ── Open book / notebook in lap
-  const bkW = W * 0.58;
-  const bkH = H * 0.18;
-  const bkX = cx - bkW/2;
-  const bkY = H * 0.80;
-
-  // Book shadow
-  pCtx.save();
-  pCtx.shadowColor='rgba(0,0,0,0.55)';pCtx.shadowBlur=14;pCtx.shadowOffsetY=5;
-  pCtx.beginPath();
-  pCtx.roundRect(bkX, bkY, bkW, bkH, 3);
-  pCtx.fillStyle='rgba(18,9,2,0.97)';
-  pCtx.fill();
-  pCtx.restore();
-
-  // Book pages — left page (Spanish/home)
-  const pgW = bkW/2 - 4;
-  pCtx.beginPath();
-  pCtx.roundRect(bkX+2, bkY+2, pgW, bkH-4, [2,0,0,2]);
-  pCtx.fillStyle = 'rgba(28,15,4,0.95)';
-  pCtx.fill();
-  pCtx.strokeStyle = 'rgba(200,110,55,0.18)';
-  pCtx.lineWidth = 0.8;
-  pCtx.stroke();
-
-  // Book pages — right page (English/world) — slightly lighter
-  pCtx.beginPath();
-  pCtx.roundRect(bkX+pgW+4, bkY+2, pgW, bkH-4, [0,2,2,0]);
-  pCtx.fillStyle = 'rgba(22,12,3,0.94)';
-  pCtx.fill();
-  pCtx.strokeStyle = 'rgba(140,180,220,0.14)';
-  pCtx.lineWidth = 0.8;
-  pCtx.stroke();
-
-  // Spine / binding line
-  pCtx.beginPath();
-  pCtx.moveTo(cx, bkY+2);
-  pCtx.lineTo(cx, bkY+bkH-2);
-  pCtx.strokeStyle = 'rgba(200,110,55,0.25)';
-  pCtx.lineWidth = 1.5;
-  pCtx.stroke();
-
-  // Lines on left page (Spanish words — warm)
-  pCtx.strokeStyle = 'rgba(200,110,55,0.15)';
-  pCtx.lineWidth = 0.7;
-  for(let i=1;i<5;i++){
-    const ly = bkY + bkH*(i/5.5);
-    const pw = pgW*(0.55+Math.random()*0.30);
-    pCtx.beginPath();
-    pCtx.moveTo(bkX+10, ly);
-    pCtx.lineTo(bkX+10+pw, ly);
-    pCtx.stroke();
-  }
-
-  // Lines on right page (English words — cooler)
-  pCtx.strokeStyle = 'rgba(140,180,220,0.12)';
-  for(let i=1;i<5;i++){
-    const ly = bkY + bkH*(i/5.5);
-    const pw = pgW*(0.45+Math.random()*0.38);
-    pCtx.beginPath();
-    pCtx.moveTo(bkX+pgW+14, ly);
-    pCtx.lineTo(bkX+pgW+14+pw, ly);
-    pCtx.stroke();
-  }
-
-  // A small star/flower doodle on left page — cultural warmth mark
-  pCtx.save();
-  pCtx.globalAlpha = 0.28;
-  pCtx.strokeStyle = 'rgba(235,160,80,1)';
-  pCtx.lineWidth = 0.8;
-  const fx = bkX + pgW*0.75;
-  const fy = bkY + bkH*0.28;
-  const fr = 5;
-  for(let p=0;p<6;p++){
-    const a0 = (p/6)*Math.PI*2 - Math.PI/2;
-    const a1 = a0 + Math.PI/6;
-    pCtx.beginPath();
-    pCtx.moveTo(fx + Math.cos(a0)*fr, fy + Math.sin(a0)*fr);
-    pCtx.lineTo(fx + Math.cos(a1)*(fr*0.40), fy + Math.sin(a1)*(fr*0.40));
-    pCtx.lineTo(fx + Math.cos(a0+Math.PI/3)*fr, fy + Math.sin(a0+Math.PI/3)*fr);
-    pCtx.stroke();
-  }
-  pCtx.restore();
-
-  // Final vignette
-  const edgeG = pCtx.createRadialGradient(cx, H*0.50, H*0.26, cx, H*0.50, H*0.60);
-  edgeG.addColorStop(0,'rgba(0,0,0,0)');
-  edgeG.addColorStop(1,'rgba(10,5,1,0.68)');
-  pCtx.fillStyle = edgeG;
-  pCtx.fillRect(0,0,W,H);
-}
-
-/* ═══════════════════════════════════════════
-   FALLING LEAVES — warmer, softer amber-rose
-═══════════════════════════════════════════ */
-const LEAF_N = 10, leaves = [];
-let leavesStarted = false;
-
-function drawLeaf(c,sz,sh){
-  const g = c.createRadialGradient(0,-sz*.25,sz*.04,0,0,sz*1.1);
-  g.addColorStop(0,  'rgba(250,215,120,.93)');
-  g.addColorStop(.35,'rgba(220,155,65,.87)');
-  g.addColorStop(.75,'rgba(185,115,30,.77)');
-  g.addColorStop(1,  'rgba(135,80,14,.52)');
-  c.beginPath();c.moveTo(0,-sz);
-  c.bezierCurveTo(sz*.65,-sz*.45,sz*.72,sz*.28,0,sz);
-  c.bezierCurveTo(-sz*.72,sz*.28,-sz*.65,-sz*.45,0,-sz);
-  c.closePath();c.fillStyle=g;c.fill();
-  c.beginPath();c.moveTo(0,-sz*.82);c.quadraticCurveTo(sz*.07,0,0,sz*.82);
-  c.strokeStyle='rgba(240,185,70,.30)';c.lineWidth=Math.max(.5,sz*.05);c.stroke();
-  if(sh){
-    c.beginPath();c.moveTo(sz*.05,-sz*.55);
-    c.bezierCurveTo(sz*.38,-sz*.18,sz*.32,sz*.12,sz*.05,sz*.45);
-    c.strokeStyle='rgba(255,230,155,.40)';c.lineWidth=Math.max(.4,sz*.04);c.stroke();
-  }
-}
-function mkLeaf(s){
-  const W=leavesC.width, H=leavesC.height;
-  return{
-    x:Math.random()*W*1.2-W*.1,
-    y:s?-Math.random()*H*1.2:-(20+Math.random()*65),
-    sz:5+Math.random()*9,
-    vx:(Math.random()-.5)*.40, vy:.36+Math.random()*.68,
-    rot:Math.random()*Math.PI*2, rotV:(Math.random()-.5)*.016,
-    wob:Math.random()*Math.PI*2, wobS:.007+Math.random()*.012, wobA:.30+Math.random()*.52,
-    shi:Math.random()>.48, alp:.38+Math.random()*.36,
-    gPh:Math.random()*Math.PI*2, gSpd:.013+Math.random()*.017
-  };
-}
-function tickLeaves(){
-  const W=leavesC.width, H=leavesC.height;
-  lCtx.clearRect(0,0,W,H);
-  leaves.forEach(l=>{
-    l.wob+=l.wobS; l.rot+=l.rotV;
-    l.x+=l.vx+Math.sin(l.wob)*l.wobA; l.y+=l.vy; l.gPh+=l.gSpd;
-    if(l.y>H+30) Object.assign(l,mkLeaf(false));
-    const a=l.shi?l.alp*(.70+.30*Math.sin(l.gPh)):l.alp;
-    lCtx.save();lCtx.translate(l.x,l.y);lCtx.rotate(l.rot);lCtx.globalAlpha=a;
-    if(l.shi&&Math.sin(l.gPh)>.35){lCtx.shadowColor='rgba(220,155,50,.52)';lCtx.shadowBlur=l.sz*1.4;}
-    drawLeaf(lCtx,l.sz,l.shi);lCtx.shadowBlur=0;lCtx.restore();
-  });
-  requestAnimationFrame(tickLeaves);
-}
-
-/* ═══════════════════════════════════════════
-   SCROLL REVEAL
-═══════════════════════════════════════════ */
-function initReveal(){
-  const els=document.querySelectorAll('.reveal');
-  if(!('IntersectionObserver' in window)){els.forEach(el=>el.classList.add('revealed'));return;}
-  const obs=new IntersectionObserver((entries)=>{
-    entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('revealed');obs.unobserve(e.target);}});
-  },{threshold:0.10});
-  els.forEach(el=>obs.observe(el));
-}
-
-/* ═══════════════════════════════════════════
-   AMBIENT SOUND ENGINE
-   Softer, lower-frequency — warm indoor feel,
-   like a quiet evening at home with the window
-   open. Gentle gusts are slower and warmer.
-═══════════════════════════════════════════ */
-let ambCtx=null,masterGain=null,ambientReady=false,ambientActive=false;
-let gustTimer=null,rustleTimer=null;
-const MASTER_VOL=0.26;
-
-function makeNoise(ac,sec){
-  const l=ac.sampleRate*sec,b=ac.createBuffer(1,l,ac.sampleRate),d=b.getChannelData(0);
-  for(let i=0;i<l;i++) d[i]=Math.random()*2-1;
-  return b;
-}
-function rampGain(g,t,ms){
-  const ac=g.context,now=ac.currentTime;
-  g.gain.cancelScheduledValues(now);
-  g.gain.setValueAtTime(g.gain.value,now);
-  g.gain.linearRampToValueAtTime(t,now+ms/1000);
-}
-
-function buildAmbient(){
-  if(ambientReady)return;ambientReady=true;
-  ambCtx=new(window.AudioContext||window.webkitAudioContext)();
-  masterGain=ambCtx.createGain();masterGain.gain.value=0;masterGain.connect(ambCtx.destination);
-  // Very soft low wind — warm indoor / evening
-  const ws=ambCtx.createBufferSource();ws.buffer=makeNoise(ambCtx,4);ws.loop=true;
-  const bp=ambCtx.createBiquadFilter();bp.type='bandpass';bp.frequency.value=200;bp.Q.value=.45;
-  const hp=ambCtx.createBiquadFilter();hp.type='highpass';hp.frequency.value=60;hp.Q.value=.38;
-  const wg=ambCtx.createGain();wg.gain.value=.12;
-  ws.connect(bp);bp.connect(hp);hp.connect(wg);wg.connect(masterGain);ws.start();
-}
-
-function fireGust(ac){
-  if(!ambientActive)return;
-  const src=ac.createBufferSource();src.buffer=makeNoise(ac,3.0);
-  const bp=ac.createBiquadFilter();bp.type='bandpass';bp.frequency.value=380+Math.random()*160;bp.Q.value=.60;
-  const env=ac.createGain();env.gain.value=0;
-  src.connect(bp);bp.connect(env);env.connect(masterGain);
-  const now=ac.currentTime,peak=.06+Math.random()*.06,dur=2.0+Math.random()*1.2;
-  env.gain.setValueAtTime(0,now);
-  env.gain.linearRampToValueAtTime(peak,now+dur*.42);
-  env.gain.linearRampToValueAtTime(0,now+dur);
-  src.start(now);src.stop(now+dur+.05);
-  gustTimer=setTimeout(()=>fireGust(ac),7000+Math.random()*6000);
-}
-
-function fireRustle(ac){
-  if(!ambientActive)return;
-  const dur=.45+Math.random()*.35,src=ac.createBufferSource();
-  src.buffer=makeNoise(ac,dur+.1);
-  const hp=ac.createBiquadFilter();hp.type='highpass';hp.frequency.value=1600+Math.random()*1400;hp.Q.value=.40;
-  const env=ac.createGain();env.gain.value=0;
-  src.connect(hp);hp.connect(env);env.connect(masterGain);
-  const now=ac.currentTime,peak=.040+Math.random()*.030;
-  env.gain.setValueAtTime(0,now);
-  env.gain.linearRampToValueAtTime(peak,now+.025);
-  env.gain.exponentialRampToValueAtTime(.0001,now+dur);
-  src.start(now);src.stop(now+dur+.05);
-  rustleTimer=setTimeout(()=>fireRustle(ac),4500+Math.random()*5500);
-}
-
-function ambientFadeIn(){
-  if(!ambientReady||ambientActive)return;ambientActive=true;
-  if(ambCtx.state==='suspended')ambCtx.resume();
-  rampGain(masterGain,MASTER_VOL,2500);
-  setTimeout(()=>{
-    if(!ambientActive)return;
-    gustTimer  =setTimeout(()=>fireGust(ambCtx),  1800+Math.random()*2500);
-    rustleTimer=setTimeout(()=>fireRustle(ambCtx),1200+Math.random()*2000);
-  },2600);
-}
-function ambientFadeOut(){
-  if(!ambientReady||!ambientActive)return;ambientActive=false;
-  clearTimeout(gustTimer);clearTimeout(rustleTimer);
-  rampGain(masterGain,0,800);
-}
+const wC=document.getElementById('warmth-canvas'),wCtx=wC.getContext('2d');
+function resizeW(){wC.width=window.innerWidth;wC.height=window.innerHeight;}
+resizeW();window.addEventListener('resize',resizeW,{passive:true});
+let wPhase=0;
+function tickWarmth(){wPhase+=0.006;const W=wC.width,H=wC.height;wCtx.clearRect(0,0,W,H);
+const glows=[{x:.30,y:.28,rx:.55,ry:.50,c:'rgba(200,100,55,0.09)'},{x:.68,y:.65,rx:.48,ry:.42,c:'rgba(212,175,55,0.06)'},{x:.50,y:.08,rx:.65,ry:.35,c:'rgba(212,175,55,0.05)'}];
+glows.forEach((g,i)=>{const ax=g.x*W+Math.sin(wPhase+i*1.4)*W*0.03,ay=g.y*H+Math.cos(wPhase+i*1.1)*H*0.025;const gr=wCtx.createRadialGradient(ax,ay,0,ax,ay,g.rx*W);gr.addColorStop(0,g.c);gr.addColorStop(1,'transparent');wCtx.fillStyle=gr;wCtx.fillRect(0,0,W,H);});
+requestAnimationFrame(tickWarmth);}
+setTimeout(()=>{wC.classList.add('visible');tickWarmth();},300);
+const lC=document.getElementById('leaves-canvas'),lCtx=lC.getContext('2d');
+let leavesStarted=false;const LEAF_N=16,leaves=[];
+function resizeL(){lC.width=window.innerWidth;lC.height=window.innerHeight;}
+resizeL();window.addEventListener('resize',resizeL,{passive:true});
+function drawLeaf(c,sz,sh){const g=c.createRadialGradient(0,-sz*.25,sz*.04,0,0,sz*1.1);g.addColorStop(0,'rgba(255,232,110,.95)');g.addColorStop(.35,'rgba(212,175,55,.88)');g.addColorStop(.75,'rgba(180,140,28,.78)');g.addColorStop(1,'rgba(130,95,15,.55)');c.beginPath();c.moveTo(0,-sz);c.bezierCurveTo(sz*.65,-sz*.45,sz*.72,sz*.28,0,sz);c.bezierCurveTo(-sz*.72,sz*.28,-sz*.65,-sz*.45,0,-sz);c.closePath();c.fillStyle=g;c.fill();c.beginPath();c.moveTo(0,-sz*.82);c.quadraticCurveTo(sz*.07,0,0,sz*.82);c.strokeStyle='rgba(255,210,70,.35)';c.lineWidth=Math.max(.5,sz*.055);c.stroke();if(sh){c.beginPath();c.moveTo(sz*.05,-sz*.55);c.bezierCurveTo(sz*.38,-sz*.18,sz*.32,sz*.12,sz*.05,sz*.45);c.strokeStyle='rgba(255,248,190,.5)';c.lineWidth=Math.max(.4,sz*.04);c.stroke();}}
+function mkL(s){const W=lC.width,H=lC.height;return{x:Math.random()*W*1.3-W*.15,y:s?-Math.random()*H*1.4:-(20+Math.random()*80),sz:6+Math.random()*10,vx:(Math.random()-.5)*.5,vy:.45+Math.random()*.85,rot:Math.random()*Math.PI*2,rotV:(Math.random()-.5)*.022,wob:Math.random()*Math.PI*2,wobS:.009+Math.random()*.013,wobA:.35+Math.random()*.6,shi:Math.random()>.45,alp:.50+Math.random()*.42,gPh:Math.random()*Math.PI*2,gSpd:.018+Math.random()*.022};}
+function tickL(){const W=lC.width,H=lC.height;lCtx.clearRect(0,0,W,H);leaves.forEach(l=>{l.wob+=l.wobS;l.rot+=l.rotV;l.x+=l.vx+Math.sin(l.wob)*l.wobA;l.y+=l.vy;l.gPh+=l.gSpd;if(l.y>H+30)Object.assign(l,mkL(false));const a=l.shi?l.alp*(.72+.28*Math.sin(l.gPh)):l.alp;lCtx.save();lCtx.translate(l.x,l.y);lCtx.rotate(l.rot);lCtx.globalAlpha=a;if(l.shi&&Math.sin(l.gPh)>.3){lCtx.shadowColor='rgba(255,210,60,.65)';lCtx.shadowBlur=l.sz*1.6;}drawLeaf(lCtx,l.sz,l.shi);lCtx.shadowBlur=0;lCtx.restore();});requestAnimationFrame(tickL);}
+setTimeout(()=>{if(leavesStarted)return;leavesStarted=true;for(let i=0;i<LEAF_N;i++)leaves.push(mkL(true));lC.classList.add('visible');tickL();},500);
+(function(){const els=document.querySelectorAll('.reveal');if(!('IntersectionObserver' in window)){els.forEach(el=>el.classList.add('revealed'));return;}const obs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('revealed');obs.unobserve(e.target);}});},{threshold:0.08});els.forEach(el=>obs.observe(el));})();
+let ambCtx=null,masterGain=null,ambientReady=false,ambientActive=false,gustTimer=null,rustleTimer=null;const MASTER_VOL=0.28;
+function makeNoise(ac,sec){const l=ac.sampleRate*sec,b=ac.createBuffer(1,l,ac.sampleRate),d=b.getChannelData(0);for(let i=0;i<l;i++)d[i]=Math.random()*2-1;return b;}
+function rampGain(g,t,ms){const ac=g.context,now=ac.currentTime;g.gain.cancelScheduledValues(now);g.gain.setValueAtTime(g.gain.value,now);g.gain.linearRampToValueAtTime(t,now+ms/1000);}
+function buildAmbient(){if(ambientReady)return;ambientReady=true;ambCtx=new(window.AudioContext||window.webkitAudioContext)();masterGain=ambCtx.createGain();masterGain.gain.value=0;masterGain.connect(ambCtx.destination);const ws=ambCtx.createBufferSource();ws.buffer=makeNoise(ambCtx,4);ws.loop=true;const bp=ambCtx.createBiquadFilter();bp.type='bandpass';bp.frequency.value=300;bp.Q.value=.48;const hp=ambCtx.createBiquadFilter();hp.type='highpass';hp.frequency.value=80;hp.Q.value=.4;const wg=ambCtx.createGain();wg.gain.value=.12;ws.connect(bp);bp.connect(hp);hp.connect(wg);wg.connect(masterGain);ws.start();}
+function fireGust(ac){if(!ambientActive)return;const src=ac.createBufferSource();src.buffer=makeNoise(ac,2.5);const bp=ac.createBiquadFilter();bp.type='bandpass';bp.frequency.value=480+Math.random()*180;bp.Q.value=.6;const env=ac.createGain();env.gain.value=0;src.connect(bp);bp.connect(env);env.connect(masterGain);const now=ac.currentTime,peak=.07+Math.random()*.06,dur=1.8+Math.random()*1.0;env.gain.setValueAtTime(0,now);env.gain.linearRampToValueAtTime(peak,now+dur*.38);env.gain.linearRampToValueAtTime(0,now+dur);src.start(now);src.stop(now+dur+.05);gustTimer=setTimeout(()=>fireGust(ac),6500+Math.random()*4500);}
+function fireRustle(ac){if(!ambientActive)return;const dur=.40+Math.random()*.32,src=ac.createBufferSource();src.buffer=makeNoise(ac,dur+.1);const hp=ac.createBiquadFilter();hp.type='highpass';hp.frequency.value=1700+Math.random()*1600;hp.Q.value=.38;const env=ac.createGain();env.gain.value=0;src.connect(hp);hp.connect(env);env.connect(masterGain);const now=ac.currentTime,peak=.035+Math.random()*.025;env.gain.setValueAtTime(0,now);env.gain.linearRampToValueAtTime(peak,now+.022);env.gain.exponentialRampToValueAtTime(.0001,now+dur);src.start(now);src.stop(now+dur+.05);rustleTimer=setTimeout(()=>fireRustle(ac),4000+Math.random()*5000);}
+function ambientFadeIn(){if(!ambientReady||ambientActive)return;ambientActive=true;if(ambCtx.state==='suspended')ambCtx.resume();rampGain(masterGain,MASTER_VOL,2200);setTimeout(()=>{if(!ambientActive)return;gustTimer=setTimeout(()=>fireGust(ambCtx),1500+Math.random()*2000);rustleTimer=setTimeout(()=>fireRustle(ambCtx),1000+Math.random()*1800);},2400);}
+function ambientFadeOut(){if(!ambientReady||!ambientActive)return;ambientActive=false;clearTimeout(gustTimer);clearTimeout(rustleTimer);rampGain(masterGain,0,700);}
 document.addEventListener('click',()=>{if(ambCtx&&ambCtx.state==='suspended')ambCtx.resume();},{passive:true});
-
-/* ═══════════════════════════════════════════
-   SOUND TOGGLE
-═══════════════════════════════════════════ */
-let muted=true;
-const soundBtn    = document.getElementById('sound-btn');
-const iconMuted   = document.getElementById('icon-muted');
-const iconUnmuted = document.getElementById('icon-unmuted');
-soundBtn.addEventListener('click',()=>{
-  muted=!muted;
-  if(!muted){iconMuted.style.display='none';iconUnmuted.style.display='block';buildAmbient();ambientFadeIn();}
-  else{iconMuted.style.display='block';iconUnmuted.style.display='none';ambientFadeOut();}
-});
-
-/* ═══════════════════════════════════════════
-   INIT
-═══════════════════════════════════════════ */
-resizeAll();
-initFloats();
-initReveal();
-
-// Start canvas animations
-setTimeout(()=>{
-  warmthC.classList.add('visible');
-  floatC.classList.add('visible');
-  tickWarmth();
-  tickFloats();
-}, 300);
-
-// Leaves slightly later
-setTimeout(()=>{
-  if(leavesStarted)return;leavesStarted=true;
-  for(let i=0;i<LEAF_N;i++) leaves.push(mkLeaf(true));
-  leavesC.classList.add('visible');
-  tickLeaves();
-}, 600);
-
+let muted=true;const soundBtn=document.getElementById('sound-btn'),iconMuted=document.getElementById('icon-muted'),iconUnmuted=document.getElementById('icon-unmuted');
+soundBtn.addEventListener('click',()=>{muted=!muted;if(!muted){iconMuted.style.display='none';iconUnmuted.style.display='block';buildAmbient();ambientFadeIn();}else{iconMuted.style.display='block';iconUnmuted.style.display='none';ambientFadeOut();}});
 })();
 </script>
 </body>

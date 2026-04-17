@@ -4,22 +4,18 @@ import { serveStatic } from 'hono/cloudflare-workers'
 const app = new Hono()
 
 /**
- * MustardSeed Productions
+ * MustardSeed Productions — Cloudflare Pages Worker
  *
- * Routes:
- *  /               — Cinematic landing page (motion graphic + ambient sound)
- *  /about                    — About page
- *  /stories                  — Stories page (Seeds of Greatness + Children's Books)
- *  /tv-properties            — TV Properties page (Animated + Television)
- *  /philosophy               — Philosophy page
- *  /characters/yeshua        — Character page: Growing Up with Yeshua
- *  /static/*                 — Shared static assets (favicon, VIG logo, CSS)
+ * Static HTML files are served directly by Cloudflare Pages from dist/
+ * The worker handles API routes and static assets only.
+ * Clean URLs (e.g. /stories → stories.html) are handled by Pages' built-in
+ * HTML handling — no worker intervention needed for those routes.
  */
 
-// Static assets
+// Static assets only — let Cloudflare Pages serve HTML files natively
 app.use('/static/*', serveStatic({ root: './' }))
 
-// Catch-all: let Cloudflare Pages serve the correct HTML file from dist/
+// Catch-all fallback
 app.use('/*', serveStatic({ root: './' }))
 
 export default app
