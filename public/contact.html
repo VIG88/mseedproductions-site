@@ -488,8 +488,43 @@
   -webkit-mask-image: radial-gradient(circle, black 38%, transparent 68%);
   mask-image: radial-gradient(circle, black 38%, transparent 68%);
 }
-/* Donations inline form fields */
-.seed-inline-form { margin-top: 24px; }
+/* Pledge form — expand/collapse container */
+.pledge-form-wrap {
+  overflow: hidden;
+  max-height: 0;
+  opacity: 0;
+  transition:
+    max-height 0.55s cubic-bezier(0.22,0,0.18,1),
+    opacity    0.40s ease;
+  grid-column: 1 / -1;
+  margin-top: 0;
+}
+.pledge-form-wrap.open {
+  max-height: 600px;
+  opacity: 1;
+}
+/* Pledge form inner */
+.pledge-form {
+  margin-top: 28px;
+  padding-top: 24px;
+  border-top: 1px solid rgba(212,175,55,0.12);
+}
+.pledge-form-title {
+  font-family: 'Cinzel',serif;
+  font-size: clamp(0.88rem,1.6vw,1.08rem);
+  font-weight: 600;
+  letter-spacing: 0.09em;
+  color: var(--gold-lt);
+  margin-bottom: 6px;
+}
+.pledge-form-sub {
+  font-family: 'Lora',serif;
+  font-size: clamp(0.76rem,1.1vw,0.84rem);
+  font-style: italic;
+  color: rgba(253,248,238,0.46);
+  margin-bottom: 20px;
+  line-height: 1.65;
+}
 .seed-form-row {
   display: flex;
   gap: 12px;
@@ -512,6 +547,59 @@
 }
 .seed-field-input::placeholder { color: rgba(212,175,55,0.30); }
 .seed-field-input:focus { border-color: rgba(212,175,55,0.45); }
+select.seed-field-input {
+  cursor: pointer;
+  -webkit-appearance: none;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpolyline points='1 1 5 5 9 1' fill='none' stroke='rgba(212,175,55,0.50)' stroke-width='1.4'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 14px center;
+  padding-right: 36px;
+}
+select.seed-field-input option { background: #0e0a00; color: rgba(253,248,238,0.88); }
+.seed-textarea {
+  width: 100%;
+  min-height: 80px;
+  resize: vertical;
+  box-sizing: border-box;
+}
+/* Pledge checkbox */
+.pledge-check-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin: 14px 0 18px;
+}
+.pledge-check-row input[type="checkbox"] {
+  flex-shrink: 0;
+  margin-top: 2px;
+  accent-color: rgba(212,175,55,0.85);
+  width: 14px; height: 14px;
+  cursor: pointer;
+}
+.pledge-check-label {
+  font-family: 'Inter',sans-serif;
+  font-size: 0.68rem;
+  letter-spacing: 0.04em;
+  color: rgba(253,248,238,0.52);
+  line-height: 1.55;
+  cursor: pointer;
+}
+/* Pledge submit row */
+.pledge-submit-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+.pledge-note {
+  font-family: 'Inter',sans-serif;
+  font-size: 0.60rem;
+  letter-spacing: 0.06em;
+  color: rgba(212,175,55,0.34);
+  line-height: 1.55;
+  flex: 1;
+}
 /* Donations success state */
 .seed-success {
   display: none;
@@ -740,6 +828,7 @@
   .seed-panel { grid-template-columns: 1fr; gap: 32px; padding: 40px 28px; }
   .seed-panel::after { display: none; }
   .seed-cta { text-align: left; }
+  .pledge-submit-row { flex-direction: column; align-items: flex-start; }
   .social-panel { padding: 40px 28px; }
   .form-submit-row { flex-direction: column; align-items: flex-start; }
 }
@@ -931,7 +1020,7 @@
           </p>
         </div>
 
-        <!-- Content + form (hidden after submit) -->
+        <!-- Content block (always visible until success) -->
         <div class="seed-content" id="seed-content">
           <p class="seed-eyebrow">Support the Mission</p>
           <h2 class="seed-title">Plant a Seed</h2>
@@ -940,23 +1029,76 @@
             and plant seeds of greatness in the lives of others. Every contribution helps
             us create work that speaks to the heart of the next generation.
           </p>
-          <!-- Inline name + email so we know who is reaching out -->
-          <div class="seed-inline-form">
-            <div class="seed-form-row">
-              <input class="seed-field-input" type="text"  id="seed-name"  placeholder="Your name"        autocomplete="name" />
-              <input class="seed-field-input" type="email" id="seed-email" placeholder="your@email.com"   autocomplete="email" />
-            </div>
-            <div id="seed-error-msg" style="display:none;"></div>
-          </div>
         </div>
 
+        <!-- CTA: clicking this reveals the pledge form -->
         <div class="seed-cta" id="seed-cta">
-          <button type="button" class="btn-gold" id="seed-submit-btn"
-                  aria-label="Support the mission — submit your interest">
+          <button type="button" class="btn-gold" id="seed-cta-btn"
+                  aria-label="Make a pledge — reveal pledge form"
+                  aria-expanded="false" aria-controls="pledge-form-wrap">
             Support the Mission
             <span class="btn-arrow" aria-hidden="true">→</span>
           </button>
         </div>
+
+        <!-- Pledge form — expands on button click -->
+        <div class="pledge-form-wrap" id="pledge-form-wrap" aria-hidden="true">
+          <div class="pledge-form" id="pledge-form">
+
+            <h3 class="pledge-form-title">Make a Pledge</h3>
+            <p class="pledge-form-sub">
+              Every gift — of any size — helps us create stories, books,
+              and experiences that inspire the next generation.
+            </p>
+
+            <!-- Row 1: Name + Email -->
+            <div class="seed-form-row">
+              <input class="seed-field-input" type="text" id="pledge-name"
+                     placeholder="Full Name" autocomplete="name" />
+              <input class="seed-field-input" type="email" id="pledge-email"
+                     placeholder="Email Address" autocomplete="email" />
+            </div>
+
+            <!-- Row 2: Pledge Amount + Pledge Type -->
+            <div class="seed-form-row">
+              <input class="seed-field-input" type="text" id="pledge-amount"
+                     placeholder="Pledge Amount (e.g. $25)" style="min-width:130px;" />
+              <select class="seed-field-input" id="pledge-type">
+                <option value="" disabled selected>Pledge Type</option>
+                <option value="One-Time Gift">One-Time Gift</option>
+                <option value="Monthly Support">Monthly Support</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
+
+            <!-- Row 3: Optional Message -->
+            <div class="seed-form-row">
+              <textarea class="seed-field-input seed-textarea" id="pledge-message"
+                        placeholder="Optional message or note…"></textarea>
+            </div>
+
+            <!-- Confirm checkbox -->
+            <div class="pledge-check-row">
+              <input type="checkbox" id="pledge-confirm" />
+              <label class="pledge-check-label" for="pledge-confirm">
+                I confirm my pledge and understand that payment instructions
+                will follow via email.
+              </label>
+            </div>
+
+            <div id="seed-error-msg" style="display:none;"></div>
+
+            <div class="pledge-submit-row">
+              <p class="pledge-note">Submissions go directly to info@mseedproductions.com</p>
+              <button type="button" class="btn-gold" id="seed-submit-btn"
+                      aria-label="Submit pledge">
+                Plant a Seed
+                <span class="btn-arrow" aria-hidden="true">→</span>
+              </button>
+            </div>
+
+          </div><!-- .pledge-form -->
+        </div><!-- .pledge-form-wrap -->
 
       </section>
 
@@ -1275,23 +1417,68 @@ form.addEventListener('submit', async function(e){
   }
 });
 
-/* ═══ DONATIONS / PLANT A SEED ═══════════════════════════════════════════════ */
-const seedSubmitBtn = document.getElementById('seed-submit-btn');
-const seedSuccess   = document.getElementById('seed-success');
-const seedContent   = document.getElementById('seed-content');
-const seedCta       = document.getElementById('seed-cta');
-const seedErrMsg    = document.getElementById('seed-error-msg');
+/* ═══ DONATIONS / PLEDGE FORM ═════════════════════════════════════════════════ */
+const seedCtaBtn     = document.getElementById('seed-cta-btn');
+const pledgeFormWrap = document.getElementById('pledge-form-wrap');
+const seedSubmitBtn  = document.getElementById('seed-submit-btn');
+const seedSuccess    = document.getElementById('seed-success');
+const seedContent    = document.getElementById('seed-content');
+const seedCta        = document.getElementById('seed-cta');
+const seedErrMsg     = document.getElementById('seed-error-msg');
 
+// CTA button → reveal pledge form with smooth expand
+if (seedCtaBtn && pledgeFormWrap) {
+  seedCtaBtn.addEventListener('click', function () {
+    const isOpen = pledgeFormWrap.classList.contains('open');
+    if (!isOpen) {
+      pledgeFormWrap.classList.add('open');
+      pledgeFormWrap.removeAttribute('aria-hidden');
+      seedCtaBtn.setAttribute('aria-expanded', 'true');
+      // Change CTA text to indicate form is open
+      seedCtaBtn.innerHTML = 'Make a Pledge <span class="btn-arrow" aria-hidden="true">↓</span>';
+      // Smooth scroll to bring the pledge form into view
+      setTimeout(() => {
+        pledgeFormWrap.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }, 60);
+    } else {
+      // Toggle closed
+      pledgeFormWrap.classList.remove('open');
+      pledgeFormWrap.setAttribute('aria-hidden', 'true');
+      seedCtaBtn.setAttribute('aria-expanded', 'false');
+      seedCtaBtn.innerHTML = 'Support the Mission <span class="btn-arrow" aria-hidden="true">→</span>';
+    }
+  });
+}
+
+// Pledge form submit
 if (seedSubmitBtn) {
   seedSubmitBtn.addEventListener('click', async function () {
-    const name  = (document.getElementById('seed-name').value  || '').trim();
-    const email = (document.getElementById('seed-email').value || '').trim();
+    const name    = (document.getElementById('pledge-name').value    || '').trim();
+    const email   = (document.getElementById('pledge-email').value   || '').trim();
+    const amount  = (document.getElementById('pledge-amount').value  || '').trim();
+    const type    = (document.getElementById('pledge-type').value    || '').trim();
+    const message = (document.getElementById('pledge-message').value || '').trim();
+    const confirmed = document.getElementById('pledge-confirm').checked;
 
-    // Name and email are optional but if email supplied validate format
-    if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    // Validation: name required
+    if (!name) {
+      const f = document.getElementById('pledge-name');
+      f.focus();
+      f.style.borderColor = 'rgba(212,100,55,0.65)';
+      setTimeout(() => { f.style.borderColor = ''; }, 2400);
+      seedErrMsg.textContent   = 'Please enter your full name.';
+      seedErrMsg.style.display = 'block';
+      setTimeout(() => { seedErrMsg.style.display = 'none'; }, 4000);
+      return;
+    }
+    // Validation: email required + format
+    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      const f = document.getElementById('pledge-email');
+      f.focus();
+      f.style.borderColor = 'rgba(212,100,55,0.65)';
+      setTimeout(() => { f.style.borderColor = ''; }, 2400);
       seedErrMsg.textContent   = 'Please enter a valid email address.';
       seedErrMsg.style.display = 'block';
-      document.getElementById('seed-email').focus();
       setTimeout(() => { seedErrMsg.style.display = 'none'; }, 4000);
       return;
     }
@@ -1299,39 +1486,48 @@ if (seedSubmitBtn) {
     seedSubmitBtn.disabled    = true;
     seedSubmitBtn.textContent = 'Sending…';
 
+    // Build email body
+    const bodyLines = [
+      'Name:         ' + name,
+      'Email:        ' + email,
+      amount  ? 'Pledge Amount: ' + amount   : null,
+      type    ? 'Pledge Type:   ' + type     : null,
+      message ? '\nMessage:\n'   + message   : null,
+      '\nConfirmed pledge: ' + (confirmed ? 'Yes' : 'No'),
+      '\n— Sent from mseedproductions.com/contact'
+    ].filter(Boolean).join('\n');
+
     try {
       const res = await fetch('https://api.web3forms.com/submit', {
         method:  'POST',
         headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
         body: JSON.stringify({
           access_key: 'b446c862-92aa-40d0-99c7-5a261b45a094',
-          subject:    'MustardSeed — Plant a Seed Interest' + (name ? ' — ' + name : ''),
-          from_name:  name || 'Website Visitor',
-          replyto:    email || 'noreply@mseedproductions.com',
-          message:
-            'A visitor expressed interest in supporting the mission (Plant a Seed).' +
-            (name  ? '\n\nName:  ' + name  : '') +
-            (email ? '\nEmail: ' + email : ''),
+          subject:    'MustardSeed — Pledge: ' + name + (amount ? ' (' + amount + ')' : ''),
+          from_name:  name,
+          replyto:    email,
+          message:    bodyLines,
         }),
       });
       const data = await res.json();
       if (!data.success) throw new Error(data.message || 'Submission failed.');
 
-      // ✓ Success — fade out form content, reveal confirmation
-      seedContent.style.transition = 'opacity 0.45s ease';
-      seedCta.style.transition     = 'opacity 0.45s ease';
-      seedContent.style.opacity    = '0';
-      seedCta.style.opacity        = '0';
+      // ✓ Success — fade out content + cta + form, reveal confirmation
+      [seedContent, seedCta, pledgeFormWrap].forEach(el => {
+        el.style.transition = 'opacity 0.45s ease';
+        el.style.opacity    = '0';
+      });
       setTimeout(() => {
-        seedContent.style.display = 'none';
-        seedCta.style.display     = 'none';
+        seedContent.style.display    = 'none';
+        seedCta.style.display        = 'none';
+        pledgeFormWrap.style.display = 'none';
         seedSuccess.classList.add('visible');
         seedSuccess.scrollIntoView({ behavior: 'smooth', block: 'center' });
       }, 460);
 
     } catch (err) {
       seedSubmitBtn.disabled    = false;
-      seedSubmitBtn.textContent = 'Support the Mission';
+      seedSubmitBtn.textContent = 'Plant a Seed';
       seedErrMsg.textContent    = (err instanceof Error ? err.message : 'Something went wrong. Please try again.');
       seedErrMsg.style.display  = 'block';
       setTimeout(() => { seedErrMsg.style.display = 'none'; }, 5000);
