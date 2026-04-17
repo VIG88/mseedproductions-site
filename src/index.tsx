@@ -55,14 +55,8 @@ app.post('/api/contact', async (c) => {
     // Web3Forms — free service, routes to the registered recipient email.
     // Access key is stored as a Cloudflare secret: WEB3FORMS_KEY
     // Sign up free at https://web3forms.com to get a key tied to info@mseedproductions.com
-    const accessKey = c.env?.WEB3FORMS_KEY || ''
-
-    if (!accessKey) {
-      // No key configured yet — log server-side, return success to visitor
-      // so form UX works while key is being set up
-      console.log('[contact] WEB3FORMS_KEY not set. Submission received:', { name, email })
-      return c.json({ ok: true })
-    }
+    // Use env secret if set, otherwise fall back to the public access key
+    const accessKey = (c.env?.WEB3FORMS_KEY) || 'b446c862-92aa-40d0-99c7-5a261b45a094'
 
     const res = await fetch('https://api.web3forms.com/submit', {
       method: 'POST',

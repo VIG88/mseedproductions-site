@@ -993,34 +993,43 @@ form.addEventListener('submit', async function(e){
     return;
   }
 
-  // Build interest label
+  // Disable button and show sending state
+  submitBtn.disabled = true;
+  submitBtn.textContent = 'Sending…';
+
+  // Build a readable interest label for the email body
   const interestMap = {
     'book-releases':  'Notify me about Book Releases',
     'plant-a-seed':   'I\'d like to Plant a Seed (Donations)',
     'join-community': 'I want to Join the Community'
   };
   const interestText = interests.length
-    ? interests.map(v => interestMap[v] || v).join('\n- ')
+    ? interests.map(v => interestMap[v] || v).join(', ')
     : 'None selected';
 
-  // Disable button and show sending state
-  submitBtn.disabled = true;
-  submitBtn.textContent = 'Sending…';
-
   try {
-    const res  = await fetch('/api/contact', {
+    const res = await fetch('https://api.web3forms.com/submit', {
       method:  'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body:    JSON.stringify({ name, email, message, interests }),
+      headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+      body: JSON.stringify({
+        access_key: 'b446c862-92aa-40d0-99c7-5a261b45a094',
+        subject:    'MustardSeed Community — ' + name,
+        from_name:  name,
+        replyto:    email,
+        message:
+          'Name:      ' + name + '\n' +
+          'Email:     ' + email + '\n\n' +
+          'Interests: ' + interestText + '\n\n' +
+          (message ? 'Message:\n' + message : '(no message)'),
+      }),
     });
     const data = await res.json();
 
-    if (!data.ok) {
-      // Surface any server error inline without crashing UX
-      throw new Error(data.error || 'Submission failed.');
+    if (!data.success) {
+      throw new Error(data.message || 'Submission failed. Please try again.');
     }
 
-    // Success — fade out form, reveal confirmation
+    // ✓ Success — fade form out, reveal confirmation
     form.style.transition = 'opacity 0.5s ease';
     form.style.opacity    = '0';
     setTimeout(()=>{
@@ -1030,14 +1039,14 @@ form.addEventListener('submit', async function(e){
     }, 500);
 
   } catch(err) {
-    // Re-enable button and show inline error so visitor can retry
+    // Re-enable button and surface error so visitor can retry
     submitBtn.disabled    = false;
     submitBtn.textContent = 'Grow With Us';
     const errMsg = document.getElementById('form-error-msg');
     if (errMsg) {
-      errMsg.textContent = (err instanceof Error ? err.message : 'Something went wrong. Please try again.');
+      errMsg.textContent   = (err instanceof Error ? err.message : 'Something went wrong. Please try again.');
       errMsg.style.display = 'block';
-      setTimeout(()=>{ errMsg.style.display='none'; }, 5000);
+      setTimeout(()=>{ errMsg.style.display = 'none'; }, 5000);
     }
   }
 });
