@@ -150,10 +150,11 @@ body{font-family:'Lora','Georgia',serif;background:var(--bg-tint);color:var(--cr
 .book-panel{background:rgba(14,8,2,0.82);border:1px solid rgba(212,175,55,0.12);border-top:2px solid rgba(212,175,55,0.24);border-radius:4px;padding:56px 60px;margin-bottom:28px;display:grid;grid-template-columns:auto 1fr;gap:56px;align-items:start;position:relative;overflow:hidden;}
 .book-panel::before{content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);width:55%;height:1px;background:linear-gradient(to right,transparent,rgba(212,175,55,0.38) 30%,rgba(212,175,55,0.38) 70%,transparent);}
 .book-cover-wrap{flex-shrink:0;width:160px;}
-.book-cover-placeholder{width:160px;height:210px;background:rgba(14,8,2,0.80);border:1px solid rgba(212,175,55,0.18);border-radius:3px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;position:relative;overflow:hidden;}
-.book-cover-placeholder::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(200,100,55,0.08) 0%,rgba(212,175,55,0.04) 100%);}
-.book-cover-icon{font-size:2.4rem;line-height:1;filter:drop-shadow(0 0 12px rgba(200,100,55,0.40));}
-.book-cover-label{font-family:'Cinzel',serif;font-size:.52rem;letter-spacing:.22em;text-transform:uppercase;color:rgba(212,175,55,0.38);text-align:center;padding:0 12px;}
+.book-cover-placeholder{width:160px;height:210px;background:rgba(14,8,2,0.88);border:1px solid rgba(212,175,55,0.22);border-radius:3px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0;position:relative;overflow:hidden;}
+.book-cover-placeholder::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 55%,rgba(212,175,55,0.09) 0%,transparent 72%),linear-gradient(168deg,rgba(212,175,55,0.04) 0%,rgba(0,0,0,0) 100%);pointer-events:none;}
+.book-cover-placeholder::after{content:'';position:absolute;inset:0;box-shadow:inset 0 0 28px rgba(212,175,55,0.07);border-radius:3px;pointer-events:none;}
+.book-cover-label{font-family:'Cinzel',serif;font-size:.54rem;font-weight:700;letter-spacing:.28em;text-transform:uppercase;text-align:center;padding:0 14px;line-height:1.55;position:relative;z-index:2;background:linear-gradient(135deg,#fff8d0 0%,#f5d860 30%,#d4af37 58%,#f0d060 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;filter:drop-shadow(0 0 10px rgba(212,175,55,0.55));animation:coverGlowPulse 3.8s ease-in-out infinite;}
+@keyframes coverGlowPulse{0%,100%{filter:drop-shadow(0 0 8px rgba(212,175,55,0.45)) drop-shadow(0 0 2px rgba(240,208,96,0.20));}50%{filter:drop-shadow(0 0 18px rgba(212,175,55,0.85)) drop-shadow(0 0 6px rgba(240,208,96,0.50));}}
 .book-series-tag{font-family:'Inter',sans-serif;font-size:.56rem;letter-spacing:.34em;text-transform:uppercase;color:rgba(212,175,55,0.44);margin-bottom:12px;}
 .book-title{font-family:'Cinzel',serif;font-size:clamp(1.05rem,2vw,1.45rem);font-weight:600;letter-spacing:.06em;color:var(--gold-lt);margin-bottom:10px;line-height:1.22;}
 .book-ages{font-family:'Inter',sans-serif;font-size:.56rem;letter-spacing:.22em;text-transform:uppercase;color:var(--accent);margin-bottom:20px;display:flex;align-items:center;gap:8px;}
@@ -297,9 +298,8 @@ body{font-family:'Lora','Georgia',serif;background:var(--bg-tint);color:var(--cr
     <!-- Book section -->
     <div class="book-panel reveal">
       <div class="book-cover-wrap">
-        <div class="book-cover-placeholder">
-          <span class="book-cover-icon" aria-hidden="true">🌿</span>
-          <span class="book-cover-label">Cover Reveal<br>Coming Soon</span>
+        <div class="book-cover-placeholder" aria-label="Coming to life soon">
+          <span class="book-cover-label">Coming<br>to Life<br>Soon</span>
         </div>
       </div>
       <div class="book-info">
