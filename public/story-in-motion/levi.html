@@ -101,6 +101,7 @@ body{font-family:'Lora','Georgia',serif;background:var(--deep);color:var(--cream
 .btn-primary:hover .btn-arrow,.btn-secondary:hover .btn-arrow{transform:translateX(5px);}
 
 /* ═══ SHARED ═══════════════════════════════════════════════ */
+.page-section{max-width:1200px;margin:0 auto;padding:80px 52px;}
 .reveal{opacity:0;transform:translateY(26px);transition:opacity .95s cubic-bezier(0.16,1,0.3,1),transform .95s cubic-bezier(0.16,1,0.3,1);}
 .reveal.revealed{opacity:1;transform:translateY(0);}
 .reveal-d1{transition-delay:.08s;}.reveal-d2{transition-delay:.16s;}
@@ -110,29 +111,52 @@ body{font-family:'Lora','Georgia',serif;background:var(--deep);color:var(--cream
 .sec-title-lg{font-family:'Cinzel',serif;font-size:clamp(1.7rem,3.2vw,2.8rem);font-weight:600;letter-spacing:.05em;color:var(--gold-lt);margin-bottom:16px;line-height:1.16;}
 .section-divider{width:100%;height:1px;background:linear-gradient(to right,transparent,rgba(212,175,55,0.10) 20%,rgba(212,175,55,0.10) 80%,transparent);}
 
-/* ═══ CURRENTLY PLANTING SEEDS — full-width holding screen ═ */
+/* ═══ FEATURED — SPLIT PANEL (matches Jadery structure) ══════ */
 #featured{padding:60px 52px 80px;}
 .featured-wrap{max-width:1200px;margin:0 auto;}
 .featured-label{font-family:'Inter',sans-serif;font-size:.54rem;letter-spacing:.50em;text-transform:uppercase;color:rgba(212,175,55,0.50);margin-bottom:36px;display:flex;align-items:center;gap:16px;}
 .featured-label::before{content:'';display:block;width:30px;height:1px;background:rgba(212,175,55,0.30);}
 
-/* Full-width holding card */
-.levi-hold{position:relative;border-radius:8px;overflow:hidden;border:1px solid rgba(212,175,55,0.16);box-shadow:0 40px 100px rgba(0,0,0,0.70),0 0 0 1px rgba(212,175,55,0.05);min-height:clamp(420px,52vw,600px);display:flex;align-items:center;justify-content:center;}
-.levi-hold-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center top;transition:transform 9s cubic-bezier(0.16,1,0.3,1);}
-.levi-hold:hover .levi-hold-img{transform:scale(1.03);}
-.levi-hold-scrim{position:absolute;inset:0;z-index:2;pointer-events:none;background:linear-gradient(to bottom,rgba(0,0,0,0.30) 0%,rgba(0,0,0,0.58) 42%,rgba(0,0,0,0.82) 100%),radial-gradient(ellipse at center,transparent 22%,rgba(0,0,0,0.65) 100%);}
-.levi-hold-content{position:relative;z-index:4;text-align:center;display:flex;flex-direction:column;align-items:center;gap:22px;padding:72px 52px;}
-.levi-hold-eyebrow{font-family:'Inter',sans-serif;font-size:.54rem;letter-spacing:.54em;text-transform:uppercase;color:rgba(212,175,55,0.68);text-shadow:0 0 24px rgba(212,175,55,0.40);}
-.levi-hold-rule{width:clamp(44px,7vw,80px);height:1px;background:linear-gradient(to right,transparent,rgba(212,175,55,0.80),transparent);box-shadow:0 0 12px rgba(212,175,55,0.44);}
-.levi-hold-headline{font-family:'Cinzel',serif;font-size:clamp(2.0rem,5.5vw,4.2rem);font-weight:700;letter-spacing:.20em;text-transform:uppercase;color:rgba(255,246,210,0.98);line-height:1.10;text-shadow:0 0 80px rgba(212,175,55,1.00),0 0 36px rgba(212,175,55,0.72),0 0 14px rgba(240,208,96,0.52),0 3px 18px rgba(0,0,0,0.95);animation:leviGlow 4.5s ease-in-out infinite;}
-@keyframes leviGlow{
-  0%,100%{text-shadow:0 0 60px rgba(212,175,55,0.80),0 0 26px rgba(212,175,55,0.55),0 0 10px rgba(240,208,96,0.38),0 3px 18px rgba(0,0,0,0.95);}
-  50%{text-shadow:0 0 110px rgba(212,175,55,1.00),0 0 52px rgba(212,175,55,0.90),0 0 22px rgba(240,208,96,0.68),0 3px 18px rgba(0,0,0,0.95);}
+/* Split panel */
+.featured-panel{display:grid;grid-template-columns:1.1fr 1fr;gap:0;border-radius:8px;overflow:hidden;border:1px solid rgba(100,170,255,0.14);position:relative;box-shadow:0 40px 100px rgba(0,0,0,0.55),0 0 0 1px rgba(212,175,55,0.04);}
+.featured-panel::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 30% 50%,rgba(100,170,255,0.06) 0%,transparent 62%);pointer-events:none;z-index:1;}
+
+/* Left side — holding screen with "COMING TO LIFE SOON" */
+.featured-artwork{min-height:520px;display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;overflow:hidden;}
+.featured-artwork img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center top;transition:transform 9s cubic-bezier(0.16,1,0.3,1);}
+.featured-artwork:hover img{transform:scale(1.04);}
+.featured-artwork::after{content:'';position:absolute;right:0;top:0;bottom:0;width:1px;background:linear-gradient(to bottom,transparent,rgba(100,170,255,0.22) 38%,rgba(212,175,55,0.16) 68%,transparent);}
+
+/* Dark scrim over image */
+.art-scrim{position:absolute;inset:0;z-index:2;pointer-events:none;background:linear-gradient(to bottom,rgba(0,0,0,0.28) 0%,rgba(0,0,0,0.60) 50%,rgba(0,0,0,0.86) 100%),linear-gradient(to right,transparent 50%,rgba(6,4,10,0.72) 100%);}
+
+/* Holding text overlay on the image side */
+.art-hold-overlay{position:absolute;inset:0;z-index:3;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;padding:52px 36px;text-align:center;}
+.art-hold-eyebrow{font-family:'Inter',sans-serif;font-size:.46rem;letter-spacing:.52em;text-transform:uppercase;color:rgba(212,175,55,0.65);text-shadow:0 0 20px rgba(212,175,55,0.35);}
+.art-hold-rule{width:clamp(36px,6vw,64px);height:1px;background:linear-gradient(to right,transparent,rgba(212,175,55,0.75),transparent);box-shadow:0 0 10px rgba(212,175,55,0.40);}
+.art-hold-headline{font-family:'Cinzel',serif;font-size:clamp(1.3rem,3.2vw,2.4rem);font-weight:700;letter-spacing:.18em;text-transform:uppercase;line-height:1.15;
+  background:linear-gradient(135deg,#fff8d0 0%,#f5d860 22%,#d4af37 52%,#f0d060 78%,#fff8d0 100%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  animation:holdGlow 4.2s ease-in-out infinite;
+  filter:drop-shadow(0 0 18px rgba(212,175,55,0.60));}
+@keyframes holdGlow{
+  0%,100%{filter:drop-shadow(0 0 12px rgba(212,175,55,0.50)) drop-shadow(0 0 30px rgba(212,175,55,0.22));}
+  50%{filter:drop-shadow(0 0 24px rgba(212,175,55,0.85)) drop-shadow(0 0 52px rgba(212,175,55,0.40));}
 }
-.levi-hold-rule2{width:clamp(30px,4.5vw,54px);height:1px;background:linear-gradient(to right,transparent,rgba(212,175,55,0.55),transparent);}
-.levi-hold-sub{font-family:'Lora',serif;font-style:italic;font-size:clamp(.90rem,1.5vw,1.08rem);color:rgba(253,248,238,0.55);letter-spacing:.03em;max-width:560px;line-height:1.82;}
-.levi-hold-subtitle{font-family:'Cinzel',serif;font-size:clamp(.72rem,1.2vw,.96rem);font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:rgba(240,208,96,0.65);margin-top:-6px;}
-.levi-hold-cta-row{display:flex;flex-wrap:wrap;gap:14px;justify-content:center;margin-top:8px;}
+.art-hold-rule2{width:clamp(22px,3.5vw,40px);height:1px;background:linear-gradient(to right,transparent,rgba(212,175,55,0.50),transparent);}
+
+/* Right side — info panel */
+.featured-info{background:rgba(6,4,10,0.94);padding:60px 56px;display:flex;flex-direction:column;justify-content:center;position:relative;z-index:2;}
+.featured-series{font-family:'Inter',sans-serif;font-size:.52rem;letter-spacing:.38em;text-transform:uppercase;color:rgba(212,175,55,0.42);margin-bottom:14px;}
+.featured-title{font-family:'Cinzel',serif;font-size:clamp(1.6rem,3.0vw,2.6rem);font-weight:700;letter-spacing:.05em;color:#fff;margin-bottom:10px;line-height:1.12;}
+.featured-title span{display:block;background:linear-gradient(135deg,#fff8d0 0%,#f5d860 42%,#d4af37 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.featured-archetype{display:inline-flex;align-items:center;gap:12px;font-family:'Inter',sans-serif;font-size:.62rem;letter-spacing:.28em;text-transform:uppercase;color:rgba(100,170,255,0.72);margin-bottom:26px;}
+.featured-archetype::before{content:'';display:block;width:22px;height:1px;background:rgba(100,170,255,0.28);}
+.featured-quote{font-family:'Lora',serif;font-style:italic;font-size:clamp(.88rem,1.3vw,.98rem);color:rgba(253,248,238,0.38);line-height:1.80;border-left:1.5px solid rgba(100,170,255,0.22);padding-left:18px;margin-bottom:22px;}
+.featured-desc{font-family:'Lora',serif;font-style:italic;font-size:clamp(.92rem,1.4vw,1.06rem);color:rgba(253,248,238,0.60);line-height:1.86;margin-bottom:36px;}
+.featured-status{display:inline-flex;align-items:center;gap:9px;font-family:'Inter',sans-serif;font-size:.50rem;letter-spacing:.26em;text-transform:uppercase;color:rgba(100,170,255,0.62);background:rgba(100,170,255,0.05);border:1px solid rgba(100,170,255,0.18);padding:7px 16px;border-radius:100px;margin-bottom:34px;width:fit-content;}
+.featured-status::before{content:'';display:block;width:6px;height:6px;border-radius:50%;background:rgba(100,170,255,0.62);animation:badgePulse 2s ease-in-out infinite;}
+.featured-cta-row{display:flex;flex-wrap:wrap;gap:12px;align-items:center;}
 
 /* ═══ CONTEXT SECTION ══════════════════════════════════════ */
 #char-context{padding:80px 52px;}
@@ -142,7 +166,7 @@ body{font-family:'Lora','Georgia',serif;background:var(--deep);color:var(--cream
 .ctx-text .sec-title-lg{margin-bottom:20px;}
 .ctx-body{font-family:'Lora',serif;font-size:clamp(.90rem,1.4vw,1.06rem);color:rgba(253,248,238,0.62);line-height:1.90;margin-bottom:24px;font-style:italic;}
 .ctx-traits{display:flex;flex-direction:column;gap:16px;margin-top:8px;}
-.ctx-trait{display:flex;align-items:flex-start;gap:16px;padding:18px 20px;background:rgba(100,170,255,0.04);border:1px solid rgba(100,170,255,0.10);border-radius:4px;}
+.ctx-trait{display:flex;align-items:flex-start;gap:16px;padding:18px 20px;background:rgba(100,170,255,0.04);border:1px solid rgba(100,170,255,0.12);border-radius:4px;}
 .ctx-trait-icon{font-size:1.2rem;line-height:1;flex-shrink:0;margin-top:2px;}
 .ctx-trait-text{display:flex;flex-direction:column;gap:4px;}
 .ctx-trait-label{font-family:'Cinzel',serif;font-size:.62rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:rgba(100,170,255,0.80);}
@@ -173,8 +197,10 @@ body{font-family:'Lora','Georgia',serif;background:var(--deep);color:var(--cream
 .footer-contact-link:hover{color:rgba(240,208,96,0.95);text-shadow:0 0 20px rgba(212,175,55,0.50);}
 
 /* ═══ RESPONSIVE ═══════════════════════════════════════════ */
-@media(max-width:960px){#nav{padding:0 28px;}#hero{padding:80px 28px 72px;}#featured,#char-context,#future-motion{padding-left:28px;padding-right:28px;}.fm-episodes{grid-template-columns:1fr 1fr;}.ctx-grid{grid-template-columns:1fr;gap:48px;}}
-@media(max-width:680px){.levi-hold-content{padding:52px 28px;}.levi-hold-headline{letter-spacing:.12em;}.fm-episodes{grid-template-columns:1fr;}.ctx-grid{gap:36px;}#footer-chrome{padding:24px 24px 28px;}.footer-contact-link{margin-right:0;}}
+@media(max-width:1100px){.featured-panel{grid-template-columns:1fr;}.featured-artwork{min-height:320px;}.featured-info{padding:48px 44px;}.ctx-grid{grid-template-columns:1fr;gap:48px;}}
+@media(max-width:960px){#nav{padding:0 28px;}#hero{padding:80px 28px 72px;}#featured,#char-context,#future-motion{padding-left:28px;padding-right:28px;}.fm-episodes{grid-template-columns:1fr 1fr;}}
+@media(max-width:680px){.featured-info{padding:36px 26px;}.fm-episodes{grid-template-columns:1fr;}.ctx-grid{gap:36px;}#footer-chrome{padding:24px 24px 28px;}.footer-contact-link{margin-right:0;}}
+
 @keyframes fadeIn{from{opacity:0;}to{opacity:1;}}
 @keyframes fadeUp{from{opacity:0;transform:translateY(22px);}to{opacity:1;transform:translateY(0);}}
   </style>
@@ -230,41 +256,49 @@ body{font-family:'Lora','Georgia',serif;background:var(--deep);color:var(--cream
     <div class="hero-divider"></div>
     <div class="hero-scroll-cue" aria-hidden="true">
       <div class="scroll-line"></div>
-      <span class="scroll-label">Begin</span>
+      <span class="scroll-label">Discover</span>
     </div>
   </section>
 
   <div class="section-divider"></div>
 
-  <!-- CURRENTLY PLANTING SEEDS — holding screen -->
+  <!-- FEATURED — SPLIT PANEL -->
   <section id="featured" aria-label="Levi Stories in Motion — currently in development">
     <div class="featured-wrap">
       <p class="featured-label reveal">Featured Preview · Seeds of Greatness · Growing Up with Levi</p>
+      <div class="featured-panel reveal reveal-d1">
 
-      <div class="levi-hold reveal reveal-d1">
-        <img src="/static/characters/levi-reveal.jpg"
-             alt=""
-             class="levi-hold-img"
-             draggable="false"
-             aria-hidden="true" />
-        <div class="levi-hold-scrim" aria-hidden="true"></div>
+        <!-- Left: character image with cinematic holding overlay -->
+        <div class="featured-artwork" aria-label="Levi cinematic preview — currently planting seeds">
+          <img src="/static/characters/levi-reveal.jpg"
+               alt="Growing Up with Levi — Stories in Motion cinematic preview"
+               draggable="false" />
+          <div class="art-scrim" aria-hidden="true"></div>
+          <!-- Holding screen text centered over the image -->
+          <div class="art-hold-overlay" aria-hidden="true">
+            <p class="art-hold-eyebrow">Seeds of Greatness · Book Three</p>
+            <div class="art-hold-rule"></div>
+            <h2 class="art-hold-headline">Coming<br>to Life<br>Soon</h2>
+            <div class="art-hold-rule2"></div>
+          </div>
+        </div>
 
-        <div class="levi-hold-content">
-          <p class="levi-hold-eyebrow">Seeds of Greatness · Book Three · Stories in Motion</p>
-          <div class="levi-hold-rule" aria-hidden="true"></div>
-
-          <h2 class="levi-hold-headline">Currently<br>Planting Seeds</h2>
-
-          <p class="levi-hold-subtitle">Seeds of Greatness: Growing Up with Levi — Finding My Voice</p>
-
-          <div class="levi-hold-rule2" aria-hidden="true"></div>
-
-          <p class="levi-hold-sub">Levi's cinematic story is taking shape — a tense, emotionally grounded experience built to honor the journey from the scoreboard to the quiet victory that matters most: who you become and the voice you find along the way. This story is being crafted with care and intention.</p>
-
-          <div class="levi-hold-cta-row">
-            <a href="/characters/levi" class="btn-primary">Discover Levi <span class="btn-arrow">→</span></a>
-            <a href="/story-in-motion" class="btn-secondary">All Stories in Motion</a>
-            <a href="/contact" class="btn-ghost">Stay Connected</a>
+        <!-- Right: info panel -->
+        <div class="featured-info">
+          <p class="featured-series">Seeds of Greatness · Book Three</p>
+          <h2 class="featured-title">
+            Seeds of Greatness:<br>
+            <span>Growing Up with Levi</span><br>
+            <span style="font-size:0.72em;letter-spacing:0.05em;opacity:0.88;">Finding My Voice</span>
+          </h2>
+          <p class="featured-archetype">The Competitor</p>
+          <p class="featured-quote">"The greatest competition you'll ever face is becoming who you were made to be."</p>
+          <p class="featured-desc">A deeply personal cinematic experience where drive, loss, and the quiet power of speaking up converge. Levi navigates the intense pressure of competition — and through that journey, children learn that character matters far more than the scoreboard, and that finding your voice is the real victory.</p>
+          <div class="featured-status">Currently Planting Seeds · Coming to Life Soon</div>
+          <div class="featured-cta-row">
+            <a href="/characters/levi" class="btn-primary">Read My Story <span class="btn-arrow">→</span></a>
+            <a href="/stories" class="btn-secondary">All Characters</a>
+            <a href="/story-in-motion" class="btn-ghost">Stories in Motion ↗</a>
           </div>
         </div>
       </div>
@@ -290,7 +324,7 @@ body{font-family:'Lora','Georgia',serif;background:var(--deep);color:var(--cream
         </div>
         <div class="ctx-traits reveal reveal-d1">
           <div class="ctx-trait">
-            <span class="ctx-trait-icon">💙</span>
+            <span class="ctx-trait-icon">⚔️</span>
             <div class="ctx-trait-text">
               <span class="ctx-trait-label">The Competitor</span>
               <span class="ctx-trait-desc">Driven, intense, and deeply motivated — Levi plays every game like something is on the line.</span>
@@ -323,12 +357,12 @@ body{font-family:'Lora','Georgia',serif;background:var(--deep);color:var(--cream
       <p class="sec-eyebrow">The Levi Motion Universe</p>
       <h2 class="sec-title-lg">More Stories Coming</h2>
       <div class="gold-rule"></div>
-      <p class="fm-body">Levi's cinematic world is being built with the same grit and heart that defines him. Each future release will explore deeper chapters of his journey — from the court to the choices that shape who he becomes.</p>
+      <p class="fm-body">Levi's cinematic world is being built with the same grit and heart that defines him — a world where every child who competes knows that who they become matters more than any trophy they can win.</p>
       <div class="fm-episodes">
         <div class="fm-ep">
           <p class="fm-ep-num">Episode 01</p>
           <p class="fm-ep-title">Finding My Voice</p>
-          <p class="fm-ep-status">Currently Planting Seeds</p>
+          <p class="fm-ep-status">In Development</p>
         </div>
         <div class="fm-ep">
           <p class="fm-ep-num">Episode 02</p>
@@ -366,7 +400,7 @@ body{font-family:'Lora','Georgia',serif;background:var(--deep);color:var(--cream
 (function(){const wc=document.getElementById('warmth-canvas');const lc=document.getElementById('leaves-canvas');if(!wc||!lc)return;const wCtx=wc.getContext('2d');const lCtx=lc.getContext('2d');function resize(){wc.width=lc.width=window.innerWidth;wc.height=lc.height=window.innerHeight;}resize();window.addEventListener('resize',resize);setTimeout(()=>{wc.classList.add('visible');lc.classList.add('visible');},1200);let wt=0;function drawWarmth(){wt+=.004;wCtx.clearRect(0,0,wc.width,wc.height);const g=wCtx.createRadialGradient(wc.width*.5+Math.sin(wt)*80,wc.height*.5+Math.cos(wt*.7)*60,0,wc.width*.5,wc.height*.5,wc.width*.7);g.addColorStop(0,'rgba(60,110,220,0.020)');g.addColorStop(.5,'rgba(40,80,180,0.010)');g.addColorStop(1,'transparent');wCtx.fillStyle=g;wCtx.fillRect(0,0,wc.width,wc.height);requestAnimationFrame(drawWarmth);}drawWarmth();const leaves=[];const N=14;for(let i=0;i<N;i++)leaves.push({x:Math.random()*window.innerWidth,y:Math.random()*window.innerHeight,s:Math.random()*3+1.5,sp:Math.random()*.5+.2,sw:Math.random()*2-1,t:Math.random()*Math.PI*2,a:Math.random()*.18+.06});function drawLeaves(){lCtx.clearRect(0,0,lc.width,lc.height);leaves.forEach(l=>{l.y-=l.sp;l.x+=Math.sin(l.t)*l.sw*.4;l.t+=.018;if(l.y<-10){l.y=lc.height+10;l.x=Math.random()*lc.width;}lCtx.save();lCtx.globalAlpha=l.a;lCtx.beginPath();lCtx.arc(l.x,l.y,l.s,0,Math.PI*2);lCtx.fillStyle='rgba(100,170,255,0.55)';lCtx.fill();lCtx.restore();});requestAnimationFrame(drawLeaves);}drawLeaves();})();
 (function(){const els=document.querySelectorAll('.reveal');const io=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('revealed');io.unobserve(e.target);}});},{threshold:.12});els.forEach(el=>io.observe(el));})();
 (function(){const btn=document.getElementById('sound-btn');const mi=document.getElementById('icon-muted');const mu=document.getElementById('icon-unmuted');if(!btn)return;let muted=true;btn.addEventListener('click',()=>{muted=!muted;mi.style.display=muted?'':'none';mu.style.display=muted?'none':'';});})();
-(function(){document.querySelectorAll('.nav-dropdown').forEach(dd=>{const trigger=dd.querySelector('.nav-dropdown-trigger');if(!trigger)return;trigger.addEventListener('click',e=>{e.stopPropagation();dd.classList.toggle('open');trigger.setAttribute('aria-expanded',dd.classList.contains('open'));});});document.addEventListener('click',()=>{document.querySelectorAll('.nav-dropdown.open').forEach(dd=>{dd.classList.remove('open');const t=dd.querySelector('.nav-dropdown-trigger');if(t)t.setAttribute('aria-expanded','false');});});})();
+(function(){document.querySelectorAll('.nav-dropdown').forEach(dd=>{const trigger=dd.querySelector('.nav-dropdown-trigger');if(!trigger)return;trigger.addEventListener('click',e=>{e.stopPropagation();dd.classList.toggle('open');trigger.setAttribute('aria-expanded',dd.classList.contains('open'));});});document.addEventListener('click',()=>{document.querySelectorAll('.nav-dropdown.open').forEach(dd=>{dd.classList.remove('open');const t=dd.querySelector('.nav-dropdown-trigger');if(t)t.setAttribute('aria-expanded','false');});});});})();
 </script>
 </body>
 </html>
