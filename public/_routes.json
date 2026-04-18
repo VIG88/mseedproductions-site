@@ -1,0 +1,17 @@
+{
+  "version": 1,
+  "include": ["/*"],
+  "exclude": [
+    "/",
+    "/about",
+    "/stories",
+    "/tv-properties",
+    "/philosophy",
+    "/contact",
+    "/garden",
+    "/story-in-motion",
+    "/story-in-motion/*",
+    "/characters/*",
+    "/static/*"
+  ]
+}
