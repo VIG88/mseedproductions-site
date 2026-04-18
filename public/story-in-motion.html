@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Story in Motion — Seeds of Greatness · MustardSeed Productions</title>
+  <title>Stories in Motion — Seeds of Greatness · MustardSeed Productions</title>
   <meta name="description" content="Where stories begin on the page and come to life in motion. Experience the Seeds of Greatness universe — four characters, four journeys, one world designed to grow with the next generation." />
   <link rel="icon" type="image/svg+xml" href="/static/favicon.svg" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -768,10 +768,23 @@ body{font-family:'Lora','Georgia',serif;background:var(--deep);color:var(--cream
   0%{transform:translateX(-100%);}
   100%{transform:translateX(200%);}
 }
-.cs-avatar{width:72px;height:72px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.8rem;line-height:1;position:relative;z-index:1;}
-.cs-av-messiah{background:rgba(255,180,80,0.09);border:1.5px solid rgba(255,180,80,0.20);}
-.cs-av-levi{background:rgba(100,170,255,0.09);border:1.5px solid rgba(100,170,255,0.20);}
-.cs-av-jadery{background:rgba(220,130,75,0.09);border:1.5px solid rgba(220,130,75,0.20);}
+/* cs-card character images */
+.cs-char-img{
+  position:absolute;inset:0;
+  width:100%;height:100%;
+  object-fit:cover;
+  object-position:center top;
+  opacity:0.42;
+  transition:opacity .40s ease,transform .40s cubic-bezier(0.16,1,0.3,1);
+  pointer-events:none;
+  display:block;
+  z-index:0;
+}
+.cs-card:hover .cs-char-img{ opacity:0.62; transform:scale(1.04); }
+/* character-specific crop positions */
+.cs-char-img.cs-img-messiah{ object-position:center 22%; }
+.cs-char-img.cs-img-levi   { object-position:center top; }
+.cs-char-img.cs-img-jadery { object-position:center 18%; }
 .cs-dev-label{
   position:absolute;top:14px;right:14px;
   font-family:'Inter',sans-serif;font-size:.43rem;letter-spacing:.22em;text-transform:uppercase;
@@ -1303,7 +1316,7 @@ body{font-family:'Lora','Georgia',serif;background:var(--deep);color:var(--cream
           <svg class="nav-caret" viewBox="0 0 10 6" aria-hidden="true"><polyline points="1 1 5 5 9 1"/></svg>
         </a>
         <div class="nav-dropdown-panel" role="menu">
-          <a href="/story-in-motion" class="nav-dropdown-item active" role="menuitem">Story in Motion</a>
+          <a href="/story-in-motion" class="nav-dropdown-item active" role="menuitem">Stories in Motion</a>
         </div>
       </li>
       <li><a href="/philosophy" class="nav-link">Philosophy</a></li>
@@ -1313,7 +1326,7 @@ body{font-family:'Lora','Georgia',serif;background:var(--deep);color:var(--cream
   <!-- ════════════════════════════════════════════════════════════
        HERO
   ════════════════════════════════════════════════════════════ -->
-  <section id="hero" aria-label="Story in Motion hero">
+  <section id="hero" aria-label="Stories in Motion hero">
     <canvas id="hero-particles" aria-hidden="true"></canvas>
 
     <p class="hero-eyebrow">Seeds of Greatness · MustardSeed Productions</p>
@@ -1331,7 +1344,7 @@ body{font-family:'Lora','Georgia',serif;background:var(--deep);color:var(--cream
 
     <div class="hero-divider"></div>
 
-    <p class="hero-body">Step deeper into the world of Seeds of Greatness. Story in Motion is where imagination, heart, and purpose move beyond the page — creating cinematic experiences children and families can see, feel, and grow with.</p>
+    <p class="hero-body">Step deeper into the world of Seeds of Greatness. Stories in Motion is where imagination, heart, and purpose move beyond the page — creating cinematic experiences children and families can see, feel, and grow with.</p>
 
     <div class="hero-cta-row">
       <a href="#featured" class="btn-primary">Watch the Journey <span class="btn-arrow">↓</span></a>
@@ -1357,7 +1370,7 @@ body{font-family:'Lora','Georgia',serif;background:var(--deep);color:var(--cream
       <div class="featured-panel reveal reveal-d1">
 
         <!-- Artwork Side — Cinematic Video -->
-        <div class="featured-artwork has-video" aria-label="Yeshua Story in Motion video preview">
+        <div class="featured-artwork has-video" aria-label="Yeshua Stories in Motion video preview">
 
           <!-- The video: NOT autoplay, WITH sound, no loop -->
           <video
@@ -1365,7 +1378,7 @@ body{font-family:'Lora','Georgia',serif;background:var(--deep);color:var(--cream
             src="https://www.dropbox.com/scl/fi/718nb12bh7860i00gg7ib/Yeshua-Video-Promo_website.MP4?rlkey=3we4zmpq5s4tppok8auartvun&st=p9470i97&raw=1"
             preload="metadata"
             playsinline
-            aria-label="Seeds of Greatness: Growing Up with Yeshua — Story in Motion preview"
+            aria-label="Seeds of Greatness: Growing Up with Yeshua — Stories in Motion preview"
           ></video>
 
           <!-- Cinematic edge vignette -->
@@ -1375,16 +1388,16 @@ body{font-family:'Lora','Georgia',serif;background:var(--deep);color:var(--cream
           <div id="feat-fade" aria-hidden="true"></div>
 
           <!-- PLAY STORY button — shown before playback -->
-          <button id="feat-play-btn" aria-label="Play Story in Motion preview">
+          <button id="feat-play-btn" aria-label="Welcome Preview — Stories in Motion">
             <div class="feat-play-ring" aria-hidden="true">
               <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
             </div>
-            <span class="feat-play-label">Play Story</span>
+            <span class="feat-play-label">Welcome Preview</span>
           </button>
 
           <!-- End-state overlay: COMING TO LIFE SOON + Watch Again -->
           <div id="feat-overlay" aria-hidden="true">
-            <p id="feat-ov-eyebrow">Story in Motion</p>
+            <p id="feat-ov-eyebrow">Stories in Motion</p>
             <div id="feat-ov-rule"></div>
             <p id="feat-ov-text">Coming to<br>Life Soon</p>
             <button id="feat-replay-btn" aria-label="Watch Again">
@@ -1452,7 +1465,7 @@ body{font-family:'Lora','Georgia',serif;background:var(--deep);color:var(--cream
               <div class="ctls-rule"></div>
               <p class="ctls-line">Coming to<br>Life Soon</p>
             </div>
-            <span class="card-artwork-label lbl-yeshua">Story in Motion</span>
+            <span class="card-artwork-label lbl-yeshua">Stories in Motion</span>
           </div>
           <div class="story-card-body">
             <p class="card-series">Seeds of Greatness · Book One</p>
@@ -1585,7 +1598,11 @@ body{font-family:'Lora','Georgia',serif;background:var(--deep);color:var(--cream
         <!-- Messiah -->
         <div class="cs-card reveal reveal-d1">
           <div class="cs-card-artwork cs-art-messiah">
-            <div class="cs-avatar cs-av-messiah" aria-hidden="true">🔥</div>
+            <img src="/static/characters/messiah-reveal.jpg"
+                 alt=""
+                 class="cs-char-img cs-img-messiah"
+                 draggable="false"
+                 aria-hidden="true" />
             <span class="cs-dev-label">In Development</span>
           </div>
           <div class="cs-card-body">
@@ -1599,7 +1616,11 @@ body{font-family:'Lora','Georgia',serif;background:var(--deep);color:var(--cream
         <!-- Levi -->
         <div class="cs-card reveal reveal-d2">
           <div class="cs-card-artwork cs-art-levi">
-            <div class="cs-avatar cs-av-levi" aria-hidden="true">💙</div>
+            <img src="/static/characters/levi-reveal.jpg"
+                 alt=""
+                 class="cs-char-img cs-img-levi"
+                 draggable="false"
+                 aria-hidden="true" />
             <span class="cs-dev-label">In Development</span>
           </div>
           <div class="cs-card-body">
@@ -1613,7 +1634,11 @@ body{font-family:'Lora','Georgia',serif;background:var(--deep);color:var(--cream
         <!-- Jadery -->
         <div class="cs-card reveal reveal-d3">
           <div class="cs-card-artwork cs-art-jadery">
-            <div class="cs-avatar cs-av-jadery" aria-hidden="true">🌿</div>
+            <img src="/static/characters/jadery-reveal.jpg"
+                 alt=""
+                 class="cs-char-img cs-img-jadery"
+                 draggable="false"
+                 aria-hidden="true" />
             <span class="cs-dev-label">In Development</span>
           </div>
           <div class="cs-card-body">
@@ -1641,7 +1666,7 @@ body{font-family:'Lora','Georgia',serif;background:var(--deep);color:var(--cream
           <p class="sec-eyebrow">The Foundation</p>
           <h2 class="sec-title-lg">Begin with<br>the Book</h2>
           <div class="gold-rule left"></div>
-          <p class="bb-body">Every Story in Motion begins with a seed — a book created to plant purpose, courage, imagination, and truth in the hearts of children. The stories live first on the page, and from there grow into every dimension of the Seeds of Greatness universe.</p>
+          <p class="bb-body">Every Stories in Motion experience begins with a seed — a book created to plant purpose, courage, imagination, and truth in the hearts of children. The stories live first on the page, and from there grow into every dimension of the Seeds of Greatness universe.</p>
           <div class="bb-cta-row">
             <a href="/contact" class="btn-primary">Shop the Books <span class="btn-arrow">→</span></a>
             <a href="/stories" class="btn-secondary">Explore the Characters</a>
@@ -1701,7 +1726,7 @@ body{font-family:'Lora','Georgia',serif;background:var(--deep);color:var(--cream
       <p class="sec-eyebrow" style="margin-bottom:20px;">For Families &amp; Young Dreamers</p>
       <h2 class="fam-title">More Than Stories<br>to Watch</h2>
       <div class="gold-rule"></div>
-      <p class="fam-body">These are stories to grow with. Story in Motion is designed for children and families — built to spark imagination, meaningful conversation, and moments that stay with you long after the screen fades.</p>
+      <p class="fam-body">These are stories to grow with. Stories in Motion is designed for children and families — built to spark imagination, meaningful conversation, and moments that stay with you long after the screen fades.</p>
       <p class="fam-body-2">Each cinematic experience is created with the same intentionality as the books that inspired them — truth-rooted, purpose-driven, and built to leave something real in the hearts of the children who experience them.</p>
       <div class="fam-cta-row">
         <a href="/contact" class="btn-primary">Join the Community <span class="btn-arrow">→</span></a>

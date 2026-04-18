@@ -37,7 +37,7 @@
           <svg class="nav-caret" viewBox="0 0 10 6" aria-hidden="true"><polyline points="1 1 5 5 9 1"/></svg>
         </a>
         <div class="nav-dropdown-panel" role="menu">
-          <a href="/story-in-motion" class="nav-dropdown-item" role="menuitem">Story in Motion</a>
+          <a href="/story-in-motion" class="nav-dropdown-item" role="menuitem">Stories in Motion</a>
         </div>
       </li>
       <li><a href="/philosophy"    class="nav-link">Philosophy</a></li>
@@ -158,13 +158,23 @@
 </script>
 <script>
 (function(){
-  document.querySelectorAll(".nav-dropdown-trigger").forEach(function(t){
-    t.addEventListener("click",function(e){
-      var li=t.closest(".nav-dropdown");
-      if(window.matchMedia("(hover:none)").matches){e.preventDefault();var isOpen=li.classList.contains("open");document.querySelectorAll(".nav-dropdown.open").forEach(function(el){el.classList.remove("open");});if(!isOpen)li.classList.add("open");}
+  document.querySelectorAll('.nav-dropdown').forEach(function(dd){
+    var t=null;
+    function open(){clearTimeout(t);dd.classList.add('open');}
+    function schedClose(){t=setTimeout(function(){dd.classList.remove('open');},220);}
+    dd.addEventListener('mouseenter',function(){if(!window.matchMedia('(hover:none)').matches)open();});
+    dd.addEventListener('mouseleave',function(){if(!window.matchMedia('(hover:none)').matches)schedClose();});
+    var trigger=dd.querySelector('.nav-dropdown-trigger');
+    trigger.addEventListener('click',function(e){
+      if(window.matchMedia('(hover:none)').matches){
+        e.preventDefault();
+        var isOpen=dd.classList.contains('open');
+        document.querySelectorAll('.nav-dropdown.open').forEach(function(el){el.classList.remove('open');});
+        if(!isOpen)dd.classList.add('open');
+      }
     });
   });
-  document.addEventListener("click",function(e){if(!e.target.closest(".nav-dropdown"))document.querySelectorAll(".nav-dropdown.open").forEach(function(el){el.classList.remove("open");});});
+  document.addEventListener('click',function(e){if(!e.target.closest('.nav-dropdown'))document.querySelectorAll('.nav-dropdown.open').forEach(function(el){el.classList.remove('open');});});
 })();
 </script>
 </body>
