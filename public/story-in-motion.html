@@ -1265,6 +1265,242 @@ body{font-family:'Lora','Georgia',serif;background:var(--deep);color:var(--cream
   .featured-artwork.has-video{ min-height:210px; }
   #feat-ov-text{ letter-spacing:.09em; }
 }
+
+/* ═══════════════════════════════════════════════════════════════
+   CHARACTER FEATURED SECTIONS — Messiah / Jadery / Levi
+   Share .featured-* layout; character-specific overrides below.
+═══════════════════════════════════════════════════════════════ */
+
+/* ── Scroll margin so sticky nav doesn't hide section headings ── */
+#featured-messiah,#featured-jadery,#featured-levi{scroll-margin-top:calc(var(--nav-h) + 16px);}
+
+/* ── Shared section wrapper (mirrors #featured) ───────────── */
+.char-featured{padding:88px 52px 80px;position:relative;}
+.char-featured .featured-wrap{max-width:1200px;margin:0 auto;}
+.char-featured .featured-label{
+  font-family:'Inter',sans-serif;font-size:.54rem;letter-spacing:.50em;
+  text-transform:uppercase;color:rgba(212,175,55,0.50);
+  margin-bottom:36px;display:flex;align-items:center;gap:16px;
+}
+.char-featured .featured-label::before{content:'';display:block;width:30px;height:1px;background:rgba(212,175,55,0.30);}
+
+/* ── Full-width cinematic image panel ─────────────────────── */
+.char-featured-panel{
+  display:grid;grid-template-columns:1.1fr 1fr;
+  gap:0;border-radius:8px;overflow:hidden;
+  border:1px solid rgba(212,175,55,0.12);
+  position:relative;
+  box-shadow:0 40px 100px rgba(0,0,0,0.55),0 0 0 1px rgba(212,175,55,0.04);
+}
+
+/* Image art side — uses character reveal jpg */
+.char-featured-art{
+  min-height:520px;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  position:relative;overflow:hidden;
+}
+.char-featured-art img{
+  position:absolute;inset:0;width:100%;height:100%;
+  object-fit:cover;object-position:center 20%;
+  transition:transform 9s cubic-bezier(0.16,1,0.3,1);
+}
+.char-featured-art:hover img{transform:scale(1.04);}
+.char-featured-art::after{
+  content:'';position:absolute;right:0;top:0;bottom:0;width:1px;
+  background:linear-gradient(to bottom,transparent,rgba(212,175,55,0.20) 38%,rgba(212,175,55,0.14) 68%,transparent);
+}
+/* Subtle scrim over image so text on info side remains readable */
+.char-featured-art-scrim{
+  position:absolute;inset:0;z-index:2;pointer-events:none;
+  background:
+    linear-gradient(to right,transparent 60%,rgba(6,4,10,0.65) 100%),
+    linear-gradient(to top,rgba(0,0,0,0.42) 0%,transparent 40%);
+}
+
+/* Info side — mirrors .featured-info */
+.char-featured-info{
+  background:rgba(6,4,10,0.94);
+  padding:60px 56px;
+  display:flex;flex-direction:column;
+  justify-content:center;
+  position:relative;z-index:2;
+}
+.char-featured-series{font-family:'Inter',sans-serif;font-size:.52rem;letter-spacing:.38em;text-transform:uppercase;color:rgba(212,175,55,0.42);margin-bottom:14px;}
+.char-featured-title{font-family:'Cinzel',serif;font-size:clamp(1.6rem,3.0vw,2.6rem);font-weight:700;letter-spacing:.05em;color:#fff;margin-bottom:10px;line-height:1.12;}
+.char-featured-title span{display:block;}
+.char-featured-archetype{
+  display:inline-flex;align-items:center;gap:12px;
+  font-family:'Inter',sans-serif;font-size:.62rem;
+  letter-spacing:.28em;text-transform:uppercase;
+  margin-bottom:26px;
+}
+.char-featured-archetype::before{content:'';display:block;width:22px;height:1px;}
+.char-featured-quote{
+  font-family:'Lora',serif;font-style:italic;
+  font-size:clamp(.88rem,1.3vw,.98rem);
+  color:rgba(253,248,238,0.38);
+  line-height:1.80;
+  border-left:1.5px solid rgba(212,175,55,0.20);
+  padding-left:18px;margin-bottom:22px;
+}
+.char-featured-desc{
+  font-family:'Lora',serif;font-style:italic;
+  font-size:clamp(.92rem,1.4vw,1.06rem);
+  color:rgba(253,248,238,0.60);line-height:1.86;
+  margin-bottom:36px;
+}
+.char-featured-status{
+  display:inline-flex;align-items:center;gap:9px;
+  font-family:'Inter',sans-serif;font-size:.50rem;
+  letter-spacing:.26em;text-transform:uppercase;
+  background:rgba(212,175,55,0.06);
+  border:1px solid rgba(212,175,55,0.16);
+  padding:7px 16px;border-radius:100px;
+  margin-bottom:34px;width:fit-content;
+}
+.char-featured-status::before{content:'';display:block;width:6px;height:6px;border-radius:50%;animation:badgePulse 2s ease-in-out infinite;}
+.char-featured-cta-row{display:flex;flex-wrap:wrap;gap:12px;align-items:center;}
+
+/* ── Messiah accent — warm amber/orange ──────────────────── */
+#featured-messiah .char-featured-panel::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse at 30% 50%,rgba(255,180,80,0.07) 0%,transparent 62%);
+  pointer-events:none;z-index:1;
+}
+.char-arch-messiah{color:rgba(255,180,80,0.65);}
+.char-arch-messiah::before{background:rgba(255,180,80,0.28);}
+.char-status-messiah{color:rgba(255,180,80,0.55);}
+.char-status-messiah::before{background:rgba(255,180,80,0.55);}
+.char-title-messiah span{
+  background:linear-gradient(135deg,#ffe8a0 0%,#f0c060 42%,#e08030 100%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+
+/* ── Jadery accent — warm terracotta/amber ───────────────── */
+#featured-jadery .char-featured-panel::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse at 30% 50%,rgba(220,130,75,0.07) 0%,transparent 62%);
+  pointer-events:none;z-index:1;
+}
+.char-arch-jadery{color:rgba(220,130,75,0.65);}
+.char-arch-jadery::before{background:rgba(220,130,75,0.28);}
+.char-status-jadery{color:rgba(220,130,75,0.55);}
+.char-status-jadery::before{background:rgba(220,130,75,0.55);}
+.char-title-jadery span{
+  background:linear-gradient(135deg,#ffddb0 0%,#e0a070 42%,#c06030 100%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   LEVI — CURRENTLY PLANTING SEEDS   full-width holding screen
+═══════════════════════════════════════════════════════════════ */
+#featured-levi{padding:88px 52px 80px;}
+.levi-featured-wrap{max-width:1200px;margin:0 auto;}
+.levi-featured-label{
+  font-family:'Inter',sans-serif;font-size:.54rem;letter-spacing:.50em;
+  text-transform:uppercase;color:rgba(212,175,55,0.50);
+  margin-bottom:36px;display:flex;align-items:center;gap:16px;
+}
+.levi-featured-label::before{content:'';display:block;width:30px;height:1px;background:rgba(212,175,55,0.30);}
+
+/* Full-width cinematic holding card */
+.levi-hold{
+  position:relative;border-radius:8px;overflow:hidden;
+  border:1px solid rgba(212,175,55,0.14);
+  box-shadow:0 40px 100px rgba(0,0,0,0.65),0 0 0 1px rgba(212,175,55,0.05);
+  min-height:clamp(340px,46vw,520px);
+  display:flex;align-items:center;justify-content:center;
+}
+/* Background: levi-reveal image + dark cinematic scrim */
+.levi-hold-img{
+  position:absolute;inset:0;width:100%;height:100%;
+  object-fit:cover;object-position:center top;
+  transition:transform 9s cubic-bezier(0.16,1,0.3,1);
+}
+.levi-hold:hover .levi-hold-img{transform:scale(1.03);}
+.levi-hold-scrim{
+  position:absolute;inset:0;z-index:2;pointer-events:none;
+  background:
+    linear-gradient(to bottom,rgba(0,0,0,0.38) 0%,rgba(0,0,0,0.62) 55%,rgba(0,0,0,0.80) 100%),
+    radial-gradient(ellipse at center,transparent 30%,rgba(0,0,0,0.60) 100%);
+}
+/* Centered content */
+.levi-hold-content{
+  position:relative;z-index:4;
+  text-align:center;
+  display:flex;flex-direction:column;align-items:center;gap:20px;
+  padding:60px 48px;
+}
+.levi-hold-eyebrow{
+  font-family:'Inter',sans-serif;
+  font-size:.54rem;letter-spacing:.52em;
+  text-transform:uppercase;
+  color:rgba(212,175,55,0.65);
+  text-shadow:0 0 22px rgba(212,175,55,0.38);
+}
+.levi-hold-rule{
+  width:clamp(40px,6vw,72px);height:1px;
+  background:linear-gradient(to right,transparent,rgba(212,175,55,0.75),transparent);
+  box-shadow:0 0 10px rgba(212,175,55,0.40);
+}
+.levi-hold-headline{
+  font-family:'Cinzel',serif;
+  font-size:clamp(1.6rem,4.5vw,3.4rem);
+  font-weight:700;
+  letter-spacing:.18em;
+  text-transform:uppercase;
+  color:rgba(255,246,210,0.98);
+  line-height:1.14;
+  text-shadow:
+    0 0 80px rgba(212,175,55,1.00),
+    0 0 36px rgba(212,175,55,0.72),
+    0 0 14px rgba(240,208,96,0.52),
+    0 3px 18px rgba(0,0,0,0.95);
+  animation:leviGlow 4.5s ease-in-out infinite;
+}
+@keyframes leviGlow{
+  0%,100%{
+    text-shadow:
+      0 0 60px rgba(212,175,55,0.80),
+      0 0 26px rgba(212,175,55,0.55),
+      0 0 10px rgba(240,208,96,0.38),
+      0 3px 18px rgba(0,0,0,0.95);
+  }
+  50%{
+    text-shadow:
+      0 0 100px rgba(212,175,55,1.00),
+      0 0 48px rgba(212,175,55,0.88),
+      0 0 20px rgba(240,208,96,0.65),
+      0 3px 18px rgba(0,0,0,0.95);
+  }
+}
+.levi-hold-rule2{
+  width:clamp(28px,4vw,48px);height:1px;
+  background:linear-gradient(to right,transparent,rgba(212,175,55,0.55),transparent);
+}
+.levi-hold-sub{
+  font-family:'Lora',serif;font-style:italic;
+  font-size:clamp(.88rem,1.4vw,1.05rem);
+  color:rgba(253,248,238,0.52);
+  letter-spacing:.04em;
+  max-width:520px;line-height:1.82;
+}
+.levi-hold-cta-row{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin-top:8px;}
+
+/* Responsive for char-featured + levi */
+@media(max-width:1100px){
+  .char-featured-panel{grid-template-columns:1fr;}
+  .char-featured-art{min-height:300px;}
+  .char-featured-info{padding:48px 44px;}
+}
+@media(max-width:960px){
+  .char-featured,.levi-featured-wrap,#featured-levi{padding-left:28px;padding-right:28px;}
+}
+@media(max-width:680px){
+  .char-featured-info{padding:36px 26px;}
+  .levi-hold-content{padding:44px 28px;}
+  .levi-hold-headline{letter-spacing:.10em;}
+}
   </style>
 </head>
 <body>
@@ -1428,6 +1664,128 @@ body{font-family:'Lora','Georgia',serif;background:var(--deep);color:var(--cream
         </div>
 
       </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- ════════════════════════════════════════════════════════════
+       MESSIAH — FEATURED STORY SPOTLIGHT
+  ════════════════════════════════════════════════════════════ -->
+  <section id="featured-messiah" class="char-featured" aria-label="Featured story: Seeds of Greatness Growing Up with Messiah">
+    <div class="featured-wrap">
+
+      <p class="featured-label reveal">Featured Story · Seeds of Greatness · Book Two</p>
+
+      <div class="char-featured-panel reveal reveal-d1">
+
+        <!-- Artwork Side — character reveal image -->
+        <div class="char-featured-art" aria-label="Messiah cinematic preview">
+          <img src="/static/characters/messiah-reveal.jpg"
+               alt="Growing Up with Messiah — Stories in Motion cinematic preview"
+               draggable="false" />
+          <div class="char-featured-art-scrim" aria-hidden="true"></div>
+        </div>
+
+        <!-- Info Side -->
+        <div class="char-featured-info">
+          <p class="char-featured-series">Seeds of Greatness · Book Two</p>
+          <h2 class="char-featured-title char-title-messiah">
+            Seeds of Greatness:<br>
+            <span>Growing Up with Messiah</span><br>
+            <span style="font-size:0.72em;letter-spacing:0.05em;opacity:0.88;">Finding My Flow</span>
+          </h2>
+          <p class="char-featured-archetype char-arch-messiah">The Energy</p>
+          <p class="char-featured-quote">"Energy isn't a problem to be solved — it's a gift waiting to be directed."</p>
+          <p class="char-featured-desc">A vibrant cinematic experience where passion, rhythm, and fire move beyond the page. Messiah's world is loud, alive, and full of momentum — and through that energy children learn that what feels like too much is actually more than enough.</p>
+          <div class="char-featured-status char-status-messiah">In Development · Coming to Life Soon</div>
+          <div class="char-featured-cta-row">
+            <a href="/characters/messiah" class="btn-primary">Explore Messiah <span class="btn-arrow">→</span></a>
+            <a href="/characters/messiah" class="btn-secondary">Read the Book <span class="btn-arrow">→</span></a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- ════════════════════════════════════════════════════════════
+       JADERY — FEATURED STORY SPOTLIGHT
+  ════════════════════════════════════════════════════════════ -->
+  <section id="featured-jadery" class="char-featured" aria-label="Featured story: Seeds of Greatness Growing Up with Jadery">
+    <div class="featured-wrap">
+
+      <p class="featured-label reveal">Featured Story · Seeds of Greatness · Book Four</p>
+
+      <div class="char-featured-panel reveal reveal-d1">
+
+        <!-- Artwork Side — flipped: info left, image right -->
+        <div class="char-featured-info" style="order:0;">
+          <p class="char-featured-series">Seeds of Greatness · Book Four</p>
+          <h2 class="char-featured-title char-title-jadery">
+            Seeds of Greatness:<br>
+            <span>Growing Up with Jadery</span><br>
+            <span style="font-size:0.72em;letter-spacing:0.05em;opacity:0.88;">Finding My Place</span>
+          </h2>
+          <p class="char-featured-archetype char-arch-jadery">The Bridge</p>
+          <p class="char-featured-quote">"You don't have to choose one world — you were created to beautifully belong in both."</p>
+          <p class="char-featured-desc">A warm, bilingual cinematic story about a child who discovers that growing between two worlds isn't a limitation — it's a superpower. Jadery's journey speaks to every heart that has ever wondered where it truly belongs.</p>
+          <div class="char-featured-status char-status-jadery">In Development · Coming to Life Soon</div>
+          <div class="char-featured-cta-row">
+            <a href="/characters/jadery" class="btn-primary">Explore Jadery <span class="btn-arrow">→</span></a>
+            <a href="/characters/jadery" class="btn-secondary">Read the Book <span class="btn-arrow">→</span></a>
+          </div>
+        </div>
+
+        <div class="char-featured-art" style="order:1;" aria-label="Jadery cinematic preview">
+          <img src="/static/characters/jadery-reveal.jpg"
+               alt="Growing Up with Jadery — Stories in Motion cinematic preview"
+               draggable="false"
+               style="object-position:center 18%;" />
+          <div class="char-featured-art-scrim" style="background:linear-gradient(to left,transparent 60%,rgba(6,4,10,0.65) 100%),linear-gradient(to top,rgba(0,0,0,0.42) 0%,transparent 40%);" aria-hidden="true"></div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- ════════════════════════════════════════════════════════════
+       LEVI — CURRENTLY PLANTING SEEDS  (holding screen)
+  ════════════════════════════════════════════════════════════ -->
+  <section id="featured-levi" aria-label="Growing Up with Levi — currently in development">
+    <div class="levi-featured-wrap">
+
+      <p class="levi-featured-label reveal">Featured Story · Seeds of Greatness · Book Three</p>
+
+      <div class="levi-hold reveal reveal-d1">
+        <img src="/static/characters/levi-reveal.jpg"
+             alt=""
+             class="levi-hold-img"
+             draggable="false"
+             aria-hidden="true" />
+        <div class="levi-hold-scrim" aria-hidden="true"></div>
+
+        <div class="levi-hold-content">
+          <p class="levi-hold-eyebrow">Seeds of Greatness · Book Three</p>
+          <div class="levi-hold-rule" aria-hidden="true"></div>
+
+          <h2 class="levi-hold-headline">Currently<br>Planting Seeds</h2>
+
+          <div class="levi-hold-rule2" aria-hidden="true"></div>
+
+          <p class="levi-hold-sub">Levi's cinematic story is taking shape — a tense, emotionally grounded experience built to honor the journey from the scoreboard to the quiet victory that matters most: who you become. This story is being crafted with care.</p>
+
+          <div class="levi-hold-cta-row">
+            <a href="/characters/levi" class="btn-primary">Discover Levi <span class="btn-arrow">→</span></a>
+            <a href="/characters/levi" class="btn-secondary">Read the Book</a>
+          </div>
+        </div>
+      </div>
+
     </div>
   </section>
 
