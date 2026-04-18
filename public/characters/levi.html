@@ -149,6 +149,27 @@ body{font-family:'Lora','Georgia',serif;background:var(--bg-tint);color:var(--cr
 @keyframes fadeUp{from{opacity:0;transform:translateY(18px);}to{opacity:1;transform:translateY(0);}}
 @media(max-width:900px){#nav{padding:0 24px;}#hero{padding:80px 24px 100px;}.section-wrap{padding:0 24px 80px;}.glass,.book-panel,.motion-panel{padding:36px 24px;}.book-panel{grid-template-columns:1fr;gap:32px;}.traits-grid{grid-template-columns:1fr;}.closing-panel{padding:48px 24px;}#footer-chrome{padding:24px 24px 28px;}}
 @media(max-width:600px){.cta-row{flex-direction:column;align-items:flex-start;}.book-cover-wrap{width:100%;}.book-cover-placeholder{width:100%;height:180px;}}
+
+/* ═══ STORIES IN MOTION GATEWAY ═════════════════════════════ */
+.sim-gateway{position:relative;border-radius:6px;overflow:hidden;margin-bottom:28px;min-height:clamp(340px,44vw,520px);display:flex;align-items:flex-end;isolation:isolate;}
+.sim-gateway-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 20%;filter:brightness(0.72) saturate(1.12);transition:transform 6s ease,filter 0.8s ease;z-index:0;}
+.sim-gateway:hover .sim-gateway-img{transform:scale(1.03);filter:brightness(0.78) saturate(1.18);}
+.sim-gateway::before{content:'';position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,0.88) 0%,rgba(0,0,0,0.42) 38%,rgba(0,0,0,0.08) 65%,transparent 100%),linear-gradient(to right,rgba(0,0,0,0.22) 0%,transparent 50%);z-index:1;pointer-events:none;}
+.sim-gateway::after{content:'';position:absolute;inset:0;box-shadow:inset 0 0 0 1px rgba(212,175,55,0.22),inset 0 -2px 0 0 rgba(212,175,55,0.35);border-radius:6px;z-index:3;pointer-events:none;}
+.sim-gateway-content{position:relative;z-index:2;width:100%;padding:clamp(28px,4vw,56px) clamp(28px,5vw,64px);display:flex;flex-direction:column;align-items:flex-start;gap:0;}
+.sim-gw-label{font-family:'Inter',sans-serif;font-size:.54rem;letter-spacing:.46em;text-transform:uppercase;color:rgba(212,175,55,0.70);margin-bottom:12px;display:flex;align-items:center;gap:10px;}
+.sim-gw-label::before{content:'';display:block;width:24px;height:1px;background:rgba(212,175,55,0.55);flex-shrink:0;}
+.sim-gw-title{font-family:'Cinzel',serif;font-size:clamp(1.55rem,3.2vw,2.6rem);font-weight:600;letter-spacing:.06em;color:#fff;line-height:1.12;margin-bottom:10px;text-shadow:0 2px 24px rgba(0,0,0,0.55);}
+.sim-gw-rule{width:clamp(36px,5vw,56px);height:1.5px;background:linear-gradient(to right,rgba(212,175,55,0.85),rgba(212,175,55,0.30));margin:14px 0 20px;border-radius:1px;}
+.sim-gw-tagline{font-family:'Lora',serif;font-size:clamp(.88rem,1.4vw,1.08rem);color:rgba(253,248,238,0.78);line-height:1.72;margin-bottom:6px;max-width:480px;}
+.sim-gw-sub{font-family:'Lora',serif;font-size:clamp(.78rem,1.1vw,.90rem);font-style:italic;color:rgba(212,175,55,0.62);margin-bottom:32px;max-width:440px;}
+.sim-gw-btn{display:inline-flex;align-items:center;gap:12px;font-family:'Cinzel',serif;font-size:.72rem;font-weight:600;letter-spacing:.26em;text-transform:uppercase;color:rgba(212,175,55,0.95);border:1.5px solid rgba(212,175,55,0.55);padding:15px 34px;border-radius:2px;background:rgba(0,0,0,0.38);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);cursor:pointer;text-decoration:none;position:relative;overflow:hidden;transition:color .30s,border-color .30s,box-shadow .30s,transform .22s,background .30s;}
+.sim-gw-btn::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(212,175,55,0.14),transparent 60%);opacity:0;transition:opacity .30s ease;}
+.sim-gw-btn:hover{color:#fff;border-color:rgba(240,208,96,0.90);background:rgba(0,0,0,0.50);box-shadow:0 0 32px rgba(212,175,55,0.28),0 0 8px rgba(212,175,55,0.18),0 8px 32px rgba(0,0,0,0.50);transform:translateY(-2px);}
+.sim-gw-btn:hover::before{opacity:1;}
+.sim-gw-btn-arrow{transition:transform .28s ease;}
+.sim-gw-btn:hover .sim-gw-btn-arrow{transform:translateX(4px);}
+@media(max-width:680px){.sim-gateway{min-height:300px;}.sim-gateway-img{object-position:center 15%;}.sim-gw-title{font-size:clamp(1.25rem,6vw,1.80rem);}.sim-gw-btn{padding:13px 26px;font-size:.64rem;}}
   </style>
 </head>
 <body>
@@ -224,15 +245,24 @@ body{font-family:'Lora','Georgia',serif;background:var(--bg-tint);color:var(--cr
         <div class="trait-card"><p class="trait-number">Step 04</p><h3 class="trait-title">The Champion</h3><p class="trait-body">Becoming the kind of person others want to compete beside — not just against.</p></div>
       </div>
     </div>
-    <div class="motion-panel reveal">
-      <p class="motion-label">Coming Soon</p>
-      <h2 class="motion-title">Stories in Motion</h2>
-      <p class="motion-body">Watch Levi's story unfold through cinematic animation — feel the tension, the defeat, and the quiet moment where character wins over competition.</p>
-      <div class="motion-preview">
-        <div class="motion-play-icon"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
-        <span class="motion-preview-label">Stories in Motion · Preview Coming Soon</span>
+    <!-- ── STORIES IN MOTION GATEWAY ── -->
+    <div class="sim-gateway reveal" id="sim-gateway" aria-label="Stories in Motion gateway">
+      <img
+        src="/static/characters/levi-reveal.jpg"
+        alt="Levi — Stories in Motion cinematic visual"
+        class="sim-gateway-img"
+        draggable="false"
+      />
+      <div class="sim-gateway-content">
+        <p class="sim-gw-label">Stories in Motion</p>
+        <h2 class="sim-gw-title">This story is coming<br>to life.</h2>
+        <div class="sim-gw-rule"></div>
+        <p class="sim-gw-tagline">This story is coming to life in a cinematic experience.</p>
+        <p class="sim-gw-sub">Witness the journey behind the strength.</p>
+        <a href="/story-in-motion#levi" class="sim-gw-btn" aria-label="Welcome Preview — Stories in Motion">
+          Welcome Preview <span class="sim-gw-btn-arrow">→</span>
+        </a>
       </div>
-      <div class="cta-row"><a href="/story-in-motion" class="btn-secondary">Learn More <span class="btn-arrow">→</span></a></div>
     </div>
     <div class="closing-panel reveal" id="activities">
       <span class="closing-quote-mark" aria-hidden="true">"</span>
