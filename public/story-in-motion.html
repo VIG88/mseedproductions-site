@@ -1009,6 +1009,210 @@ body{font-family:'Lora','Georgia',serif;background:var(--deep);color:var(--cream
   .bb-book-shelf{grid-template-columns:1fr 1fr;}
   .cs-grid{grid-template-columns:1fr;}
 }
+
+/* ═══════════════════════════════════════════════════════════════
+   CINEMATIC VIDEO PROMO — YESHUA
+═══════════════════════════════════════════════════════════════ */
+#promo-video-section{
+  position:relative;
+  width:100%;
+  overflow:hidden;
+  background:#000;
+  /* enforce 16:9 */
+  aspect-ratio:16/9;
+  max-height:90vh;
+}
+
+/* ── video element fills container ── */
+#promo-vid{
+  position:absolute;inset:0;
+  width:100%;height:100%;
+  object-fit:cover;
+  display:block;
+}
+
+/* ── cinematic letterbox vignette ── */
+#promo-vignette{
+  position:absolute;inset:0;
+  pointer-events:none;
+  background:
+    linear-gradient(to bottom,rgba(0,0,0,0.44) 0%,transparent 18%,transparent 78%,rgba(0,0,0,0.60) 100%),
+    radial-gradient(ellipse at center,transparent 55%,rgba(0,0,0,0.50) 100%);
+  z-index:2;
+}
+
+/* ── fade-to-black curtain (revealed on end) ── */
+#promo-fade{
+  position:absolute;inset:0;
+  background:#000;
+  opacity:0;
+  pointer-events:none;
+  transition:opacity 1.4s ease;
+  z-index:3;
+}
+#promo-fade.active{
+  opacity:1;
+  pointer-events:none;
+}
+
+/* ── overlay container ── */
+#promo-overlay{
+  position:absolute;inset:0;
+  z-index:5;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:clamp(14px,2.8vw,28px);
+  pointer-events:none;
+  opacity:0;
+  transition:opacity 1.0s ease;
+}
+#promo-overlay.visible{
+  opacity:1;
+  pointer-events:all;
+}
+
+/* eyebrow label */
+#promo-overlay-eyebrow{
+  font-family:'Inter',sans-serif;
+  font-size:clamp(.44rem,.70vw,.58rem);
+  letter-spacing:.52em;
+  text-transform:uppercase;
+  color:rgba(212,175,55,0.65);
+  text-shadow:0 0 22px rgba(212,175,55,0.40);
+  opacity:0;
+  transform:translateY(10px);
+  transition:opacity .80s ease, transform .80s ease;
+}
+#promo-overlay.visible #promo-overlay-eyebrow{
+  opacity:1;
+  transform:translateY(0);
+  transition-delay:.10s;
+}
+
+/* gold rule */
+#promo-overlay-rule{
+  width:0;
+  height:1px;
+  background:linear-gradient(to right,transparent,rgba(212,175,55,0.72),transparent);
+  box-shadow:0 0 10px rgba(212,175,55,0.45);
+  transition:width 1.0s cubic-bezier(0.16,1,0.3,1);
+  transition-delay:.22s;
+}
+#promo-overlay.visible #promo-overlay-rule{
+  width:clamp(48px,6vw,80px);
+}
+
+/* main CTLS text */
+#promo-overlay-text{
+  font-family:'Cinzel',serif;
+  font-size:clamp(1.40rem,4.2vw,4.20rem);
+  font-weight:700;
+  letter-spacing:.18em;
+  text-transform:uppercase;
+  color:rgba(255,246,210,0.98);
+  text-align:center;
+  line-height:1.12;
+  text-shadow:
+    0 0 80px rgba(212,175,55,0.95),
+    0 0 36px rgba(212,175,55,0.70),
+    0 0 14px rgba(240,208,96,0.50),
+    0 4px 20px rgba(0,0,0,0.95);
+  opacity:0;
+  transform:scale(.97);
+  transition:opacity 1.0s ease, transform 1.0s cubic-bezier(0.16,1,0.3,1);
+  transition-delay:.32s;
+  animation:none;
+}
+#promo-overlay.visible #promo-overlay-text{
+  opacity:1;
+  transform:scale(1);
+}
+/* gold glow pulse once overlay is fully visible */
+@keyframes promoGlow{
+  0%,100%{
+    text-shadow:
+      0 0 60px rgba(212,175,55,0.75),
+      0 0 28px rgba(212,175,55,0.50),
+      0 0 10px rgba(240,208,96,0.36),
+      0 4px 20px rgba(0,0,0,0.95);
+  }
+  50%{
+    text-shadow:
+      0 0 100px rgba(212,175,55,1.00),
+      0 0 48px rgba(212,175,55,0.80),
+      0 0 20px rgba(240,208,96,0.65),
+      0 4px 20px rgba(0,0,0,0.95);
+  }
+}
+#promo-overlay.glowing #promo-overlay-text{
+  animation:promoGlow 4s ease-in-out infinite;
+}
+
+/* ── WATCH AGAIN button ── */
+#promo-replay-btn{
+  display:inline-flex;
+  align-items:center;
+  gap:10px;
+  font-family:'Cinzel',serif;
+  font-size:clamp(.54rem,1.0vw,.80rem);
+  font-weight:600;
+  letter-spacing:.22em;
+  text-transform:uppercase;
+  color:rgba(212,175,55,0.92);
+  background:rgba(0,0,0,0.30);
+  backdrop-filter:blur(12px);
+  -webkit-backdrop-filter:blur(12px);
+  border:1px solid rgba(212,175,55,0.45);
+  padding:clamp(11px,1.4vw,16px) clamp(22px,2.8vw,36px);
+  border-radius:2px;
+  cursor:pointer;
+  outline:none;
+  transition:
+    color .30s,
+    border-color .30s,
+    box-shadow .30s,
+    transform .24s,
+    background .30s;
+  /* starts hidden, slides up */
+  opacity:0;
+  transform:translateY(14px);
+  pointer-events:none;
+  transition:
+    opacity .80s ease,
+    transform .80s cubic-bezier(0.16,1,0.3,1),
+    color .30s,
+    border-color .30s,
+    box-shadow .30s,
+    background .30s;
+}
+#promo-overlay.btn-visible #promo-replay-btn{
+  opacity:1;
+  transform:translateY(0);
+  pointer-events:all;
+  transition-delay:.0s;
+}
+#promo-replay-btn:hover{
+  color:#fff;
+  border-color:rgba(212,175,55,0.85);
+  box-shadow:
+    0 0 40px rgba(212,175,55,0.28),
+    0 8px 40px rgba(0,0,0,0.55);
+  background:rgba(212,175,55,0.08);
+  transform:translateY(-2px) scale(1.02);
+}
+
+/* responsive: on very small screens collapse height */
+@media(max-width:600px){
+  #promo-video-section{
+    aspect-ratio:16/9;
+    max-height:56vw;
+  }
+  #promo-overlay-text{
+    letter-spacing:.10em;
+  }
+}
   </style>
 </head>
 <body>
@@ -1099,6 +1303,42 @@ body{font-family:'Lora','Georgia',serif;background:var(--deep);color:var(--cream
       <div class="scroll-line"></div>
       <span class="scroll-label">Begin</span>
     </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- ════════════════════════════════════════════════════════════
+       CINEMATIC VIDEO PROMO — YESHUA
+  ════════════════════════════════════════════════════════════ -->
+  <section id="promo-video-section" aria-label="Yeshua Story in Motion cinematic preview">
+
+    <!-- Video element -->
+    <video
+      id="promo-vid"
+      src="https://www.dropbox.com/scl/fi/718nb12bh7860i00gg7ib/Yeshua-Video-Promo_website.MP4?rlkey=3we4zmpq5s4tppok8auartvun&st=p9470i97&raw=1"
+      preload="auto"
+      playsinline
+      muted
+      aria-label="Seeds of Greatness: Growing Up with Yeshua — Story in Motion preview"
+    ></video>
+
+    <!-- Cinematic vignette border -->
+    <div id="promo-vignette" aria-hidden="true"></div>
+
+    <!-- Fade-to-black curtain -->
+    <div id="promo-fade" aria-hidden="true"></div>
+
+    <!-- End-state overlay: COMING TO LIFE SOON + Replay -->
+    <div id="promo-overlay" aria-hidden="true">
+      <p id="promo-overlay-eyebrow">Seeds of Greatness · Story in Motion</p>
+      <div id="promo-overlay-rule"></div>
+      <p id="promo-overlay-text">Coming to<br>Life Soon</p>
+      <button id="promo-replay-btn" aria-label="Watch Again">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-4"/></svg>
+        Watch Again
+      </button>
+    </div>
+
   </section>
 
   <div class="section-divider"></div>
@@ -1632,6 +1872,85 @@ document.querySelectorAll('.story-card[data-char]').forEach(card=>{
     if(e.key==='Enter'||e.key===' '){ e.preventDefault(); openModal(card.dataset.char); }
   });
 });
+
+/* ═══════════════════════════════════════════════════════════════
+   CINEMATIC PROMO VIDEO
+═══════════════════════════════════════════════════════════════ */
+(function(){
+  const vid    = document.getElementById('promo-vid');
+  const fadEl  = document.getElementById('promo-fade');
+  const overlay= document.getElementById('promo-overlay');
+  const repBtn = document.getElementById('promo-replay-btn');
+  if(!vid) return;
+
+  let ended = false;
+  let glowTimer = null;
+
+  /* --- Autoplay on load (muted; browsers allow muted autoplay) --- */
+  function tryAutoplay(){
+    const p = vid.play();
+    if(p && p.catch) p.catch(()=>{ /* autoplay blocked — user must tap */ });
+  }
+
+  /* --- On video end: freeze frame → fade to black → show overlay --- */
+  vid.addEventListener('ended', function(){
+    if(ended) return;
+    ended = true;
+
+    /* 1. Freeze: pause on last frame (already at end) */
+    vid.pause();
+
+    /* 2. After a 0.3s pause, fade to black over 1.4s */
+    setTimeout(function(){
+      fadEl.classList.add('active');
+
+      /* 3. After fade completes (1.4s), reveal overlay text */
+      setTimeout(function(){
+        overlay.setAttribute('aria-hidden','false');
+        overlay.classList.add('visible');
+
+        /* 4. After 1s delay, reveal button, then start glow animation */
+        setTimeout(function(){
+          overlay.classList.add('btn-visible');
+          setTimeout(function(){
+            overlay.classList.add('glowing');
+          }, 900);
+        }, 1000);
+      }, 1450);
+    }, 300);
+  });
+
+  /* --- Replay button: reset everything and replay --- */
+  repBtn.addEventListener('click', function(){
+    /* 1. Fade out overlay (remove classes in reverse) */
+    overlay.classList.remove('glowing');
+    overlay.classList.remove('btn-visible');
+
+    /* 2. Short pause then hide the full overlay */
+    setTimeout(function(){
+      overlay.classList.remove('visible');
+      overlay.setAttribute('aria-hidden','true');
+
+      /* 3. Remove fade curtain (fade back from black) */
+      fadEl.classList.remove('active');
+
+      /* 4. Small gap then reset + replay */
+      setTimeout(function(){
+        ended = false;
+        vid.currentTime = 0;
+        tryAutoplay();
+      }, 600);
+    }, 400);
+  });
+
+  /* --- Start video when it's ready --- */
+  if(vid.readyState >= 3){
+    tryAutoplay();
+  } else {
+    vid.addEventListener('canplaythrough', tryAutoplay, { once: true });
+    vid.addEventListener('loadeddata',     tryAutoplay, { once: true });
+  }
+})();
 
 /* ── MOBILE TAP: toggle .tapped on story cards (touch devices) ── */
 (function(){
