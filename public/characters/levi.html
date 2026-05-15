@@ -444,24 +444,49 @@ soundBtn.addEventListener('click',()=>{muted=!muted;if(!muted){iconMuted.style.d
     var firstName=document.getElementById('seed-first-name').value.trim();
     var email=document.getElementById('seed-email').value.trim();
     var character=document.getElementById('seed-character').value;
+    var characterLabel=character.charAt(0).toUpperCase()+character.slice(1);
     errorEl.textContent='';
     if(!firstName){errorEl.textContent='Please enter your first name.';return;}
     if(!email||!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){errorEl.textContent='Please enter a valid email address.';return;}
     submitBtn.disabled=true;
     submitBtn.textContent='Planting…';
     try{
-      var res=await fetch('/api/seed',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({firstName:firstName,email:email,character:character})});
+      // Direct browser-side call to Web3Forms (Cloudflare Worker server-side calls are
+      // blocked on the Web3Forms free plan). Submissions are delivered to the inbox
+      // linked to the access_key (info@mseedproductions.com via Web3Forms dashboard).
+      //
+      // TO ADD CONFIRMATION EMAIL TO VISITOR:
+      // Option A: Upgrade Web3Forms to Pro (enables server-side + auto-reply).
+      // Option B: Add a Resend or SendGrid API key as a Cloudflare secret, then
+      //           call the /api/seed Worker route which already has the email body ready.
+      var res=await fetch('https://api.web3forms.com/submit',{
+        method:'POST',
+        headers:{'Content-Type':'application/json',Accept:'application/json'},
+        body:JSON.stringify({
+          access_key:'b446c862-92aa-40d0-99c7-5a261b45a094',
+          subject:'🌱 A Seed Has Been Planted — Growing Up with '+characterLabel,
+          from_name:firstName+' (Seed Planters)',
+          replyto:email,
+          message:
+            '🌱 New Seed Planters Submission\n\n'
+            +'Name:      '+firstName+'\n'
+            +'Email:     '+email+'\n'
+            +'Character: Growing Up with '+characterLabel+'\n'
+            +'Joined:    '+new Date().toISOString()+'\n\n'
+            +'This visitor has joined the Seed Planters early interest list.',
+        })
+      });
       var data=await res.json();
-      if(data.ok){
+      if(data.success){
         formView.style.display='none';
         confirmView.classList.add('visible');
       } else {
-        errorEl.textContent=data.error||'Something went wrong. Please try again.';
+        errorEl.textContent='Something went wrong, but your seed still matters. Please try again.';
         submitBtn.disabled=false;
         submitBtn.textContent='Join the Story List';
       }
     } catch(err){
-      errorEl.textContent='Connection error. Please try again.';
+      errorEl.textContent='Something went wrong, but your seed still matters. Please try again.';
       submitBtn.disabled=false;
       submitBtn.textContent='Join the Story List';
     }
