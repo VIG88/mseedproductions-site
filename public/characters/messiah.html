@@ -178,6 +178,44 @@ body{font-family:'Lora','Georgia',serif;background:var(--bg-tint);color:var(--cr
 .sim-gw-btn-arrow{transition:transform .28s ease;}
 .sim-gw-btn:hover .sim-gw-btn-arrow{transform:translateX(4px);}
 @media(max-width:680px){.sim-gateway{min-height:300px;}.sim-gateway-img{object-position:center 15%;}.sim-gw-title{font-size:clamp(1.25rem,6vw,1.80rem);}.sim-gw-btn{padding:13px 26px;font-size:.64rem;}}
+
+/* ── SEED PLANTERS BUTTON ───────────────────────────────────────── */
+.seed-btn-wrap{margin-top:20px;display:flex;flex-direction:column;align-items:center;gap:10px;}
+.seed-btn{display:inline-flex;align-items:center;gap:9px;font-family:'Cinzel',serif;font-size:.64rem;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:rgba(212,175,55,0.88);background:rgba(6,4,10,0.72);border:1px solid rgba(212,175,55,0.38);border-radius:30px;padding:12px 26px;cursor:pointer;position:relative;overflow:hidden;transition:color .32s,border-color .32s,box-shadow .32s,transform .22s;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);text-decoration:none;}
+.seed-btn::before{content:'';position:absolute;inset:0;border-radius:30px;background:linear-gradient(110deg,transparent 30%,rgba(212,175,55,0.10) 50%,transparent 70%);background-size:200% 100%;background-position:200% 0;transition:background-position .65s ease;}
+.seed-btn:hover{color:rgba(240,208,96,1);border-color:rgba(212,175,55,0.75);box-shadow:0 0 22px rgba(212,175,55,0.22),0 0 6px rgba(212,175,55,0.12),0 4px 20px rgba(0,0,0,0.45);transform:translateY(-1px);}
+.seed-btn:hover::before{background-position:-200% 0;}
+.seed-btn-icon{font-size:.80rem;line-height:1;}
+.seed-support-text{font-family:'Inter',sans-serif;font-size:.55rem;letter-spacing:.14em;text-transform:uppercase;color:rgba(212,175,55,0.38);text-align:center;line-height:1.6;max-width:220px;}
+
+/* ── SEED MODAL ─────────────────────────────────────────────────── */
+#seed-modal{position:fixed;inset:0;z-index:9000;display:none;align-items:center;justify-content:center;padding:24px;}
+#seed-modal.open{display:flex;}
+#seed-modal-backdrop{position:absolute;inset:0;background:rgba(3,1,8,0.88);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);animation:seedBackdropIn .38s ease forwards;}
+@keyframes seedBackdropIn{from{opacity:0;}to{opacity:1;}}
+#seed-modal-box{position:relative;z-index:1;background:linear-gradient(160deg,rgba(12,8,24,0.97) 0%,rgba(8,5,14,0.99) 100%);border:1px solid rgba(212,175,55,0.22);border-top:1.5px solid rgba(212,175,55,0.45);border-radius:8px;padding:52px 48px 44px;max-width:480px;width:100%;box-shadow:0 40px 100px rgba(0,0,0,0.72),0 0 0 1px rgba(212,175,55,0.06),0 0 80px rgba(212,175,55,0.05);animation:seedBoxIn .42s cubic-bezier(0.16,1,0.3,1) forwards;overflow:hidden;}
+#seed-modal-box::before{content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);width:60%;height:1px;background:linear-gradient(to right,transparent,rgba(212,175,55,0.50) 40%,rgba(212,175,55,0.50) 60%,transparent);}
+@keyframes seedBoxIn{from{opacity:0;transform:translateY(22px) scale(0.97);}to{opacity:1;transform:translateY(0) scale(1);}}
+.seed-modal-close{position:absolute;top:16px;right:18px;background:none;border:none;color:rgba(212,175,55,0.38);font-size:1.2rem;cursor:pointer;line-height:1;padding:6px;transition:color .22s;}
+.seed-modal-close:hover{color:rgba(212,175,55,0.80);}
+.seed-modal-eyebrow{font-family:'Inter',sans-serif;font-size:.52rem;letter-spacing:.36em;text-transform:uppercase;color:rgba(212,175,55,0.44);margin-bottom:16px;}
+.seed-modal-title{font-family:'Cinzel',serif;font-size:clamp(1.15rem,3vw,1.45rem);font-weight:600;letter-spacing:.06em;color:var(--gold-lt);line-height:1.25;margin-bottom:12px;}
+.seed-modal-subtitle{font-family:'Lora',serif;font-size:.88rem;font-style:italic;color:rgba(253,248,238,0.52);line-height:1.72;margin-bottom:32px;}
+.seed-field{margin-bottom:18px;}
+.seed-field label{display:block;font-family:'Inter',sans-serif;font-size:.54rem;letter-spacing:.26em;text-transform:uppercase;color:rgba(212,175,55,0.50);margin-bottom:8px;}
+.seed-field input{width:100%;background:rgba(255,255,255,0.03);border:1px solid rgba(212,175,55,0.18);border-radius:4px;padding:13px 16px;font-family:'Lora',serif;font-size:.90rem;color:var(--cream);outline:none;transition:border-color .25s,box-shadow .25s;}
+.seed-field input:focus{border-color:rgba(212,175,55,0.50);box-shadow:0 0 0 3px rgba(212,175,55,0.07);}
+.seed-field input::placeholder{color:rgba(253,248,238,0.22);}
+.seed-submit{width:100%;margin-top:8px;font-family:'Cinzel',serif;font-size:.68rem;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:rgba(212,175,55,0.92);background:rgba(212,175,55,0.07);border:1px solid rgba(212,175,55,0.38);border-radius:4px;padding:15px;cursor:pointer;transition:background .28s,border-color .28s,box-shadow .28s,color .28s;}
+.seed-submit:hover{background:rgba(212,175,55,0.13);border-color:rgba(212,175,55,0.65);box-shadow:0 0 24px rgba(212,175,55,0.18);color:rgba(240,208,96,1);}
+.seed-submit:disabled{opacity:.45;cursor:not-allowed;}
+.seed-error{font-family:'Inter',sans-serif;font-size:.72rem;color:rgba(255,120,100,0.82);margin-top:12px;text-align:center;min-height:1em;}
+#seed-modal-confirm{display:none;flex-direction:column;align-items:center;text-align:center;padding:12px 0 8px;}
+#seed-modal-confirm.visible{display:flex;}
+.seed-confirm-leaf{font-size:2.2rem;animation:seedLeafFloat 2.8s ease-in-out infinite;margin-bottom:20px;}
+@keyframes seedLeafFloat{0%,100%{transform:translateY(0) rotate(-4deg);}50%{transform:translateY(-8px) rotate(4deg);}}
+.seed-confirm-title{font-family:'Cinzel',serif;font-size:1.12rem;font-weight:600;letter-spacing:.08em;color:var(--gold-lt);margin-bottom:14px;}
+.seed-confirm-body{font-family:'Lora',serif;font-size:.92rem;font-style:italic;color:rgba(253,248,238,0.62);line-height:1.80;}
   </style>
 </head>
 <body>
@@ -224,6 +262,12 @@ body{font-family:'Lora','Georgia',serif;background:var(--bg-tint);color:var(--cr
           <img src="/static/characters/messiah-book-cover.jpg"
                alt="Seeds of Greatness: Growing Up with Messiah — Finding My Place book cover"
                class="book-cover-img" draggable="false" />
+        </div>
+        <div class="seed-btn-wrap">
+          <button class="seed-btn" id="seed-open-btn" aria-label="Join the Seed Planters early interest list">
+            <span class="seed-btn-icon">🌱</span> Join Seed Planters
+          </button>
+          <p class="seed-support-text">Be among the first families to experience future stories from MustardSeed Productions.</p>
         </div>
       </div>
       <div class="book-info">
@@ -349,6 +393,85 @@ soundBtn.addEventListener('click',()=>{muted=!muted;if(!muted){iconMuted.style.d
     });
   });
   document.addEventListener('click',function(e){if(!e.target.closest('.nav-dropdown'))document.querySelectorAll('.nav-dropdown.open').forEach(function(el){el.classList.remove('open');});});
+})();
+</script>
+
+<!-- SEED MODAL -->
+<div id="seed-modal" role="dialog" aria-modal="true" aria-labelledby="seed-modal-title">
+  <div id="seed-modal-backdrop"></div>
+  <div id="seed-modal-box">
+    <button class="seed-modal-close" id="seed-modal-close" aria-label="Close">&#x2715;</button>
+    <!-- FORM VIEW -->
+    <div id="seed-modal-form-view">
+      <p class="seed-modal-eyebrow">MustardSeed Productions · Early Access</p>
+      <h2 class="seed-modal-title" id="seed-modal-title">🌱 A Seed Has Been Planted</h2>
+      <p class="seed-modal-subtitle">Join the Seed Planters community and be among the first families to receive future story updates, cinematic releases, and collectible edition announcements.</p>
+      <div class="seed-field">
+        <label for="seed-first-name">First Name</label>
+        <input type="text" id="seed-first-name" name="firstName" placeholder="Your first name" autocomplete="given-name" />
+      </div>
+      <div class="seed-field">
+        <label for="seed-email">Email Address</label>
+        <input type="email" id="seed-email" name="email" placeholder="your@email.com" autocomplete="email" />
+      </div>
+      <input type="hidden" id="seed-character" value="messiah" />
+      <button class="seed-submit" id="seed-submit-btn">Join the Story List</button>
+      <p class="seed-error" id="seed-error" aria-live="polite"></p>
+    </div>
+    <!-- CONFIRM VIEW -->
+    <div id="seed-modal-confirm">
+      <div class="seed-confirm-leaf">🌱</div>
+      <h3 class="seed-confirm-title">Thank you for planting a seed.</h3>
+      <p class="seed-confirm-body">We'll let you know when this story is ready to grow.</p>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  var modal=document.getElementById('seed-modal');
+  var openBtn=document.getElementById('seed-open-btn');
+  var closeBtn=document.getElementById('seed-modal-close');
+  var backdrop=document.getElementById('seed-modal-backdrop');
+  var submitBtn=document.getElementById('seed-submit-btn');
+  var errorEl=document.getElementById('seed-error');
+  var formView=document.getElementById('seed-modal-form-view');
+  var confirmView=document.getElementById('seed-modal-confirm');
+
+  function openModal(){modal.classList.add('open');document.body.style.overflow='hidden';document.getElementById('seed-first-name').focus();}
+  function closeModal(){modal.classList.remove('open');document.body.style.overflow='';errorEl.textContent='';}
+
+  openBtn.addEventListener('click',openModal);
+  closeBtn.addEventListener('click',closeModal);
+  backdrop.addEventListener('click',closeModal);
+  document.addEventListener('keydown',function(e){if(e.key==='Escape')closeModal();});
+
+  submitBtn.addEventListener('click',async function(){
+    var firstName=document.getElementById('seed-first-name').value.trim();
+    var email=document.getElementById('seed-email').value.trim();
+    var character=document.getElementById('seed-character').value;
+    errorEl.textContent='';
+    if(!firstName){errorEl.textContent='Please enter your first name.';return;}
+    if(!email||!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){errorEl.textContent='Please enter a valid email address.';return;}
+    submitBtn.disabled=true;
+    submitBtn.textContent='Planting…';
+    try{
+      var res=await fetch('/api/seed',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({firstName:firstName,email:email,character:character})});
+      var data=await res.json();
+      if(data.ok){
+        formView.style.display='none';
+        confirmView.classList.add('visible');
+      } else {
+        errorEl.textContent=data.error||'Something went wrong. Please try again.';
+        submitBtn.disabled=false;
+        submitBtn.textContent='Join the Story List';
+      }
+    } catch(err){
+      errorEl.textContent='Connection error. Please try again.';
+      submitBtn.disabled=false;
+      submitBtn.textContent='Join the Story List';
+    }
+  });
 })();
 </script>
 </body>

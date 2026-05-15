@@ -84,6 +84,96 @@ app.post('/api/contact', async (c) => {
   }
 })
 
+// ── PLANT A SEED — EARLY INTEREST / WAITLIST API ────────────────────────────
+app.post('/api/seed', async (c) => {
+  try {
+    const body = await c.req.json()
+    const { firstName, email, character } = body as {
+      firstName: string
+      email: string
+      character: string
+    }
+
+    // Validation
+    if (!firstName || !email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      return c.json({ ok: false, error: 'Please enter a valid name and email.' }, 400)
+    }
+
+    const accessKey = (c.env?.WEB3FORMS_KEY) || 'b446c862-92aa-40d0-99c7-5a261b45a094'
+    const characterLabel = character
+      ? character.charAt(0).toUpperCase() + character.slice(1)
+      : 'Unknown'
+
+    // ── 1. Notify MustardSeed of new seed submission ──────────────────────────
+    const notifyBody = [
+      `🌱 New Early Interest Submission`,
+      ``,
+      `Name:      ${firstName}`,
+      `Email:     ${email}`,
+      `Character: Growing Up with ${characterLabel}`,
+      ``,
+      `This visitor has joined the early story list for future release updates.`,
+    ].join('\n')
+
+    const notifyRes = await fetch('https://api.web3forms.com/submit', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+      body: JSON.stringify({
+        access_key: accessKey,
+        subject: `🌱 A Seed Has Been Planted — Growing Up with ${characterLabel}`,
+        from_name: `${firstName} (MustardSeed Early List)`,
+        replyto: email,
+        message: notifyBody,
+      }),
+    })
+
+    const notifyData = await notifyRes.json() as { success: boolean }
+    if (!notifyData.success) {
+      console.error('[seed] Web3Forms notify error:', notifyData)
+      return c.json({ ok: false, error: 'Could not record your interest. Please try again.' }, 502)
+    }
+
+    // ── 2. Send confirmation email to the visitor ─────────────────────────────
+    const confirmBody = [
+      `Hi ${firstName},`,
+      ``,
+      `Thank you for planting a seed with MustardSeed Productions.`,
+      ``,
+      `Your journey into the world of Stories in Motion has officially begun.`,
+      ``,
+      `We created MustardSeed to tell heartfelt cinematic stories that help children feel seen, valued, inspired, and emotionally connected to who they are becoming.`,
+      ``,
+      `As our stories continue growing, you'll be among the first to receive early updates about future book releases, Stories in Motion premieres, and collectible edition announcements.`,
+      ``,
+      `Something beautiful is growing…`,
+      ``,
+      `And we're grateful you're part of it from the very beginning.`,
+      ``,
+      `MustardSeed Productions`,
+      `www.mseedproductions.com`,
+    ].join('\n')
+
+    // Web3Forms supports sending a copy to the submitter via the `from_email` field
+    await fetch('https://api.web3forms.com/submit', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+      body: JSON.stringify({
+        access_key: accessKey,
+        subject: `🌱 A Seed Has Been Planted`,
+        from_name: 'MustardSeed Productions',
+        replyto: 'info@mseedproductions.com',
+        to: email,
+        message: confirmBody,
+      }),
+    })
+
+    return c.json({ ok: true })
+  } catch (err) {
+    console.error('[seed] Unexpected error:', err)
+    return c.json({ ok: false, error: 'Server error. Please try again.' }, 500)
+  }
+})
+
 // ── STATIC ASSETS ────────────────────────────────────────────────────────────
 app.use('/static/*', serveStatic({ root: './' }))
 
