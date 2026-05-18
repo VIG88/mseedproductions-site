@@ -3,7 +3,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build && node -e \"const fs=require('fs');const r=JSON.parse(fs.readFileSync('dist/_routes.json','utf8'));const extras=['/journal','/journal/*','/sitemap.xml','/robots.txt'];extras.forEach(p=>{if(!r.exclude.includes(p))r.exclude.push(p);});fs.writeFileSync('dist/_routes.json',JSON.stringify(r,null,2));console.log('_routes.json patched: /journal, /sitemap.xml, /robots.txt added to exclude');\"",
+    "build": "vite build && node -e \"const fs=require('fs');const r=JSON.parse(fs.readFileSync('dist/_routes.json','utf8'));const extras=['/journal','/journal/*','/sitemap.xml','/robots.txt'];extras.forEach(p=>{if(!r.exclude.includes(p))r.exclude.push(p);});fs.writeFileSync('dist/_routes.json',JSON.stringify(r,null,2));console.log('_routes.json patched');\" && node -e \"const fs=require('fs');if(fs.existsSync('dist/journal/index.html')&&!fs.existsSync('dist/journal.html')){fs.copyFileSync('dist/journal/index.html','dist/journal.html');console.log('dist/journal.html flat file created (eliminates 308 redirect)');}else{console.log('dist/journal.html already exists or journal/index.html missing');}\"",
     "preview": "wrangler pages dev",
     "deploy": "npm run build && wrangler pages deploy",
     "cf-typegen": "wrangler types --env-interface CloudflareBindings"
