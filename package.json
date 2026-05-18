@@ -3,7 +3,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "vite build && node -e \"const fs=require('fs');const r=JSON.parse(fs.readFileSync('dist/_routes.json','utf8'));const extras=['/journal','/journal/*'];extras.forEach(p=>{if(!r.exclude.includes(p))r.exclude.push(p);});fs.writeFileSync('dist/_routes.json',JSON.stringify(r,null,2));console.log('_routes.json patched with /journal paths');\"",
     "preview": "wrangler pages dev",
     "deploy": "npm run build && wrangler pages deploy",
     "cf-typegen": "wrangler types --env-interface CloudflareBindings"
