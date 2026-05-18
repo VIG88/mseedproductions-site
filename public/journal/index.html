@@ -205,6 +205,19 @@ footer{margin-top:64px;padding:28px 52px 32px;display:flex;align-items:center;ju
 /* ═══ HIDDEN / FILTER ════════════════════════════════════════════ */
 .post-card[data-cat].hidden{display:none;}
 
+/* ═══ FEATURED TRANSITION ═══════════════════════════════════════ */
+.featured-inner{
+  transition:opacity .32s ease,transform .32s cubic-bezier(0.4,0,0.2,1);
+}
+.featured-inner.is-switching{
+  opacity:0;
+  transform:translateY(6px);
+}
+.featured-inner.is-entering{
+  opacity:0;
+  transform:translateY(-6px);
+}
+
 /* ═══ RESPONSIVE ════════════════════════════════════════════════ */
 @media(max-width:1100px){.featured-inner{grid-template-columns:1fr;}.featured-img-wrap{min-height:260px;}.featured-img-scrim{background:linear-gradient(to top,rgba(6,4,10,0.75) 0%,transparent 60%);}.posts{grid-template-columns:repeat(2,1fr);}}
 @media(max-width:768px){#nav{padding:0 20px;}.nav-items{display:none;}#journal-hero,#featured-post,#post-grid,#social-follow,#cta-band{padding-left:20px;padding-right:20px;}#newsletter{padding:48px 20px 44px;}#cta-band{margin-left:20px;margin-right:20px;}footer{padding:24px 20px 28px;flex-direction:column;align-items:flex-start;gap:12px;}.nl-form{flex-direction:column;}.posts{grid-template-columns:1fr;}.nl-accent-dot{display:none;}}
@@ -259,19 +272,20 @@ footer{margin-top:64px;padding:28px 52px 32px;display:flex;align-items:center;ju
 
   <!-- FEATURED POST -->
   <section id="featured-post" aria-label="Featured journal post">
-    <a href="/journal/why-stories-make-children-emotionally-strong" class="featured-inner" aria-label="Read featured post">
+    <a href="/journal/why-stories-make-children-emotionally-strong" class="featured-inner" id="featured-link" aria-label="Read featured post">
       <div class="featured-img-wrap">
         <img src="/static/characters/yeshua-reveal.jpg"
              alt="A child discovering their inner strength through storytelling"
+             id="featured-img"
              loading="eager" />
         <div class="featured-img-scrim" aria-hidden="true"></div>
-        <span class="featured-badge">Featured</span>
+        <span class="featured-badge" id="featured-badge">Featured</span>
       </div>
       <div class="featured-info">
-        <p class="featured-cat">Emotional Growth for Children</p>
-        <h2 class="featured-title">Why Stories Make Children Emotionally Stronger — And How to Use Them</h2>
-        <p class="featured-excerpt">Science confirms what parents already feel: the right story at the right moment can reshape how a child sees themselves. Here's how purposeful storytelling builds emotional resilience that lasts a lifetime.</p>
-        <p class="featured-meta">May 2026 &nbsp;·&nbsp; 7 min read</p>
+        <p class="featured-cat" id="featured-cat">Emotional Growth for Children</p>
+        <h2 class="featured-title" id="featured-title">Why Stories Make Children Emotionally Stronger — And How to Use Them</h2>
+        <p class="featured-excerpt" id="featured-excerpt">Science confirms what parents already feel: the right story at the right moment can reshape how a child sees themselves. Here's how purposeful storytelling builds emotional resilience that lasts a lifetime.</p>
+        <p class="featured-meta" id="featured-meta">May 2026 &nbsp;·&nbsp; 7 min read</p>
         <span class="btn-read">Read the Story <span aria-hidden="true">→</span></span>
       </div>
     </a>
@@ -469,6 +483,128 @@ footer{margin-top:64px;padding:28px 52px 32px;display:flex;align-items:center;ju
 
 <script>
 (function(){
+
+  // ══════════════════════════════════════════════════════════════
+  // FEATURED ARTICLE DATA — one entry per category tab
+  // ══════════════════════════════════════════════════════════════
+  var FEATURED = {
+    'all': {
+      href:    '/journal/why-stories-make-children-emotionally-strong',
+      img:     '/static/characters/yeshua-reveal.jpg',
+      alt:     'A child discovering their inner strength through storytelling',
+      badge:   'Featured',
+      cat:     'Emotional Growth for Children',
+      title:   'Why Stories Make Children Emotionally Stronger — And How to Use Them',
+      excerpt: 'Science confirms what parents already feel: the right story at the right moment can reshape how a child sees themselves. Here\'s how purposeful storytelling builds emotional resilience that lasts a lifetime.',
+      meta:    'May 2026 &nbsp;·&nbsp; 7 min read'
+    },
+    'parenting-with-purpose': {
+      href:    '/journal/raising-a-child-with-purpose',
+      img:     '/static/characters/levi-reveal.jpg',
+      alt:     'Parent and child sharing a meaningful moment of guidance',
+      badge:   'Parenting with Purpose',
+      cat:     'Parenting with Purpose',
+      title:   'What It Really Means to Raise a Child with Purpose',
+      excerpt: 'Purpose isn\'t a destination you hand your child. It\'s a seed you plant — one conversation, one story, one moment at a time.',
+      meta:    'May 2026 &nbsp;·&nbsp; 5 min read'
+    },
+    'raising-confident-kids': {
+      href:    '/journal/building-confidence-in-children',
+      img:     '/static/characters/messiah-reveal.jpg',
+      alt:     'A confident child standing tall — building real confidence',
+      badge:   'Raising Confident Kids',
+      cat:     'Raising Confident Kids',
+      title:   '5 Ways to Build Real Confidence in Your Child (Not Just Praise)',
+      excerpt: 'Real confidence isn\'t built by telling a child they\'re great. It\'s built by helping them discover what they\'re made of — especially when things are hard.',
+      meta:    'May 2026 &nbsp;·&nbsp; 6 min read'
+    },
+    'emotional-growth': {
+      href:    '/journal/why-stories-make-children-emotionally-strong',
+      img:     '/static/characters/yeshua-reveal.jpg',
+      alt:     'Child discovering emotional strength through purposeful story',
+      badge:   'Emotional Growth',
+      cat:     'Emotional Growth for Children',
+      title:   'Why Stories Make Children Emotionally Stronger — And How to Use Them',
+      excerpt: 'The right story at the right moment can reshape how a child sees themselves. Here\'s the science — and the art — behind emotional storytelling for kids.',
+      meta:    'May 2026 &nbsp;·&nbsp; 7 min read'
+    },
+    'behind-the-story': {
+      href:    '/journal/behind-the-story-seeds-of-greatness',
+      img:     '/static/characters/jadery-reveal.jpg',
+      alt:     'The creative story behind Seeds of Greatness — why we create for children',
+      badge:   'Behind the Story',
+      cat:     'Behind the Story',
+      title:   'The Story Behind Seeds of Greatness — Why We Create for Children',
+      excerpt: 'Every book in the series started with a real question: what do children need to feel seen, valued, and ready to grow? Here\'s where our answer began.',
+      meta:    'May 2026 &nbsp;·&nbsp; 5 min read'
+    },
+    'stories-in-motion': {
+      href:    '/journal/stories-in-motion-what-it-means',
+      img:     '/static/characters/levi-book-cover.jpg',
+      alt:     'Stories in Motion — cinematic storytelling experience for families',
+      badge:   'Stories in Motion',
+      cat:     'Stories in Motion',
+      title:   'What Is Stories in Motion — And Why It Matters for Families',
+      excerpt: 'Stories in Motion is the cinematic extension of the Seeds of Greatness books — bringing characters to life in a way that reaches children on a deeper emotional level.',
+      meta:    'May 2026 &nbsp;·&nbsp; 4 min read'
+    },
+    'seeds-of-greatness': {
+      href:    '/journal/seeds-of-greatness-series-guide',
+      img:     '/static/characters/jadery-book-cover.jpg',
+      alt:     'Seeds of Greatness series — meet Yeshua, Messiah, Levi, and Jadery',
+      badge:   'Seeds of Greatness Series',
+      cat:     'Seeds of Greatness Series',
+      title:   'A Parent\'s Guide to the Seeds of Greatness Series',
+      excerpt: 'Meet Yeshua, Messiah, Levi, and Jadery — four characters built to help children ages 3–8 feel seen, valued, and ready to grow into who they were made to be.',
+      meta:    'May 2026 &nbsp;·&nbsp; 5 min read'
+    }
+  };
+
+  // ── Featured section elements ─────────────────────────────────
+  var featLink    = document.getElementById('featured-link');
+  var featImg     = document.getElementById('featured-img');
+  var featBadge   = document.getElementById('featured-badge');
+  var featCat     = document.getElementById('featured-cat');
+  var featTitle   = document.getElementById('featured-title');
+  var featExcerpt = document.getElementById('featured-excerpt');
+  var featMeta    = document.getElementById('featured-meta');
+
+  function updateFeatured(key) {
+    var d = FEATURED[key] || FEATURED['all'];
+
+    // 1. Fade out
+    featLink.classList.add('is-switching');
+
+    setTimeout(function() {
+      // 2. Swap content while invisible
+      featLink.href            = d.href;
+      featLink.setAttribute('aria-label', 'Read: ' + d.title);
+      featImg.src              = d.img;
+      featImg.alt              = d.alt;
+      featBadge.textContent    = d.badge;
+      featCat.textContent      = d.cat;
+      featTitle.textContent    = d.title;
+      featExcerpt.textContent  = d.excerpt;
+      featMeta.innerHTML       = d.meta;
+
+      // 3. Prepare entering state
+      featLink.classList.remove('is-switching');
+      featLink.classList.add('is-entering');
+
+      // 4. Force reflow so the browser sees the entering class before removing it
+      void featLink.offsetWidth;
+
+      // 5. Fade in
+      featLink.classList.remove('is-entering');
+
+      // 6. Scroll so featured section is in view (only if below fold)
+      var rect = document.getElementById('featured-post').getBoundingClientRect();
+      if(rect.top < 0 || rect.top > window.innerHeight * 0.5) {
+        document.getElementById('featured-post').scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }, 200);
+  }
+
   // ── Category filter ──────────────────────────────────────────
   var filterBtns = document.querySelectorAll('.cat-btn');
   var cards = document.querySelectorAll('.post-card[data-cat]');
@@ -477,6 +613,11 @@ footer{margin-top:64px;padding:28px 52px 32px;display:flex;align-items:center;ju
       filterBtns.forEach(function(b){ b.classList.remove('active'); });
       btn.classList.add('active');
       var filter = btn.getAttribute('data-filter');
+
+      // Update featured section
+      updateFeatured(filter);
+
+      // Update post grid
       cards.forEach(function(card){
         if(filter === 'all' || card.getAttribute('data-cat') === filter){
           card.classList.remove('hidden');
