@@ -1,0 +1,11 @@
+# robots.txt — MustardSeed Productions
+# https://www.mseedproductions.com
+
+User-agent: *
+Allow: /
+
+# Disallow admin or draft areas (none currently, future-proofing)
+Disallow: /api/
+
+# Sitemap location
+Sitemap: https://www.mseedproductions.com/sitemap.xml
