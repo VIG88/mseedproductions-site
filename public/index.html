@@ -598,10 +598,18 @@ body.site-ready { overflow: hidden; }
 
 /* ═══════════════════════════════════════════════════════════════
    HAMBURGER BUTTON
-   Hidden on desktop / landscape. Shown only in portrait ≤768px.
+   position:fixed — lives OUTSIDE #site-chrome so it is never
+   subject to site-chrome opacity:0 / pointer-events:none.
+   z-index 95 > loader (90) → always tappable, even during intro.
+   Hidden on desktop/landscape via media query.
 ═══════════════════════════════════════════════════════════════ */
 #mob-menu-btn {
-  display: none; /* hidden by default — shown via portrait media query */
+  /* Hidden everywhere — portrait media query flips to flex */
+  display: none;
+  /* Fixed, top-right corner, independent of all other layers */
+  position: fixed;
+  top: 13px;
+  right: 16px;
   flex-direction: column;
   justify-content: center;
   align-items: center;
@@ -613,13 +621,13 @@ body.site-ready { overflow: hidden; }
   border: 1.5px solid rgba(212,175,55,0.32);
   border-radius: 4px;
   cursor: pointer;
-  z-index: 25;
-  flex-shrink: 0;
+  /* Above loader z-index:90 → always receives pointer events */
+  z-index: 95;
+  pointer-events: auto;
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   transition: border-color 0.25s ease, background 0.25s ease,
               box-shadow 0.25s ease;
-  /* Tap highlight off on iOS */
   -webkit-tap-highlight-color: transparent;
   outline: none;
 }
@@ -655,34 +663,43 @@ body.site-ready { overflow: hidden; }
 
 /* ═══════════════════════════════════════════════════════════════
    MOBILE DRAWER — slides in from right
+   Lives outside #site-chrome — independent z-index/opacity.
+   Uses visibility+pointer-events (not display:none) so CSS
+   transitions work without JS toggling display.
 ═══════════════════════════════════════════════════════════════ */
 #mob-drawer {
-  /* Hidden on all sizes by default */
-  display: none;
+  /* Always in the render tree — hidden via transform+visibility */
+  display: flex;
+  flex-direction: column;
   position: fixed;
   top: 0;
   right: 0;
   width: min(320px, 88vw);
   height: 100%;
   z-index: 200;
+  pointer-events: none;    /* no taps when closed */
+  visibility: hidden;      /* hidden from AT + no paint cost when closed */
   background: rgba(5,3,1,0.97);
   border-left: 1px solid rgba(212,175,55,0.16);
   box-shadow: -20px 0 60px rgba(0,0,0,0.70),
                -2px 0 0   rgba(212,175,55,0.06);
-  padding: 0;
-  flex-direction: column;
   overflow-y: auto;
   overflow-x: hidden;
-  /* Slide-in transform — starts off-screen */
   transform: translateX(100%);
-  transition: transform 0.38s cubic-bezier(0.16,1,0.3,1);
-  /* Thin gold left rim */
+  /* visibility delay: hide AFTER slide-out finishes (0.38s) */
+  transition: transform 0.38s cubic-bezier(0.16,1,0.3,1),
+              visibility 0s linear 0.38s;
   backdrop-filter: blur(24px);
   -webkit-backdrop-filter: blur(24px);
 }
-/* Drawer open state */
+/* Drawer OPEN state */
 #mob-drawer.mob-open {
   transform: translateX(0);
+  pointer-events: auto;
+  visibility: visible;
+  /* visibility delay cancelled on open — shows immediately */
+  transition: transform 0.38s cubic-bezier(0.16,1,0.3,1),
+              visibility 0s linear 0s;
 }
 /* Top gold accent bar */
 #mob-drawer::before {
@@ -855,10 +872,12 @@ body.site-ready { overflow: hidden; }
    BACKDROP — darkens the stage behind the open drawer
 ═══════════════════════════════════════════════════════════════ */
 #mob-backdrop {
-  display: none;
+  /* Always in DOM — hidden via opacity+pointer-events */
+  display: block;
   position: fixed;
   inset: 0;
   z-index: 190;
+  pointer-events: none;
   background: rgba(0,0,0,0.58);
   backdrop-filter: blur(2px);
   -webkit-backdrop-filter: blur(2px);
@@ -867,36 +886,31 @@ body.site-ready { overflow: hidden; }
 }
 #mob-backdrop.mob-open {
   opacity: 1;
+  pointer-events: auto;
 }
 
 /* ═══════════════════════════════════════════════════════════════
    PORTRAIT MOBILE ≤768px — show hamburger, hide normal nav links
    Landscape (any width) — hide hamburger, show normal nav links
 ═══════════════════════════════════════════════════════════════ */
+/* Portrait mobile ≤768px: show hamburger, hide desktop nav links */
 @media (max-width: 768px) and (orientation: portrait) {
-  /* Show hamburger */
-  #mob-menu-btn { display: flex; }
-
-  /* Hide desktop nav links (already hidden at 480px, belt+suspenders) */
-  .nav-items { display: none !important; }
-
-  /* Reduce nav padding */
-  #nav { padding: 0 16px; }
+  #mob-menu-btn  { display: flex; }
+  .nav-items     { display: none !important; }
+  #nav           { padding: 0 16px; }
   .nav-brand-main { font-size: 0.60rem; letter-spacing: 0.14em; }
   .nav-brand-sub  { font-size: 0.42rem; letter-spacing: 0.22em; }
-
-  /* Show drawer + backdrop when open */
-  #mob-drawer   { display: flex; }
-  #mob-backdrop { display: block; }
 }
 
-/* Landscape: always show normal nav links, always hide hamburger */
+/* Landscape: hide hamburger, restore nav links, force-close drawer */
 @media (orientation: landscape) {
-  #mob-menu-btn { display: none !important; }
-  /* nav-items already display:flex at desktop — restore if was hidden */
-  .nav-items    { display: flex !important; }
-  #mob-drawer   { display: none !important; }
-  #mob-backdrop { display: none !important; }
+  #mob-menu-btn  { display: none !important; }
+  .nav-items     { display: flex !important; }
+  #mob-drawer    { transform: translateX(100%) !important;
+                   pointer-events: none !important;
+                   visibility: hidden !important; }
+  #mob-backdrop  { opacity: 0 !important;
+                   pointer-events: none !important; }
 }
 
 /* Body scroll-lock when drawer open */
@@ -943,6 +957,63 @@ body.mob-menu-open {
   <span>A VIG Company</span>
 </div>
 
+<!-- ══════════════════════════════════════════════
+     MOBILE HAMBURGER — fixed, portrait only
+     Lives OUTSIDE #site-chrome so it is never
+     subject to site-chrome opacity:0 or
+     pointer-events:none during the intro.
+═══════════════════════════════════════════════ -->
+<button id="mob-menu-btn"
+  aria-label="Open navigation menu"
+  aria-expanded="false"
+  aria-controls="mob-drawer"
+  aria-haspopup="dialog">
+  <span class="hb-bar"></span>
+  <span class="hb-bar"></span>
+  <span class="hb-bar"></span>
+</button>
+
+<!-- ── MOBILE DRAWER ── -->
+<div id="mob-drawer" role="dialog" aria-label="Navigation menu" aria-modal="true" aria-hidden="true">
+
+  <!-- Close button -->
+  <button id="mob-close-btn" aria-label="Close navigation menu">
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <line x1="4" y1="4" x2="20" y2="20"/>
+      <line x1="20" y1="4" x2="4" y2="20"/>
+    </svg>
+  </button>
+
+  <!-- Drawer brand -->
+  <div class="mob-brand">
+    <span class="mob-brand-main">MustardSeed Productions</span>
+    <span class="mob-brand-sub">Where Stories Grow</span>
+  </div>
+
+  <!-- Gold rule -->
+  <div class="mob-rule"></div>
+
+  <!-- Nav links -->
+  <nav class="mob-nav" aria-label="Mobile navigation">
+    <a href="/"                class="mob-link" data-index="0">Home</a>
+    <a href="/about"           class="mob-link" data-index="1">About</a>
+    <a href="/stories"         class="mob-link" data-index="2">Stories</a>
+    <a href="/story-in-motion" class="mob-link" data-index="3">Stories in Motion</a>
+    <a href="/journal"         class="mob-link" data-index="4">Journal</a>
+    <a href="/philosophy"      class="mob-link" data-index="5">Philosophy</a>
+    <a href="/contact"         class="mob-link" data-index="6">Contact</a>
+  </nav>
+
+  <!-- Drawer footer -->
+  <div class="mob-drawer-footer">
+    <span class="mob-footer-label">© 2026 MustardSeed Productions</span>
+  </div>
+
+</div>
+
+<!-- Backdrop -->
+<div id="mob-backdrop" aria-hidden="true"></div>
+
 <!-- ── LOADER ── -->
 <div id="loader" aria-label="Loading">
   <div class="loader-ring"></div>
@@ -988,55 +1059,7 @@ body.mob-menu-open {
       <li><a href="/philosophy"     class="nav-link">Philosophy</a></li>
     </ul>
 
-    <!-- ── HAMBURGER — portrait mobile only ── -->
-    <button id="mob-menu-btn" aria-label="Open navigation menu" aria-expanded="false" aria-controls="mob-drawer">
-      <span class="hb-bar"></span>
-      <span class="hb-bar"></span>
-      <span class="hb-bar"></span>
-    </button>
-
   </nav>
-
-  <!-- ── MOBILE DRAWER ── -->
-  <div id="mob-drawer" role="dialog" aria-label="Navigation menu" aria-modal="true" aria-hidden="true">
-
-    <!-- Close button -->
-    <button id="mob-close-btn" aria-label="Close navigation menu">
-      <svg viewBox="0 0 24 24" aria-hidden="true">
-        <line x1="4" y1="4" x2="20" y2="20"/>
-        <line x1="20" y1="4" x2="4" y2="20"/>
-      </svg>
-    </button>
-
-    <!-- Drawer brand -->
-    <div class="mob-brand">
-      <span class="mob-brand-main">MustardSeed Productions</span>
-      <span class="mob-brand-sub">Where Stories Grow</span>
-    </div>
-
-    <!-- Gold rule -->
-    <div class="mob-rule"></div>
-
-    <!-- Nav links -->
-    <nav class="mob-nav" aria-label="Mobile navigation">
-      <a href="/"              class="mob-link" data-index="0">Home</a>
-      <a href="/about"         class="mob-link" data-index="1">About</a>
-      <a href="/stories"       class="mob-link" data-index="2">Stories</a>
-      <a href="/story-in-motion" class="mob-link" data-index="3">Stories in Motion</a>
-      <a href="/journal"       class="mob-link" data-index="4">Journal</a>
-      <a href="/philosophy"    class="mob-link" data-index="5">Philosophy</a>
-      <a href="/contact"       class="mob-link" data-index="6">Contact</a>
-    </nav>
-
-    <!-- Drawer footer -->
-    <div class="mob-drawer-footer">
-      <span class="mob-footer-label">© 2026 MustardSeed Productions</span>
-    </div>
-
-  </div>
-
-  <!-- Backdrop -->
-  <div id="mob-backdrop" aria-hidden="true"></div>
 
   <!-- ── FOOTER ── -->
   <footer id="footer-chrome" aria-label="Site footer">
@@ -1503,9 +1526,18 @@ body.mob-menu-open {
 
 <!-- ═══════════════════════════════════════════════════════
      CINEMATIC HAMBURGER MENU — portrait mobile only
+     Root-cause fixes vs prior version:
+     1. Wrapped in DOMContentLoaded — guaranteed DOM ready
+     2. Elements are outside #site-chrome so they're never
+        blocked by site-chrome pointer-events:none / opacity:0
+     3. Drawer uses visibility+transform (not display:none)
+        so CSS transitions fire correctly
+     4. touchstart added alongside click for iOS Safari
+     5. Explicit pointer-events set in JS (belt+suspenders)
+     6. Orientation change + resize both handled
 ════════════════════════════════════════════════════════ -->
 <script>
-(function () {
+document.addEventListener('DOMContentLoaded', function () {
   'use strict';
 
   var menuBtn  = document.getElementById('mob-menu-btn');
@@ -1513,103 +1545,131 @@ body.mob-menu-open {
   var closeBtn = document.getElementById('mob-close-btn');
   var backdrop = document.getElementById('mob-backdrop');
 
-  if (!menuBtn || !drawer || !closeBtn || !backdrop) return;
+  /* Safety guard — if any element is missing, bail silently */
+  if (!menuBtn || !drawer || !closeBtn || !backdrop) {
+    console.warn('[MobMenu] One or more elements not found — menu disabled');
+    return;
+  }
 
   /* ── Helpers ──────────────────────────────────────── */
   function isPortrait() {
-    // Use matchMedia for reliable portrait detection
     return window.matchMedia('(orientation: portrait)').matches;
   }
 
+  function isOpen() {
+    return drawer.classList.contains('mob-open');
+  }
+
   function openMenu() {
-    menuBtn.setAttribute('aria-expanded', 'true');
-    drawer.setAttribute('aria-hidden', 'false');
+    /* Drawer */
     drawer.classList.add('mob-open');
+    drawer.setAttribute('aria-hidden', 'false');
+    drawer.style.pointerEvents = 'auto';
+    drawer.style.visibility    = 'visible';
+    /* Backdrop */
     backdrop.classList.add('mob-open');
+    backdrop.style.pointerEvents = 'auto';
+    /* Button */
+    menuBtn.setAttribute('aria-expanded', 'true');
+    /* Body scroll lock */
     document.body.classList.add('mob-menu-open');
-    // Focus the close button for accessibility
-    setTimeout(function () { closeBtn.focus(); }, 380);
+    /* Focus close btn after slide-in (accessibility) */
+    setTimeout(function () {
+      if (isOpen()) closeBtn.focus();
+    }, 420);
   }
 
   function closeMenu() {
-    menuBtn.setAttribute('aria-expanded', 'false');
-    drawer.setAttribute('aria-hidden', 'true');
+    /* Drawer */
     drawer.classList.remove('mob-open');
+    drawer.setAttribute('aria-hidden', 'true');
+    drawer.style.pointerEvents = 'none';
+    /* Visibility is handled by the CSS transition delay (0.38s) */
+    /* Backdrop */
     backdrop.classList.remove('mob-open');
+    backdrop.style.pointerEvents = 'none';
+    /* Button */
+    menuBtn.setAttribute('aria-expanded', 'false');
+    /* Unlock body scroll */
     document.body.classList.remove('mob-menu-open');
-    // Return focus to hamburger
-    menuBtn.focus();
+    /* Return focus to hamburger */
+    try { menuBtn.focus(); } catch(e) {}
   }
 
-  /* ── Event: hamburger tap ─────────────────────────── */
-  menuBtn.addEventListener('click', function () {
-    if (drawer.classList.contains('mob-open')) {
-      closeMenu();
-    } else {
-      openMenu();
-    }
+  /* ── Helper: attach both click and touchstart ─────── */
+  /* touchstart fires before click on iOS Safari — prevents */
+  /* 300ms delay and ensures tap registration on mobile.    */
+  function onTap(el, fn) {
+    var touched = false;
+    el.addEventListener('touchstart', function (e) {
+      touched = true;
+      e.preventDefault(); /* prevent ghost click */
+      fn(e);
+    }, { passive: false });
+    el.addEventListener('click', function (e) {
+      if (touched) { touched = false; return; } /* already handled */
+      fn(e);
+    });
+  }
+
+  /* ── Hamburger tap ────────────────────────────────── */
+  onTap(menuBtn, function () {
+    if (isOpen()) { closeMenu(); } else { openMenu(); }
   });
 
-  /* ── Event: close button ──────────────────────────── */
-  closeBtn.addEventListener('click', closeMenu);
+  /* ── Close button ─────────────────────────────────── */
+  onTap(closeBtn, closeMenu);
 
-  /* ── Event: backdrop tap ──────────────────────────── */
-  backdrop.addEventListener('click', closeMenu);
+  /* ── Backdrop tap ─────────────────────────────────── */
+  onTap(backdrop, closeMenu);
 
-  /* ── Event: Escape key ────────────────────────────── */
+  /* ── Escape key ───────────────────────────────────── */
   document.addEventListener('keydown', function (e) {
-    if (e.key === 'Escape' && drawer.classList.contains('mob-open')) {
+    if ((e.key === 'Escape' || e.keyCode === 27) && isOpen()) {
       closeMenu();
     }
   });
 
-  /* ── Event: orientation change ────────────────────── */
-  // Auto-close drawer if phone rotates to landscape
+  /* ── Orientation / resize: auto-close in landscape ── */
+  function checkOrientation() {
+    if (!isPortrait() && isOpen()) {
+      closeMenu();
+    }
+  }
   window.addEventListener('orientationchange', function () {
-    // Small timeout to let the browser settle the new orientation
-    setTimeout(function () {
-      if (!isPortrait() && drawer.classList.contains('mob-open')) {
-        closeMenu();
-      }
-    }, 120);
+    setTimeout(checkOrientation, 150);
   });
-  // Also cover resize-based orientation changes (some browsers)
-  window.addEventListener('resize', function () {
-    if (!isPortrait() && drawer.classList.contains('mob-open')) {
-      closeMenu();
-    }
-  }, { passive: true });
+  window.addEventListener('resize', checkOrientation, { passive: true });
 
-  /* ── Trap focus inside drawer while open ─────────── */
+  /* ── Focus trap inside drawer ─────────────────────── */
   drawer.addEventListener('keydown', function (e) {
     if (e.key !== 'Tab') return;
-    var focusable = drawer.querySelectorAll(
-      'button, a, [tabindex]:not([tabindex="-1"])'
-    );
+    var focusable = Array.prototype.slice.call(
+      drawer.querySelectorAll('button, a, [tabindex]:not([tabindex="-1"])')
+    ).filter(function (el) { return !el.disabled; });
+    if (!focusable.length) return;
     var first = focusable[0];
     var last  = focusable[focusable.length - 1];
     if (e.shiftKey) {
       if (document.activeElement === first) {
-        e.preventDefault();
-        last.focus();
+        e.preventDefault(); last.focus();
       }
     } else {
       if (document.activeElement === last) {
-        e.preventDefault();
-        first.focus();
+        e.preventDefault(); first.focus();
       }
     }
   });
 
-  /* ── Nav link taps close the menu ────────────────── */
-  drawer.querySelectorAll('.mob-link').forEach(function (link) {
-    link.addEventListener('click', function () {
-      // Let navigation happen, but clean up body state
+  /* ── Nav link taps: unlock scroll then navigate ───── */
+  var links = drawer.querySelectorAll('.mob-link');
+  for (var i = 0; i < links.length; i++) {
+    links[i].addEventListener('click', function () {
       document.body.classList.remove('mob-menu-open');
     });
-  });
+  }
 
-})();
+}); /* end DOMContentLoaded */
 </script>
 </body>
 </html>
