@@ -1014,6 +1014,7 @@ body{font-family:'Lora','Georgia',serif;background:var(--deep);color:var(--cream
   .featured-info{padding:36px 26px;}
   .hero-cta-row{flex-direction:column;align-items:center;}
   #footer-chrome{padding:24px 24px 28px;}
+  .footer-contact-link{margin-right:0;}
   .bb-cta-row{flex-direction:column;align-items:flex-start;}
   .fam-cta-row{flex-direction:column;align-items:center;}
 }
@@ -1021,6 +1022,23 @@ body{font-family:'Lora','Georgia',serif;background:var(--deep);color:var(--cream
   .title-grid{grid-template-columns:1fr;}
   .bb-book-shelf{grid-template-columns:1fr 1fr;}
   .cs-grid{grid-template-columns:1fr;}
+}
+@media(max-width:480px){
+  #nav{padding:0 16px;}
+  .nav-items{display:none;}
+  .nav-brand-main{font-size:.60rem;letter-spacing:.14em;}
+  .nav-brand-sub{font-size:.42rem;letter-spacing:.22em;}
+  #hero{padding:60px 16px 80px;}
+  .hero-title{font-size:clamp(1.75rem,7vw,2.6rem);}
+  .hero-lead{font-size:.88rem;}
+  #featured,#collection,#coming-soon,#begin-book,#for-families,#closing{padding-left:16px;padding-right:16px;}
+  .featured-info{padding:24px 14px;}
+  .title-grid{grid-template-columns:1fr;}
+  .bb-book-shelf{grid-template-columns:1fr 1fr;}
+  .cs-grid{grid-template-columns:1fr;}
+  #footer-chrome{padding:12px 16px 16px;flex-direction:column;align-items:flex-start;height:auto;gap:6px;}
+  .footer-contact-link{margin-right:0;font-size:.42rem;letter-spacing:.14em;white-space:normal;}
+  .footer-copy{font-size:.38rem;padding:0;}
 }
 
 /* ═══════════════════════════════════════════════════════════════

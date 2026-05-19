@@ -192,6 +192,21 @@ body{font-family:'Lora','Georgia',serif;background:var(--deep);color:var(--cream
 @media(max-width:1100px){.featured-panel{grid-template-columns:1fr;}.featured-artwork{min-height:320px;}.featured-info{padding:48px 44px;}.ctx-grid{grid-template-columns:1fr;gap:48px;}}
 @media(max-width:960px){#nav{padding:0 28px;}#hero{padding:80px 28px 72px;}#featured,#char-context,#future-motion{padding-left:28px;padding-right:28px;}.fm-episodes{grid-template-columns:1fr 1fr;}}
 @media(max-width:680px){.featured-info{padding:36px 26px;}.fm-episodes{grid-template-columns:1fr;}.ctx-grid{gap:36px;}#footer-chrome{padding:24px 24px 28px;}.footer-contact-link{margin-right:0;}}
+@media(max-width:480px){
+  #nav{padding:0 16px;}
+  .nav-items{display:none;}
+  .nav-brand-main{font-size:.60rem;letter-spacing:.14em;}
+  .nav-brand-sub{font-size:.42rem;letter-spacing:.22em;}
+  #hero{padding:60px 16px 56px;min-height:48vh;}
+  .hero-title{font-size:clamp(1.75rem,7vw,2.6rem);}
+  #featured,#char-context,#future-motion{padding-left:16px;padding-right:16px;}
+  .featured-info{padding:20px 14px;}
+  .ctx-grid{grid-template-columns:1fr;gap:24px;}
+  .fm-episodes{grid-template-columns:1fr;}
+  #footer-chrome{padding:12px 16px 16px;flex-direction:column;align-items:flex-start;height:auto;gap:6px;}
+  .footer-contact-link{margin-right:0;font-size:.42rem;letter-spacing:.14em;white-space:normal;}
+  .footer-copy{font-size:.38rem;padding:0;}
+}
 
 @keyframes fadeIn{from{opacity:0;}to{opacity:1;}}
 @keyframes fadeUp{from{opacity:0;transform:translateY(22px);}to{opacity:1;transform:translateY(0);}}
