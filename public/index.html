@@ -595,6 +595,315 @@ body.site-ready { overflow: hidden; }
     height: 40px;
   }
 }
+
+/* ═══════════════════════════════════════════════════════════════
+   HAMBURGER BUTTON
+   Hidden on desktop / landscape. Shown only in portrait ≤768px.
+═══════════════════════════════════════════════════════════════ */
+#mob-menu-btn {
+  display: none; /* hidden by default — shown via portrait media query */
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  background: rgba(6,4,0,0.80);
+  border: 1.5px solid rgba(212,175,55,0.32);
+  border-radius: 4px;
+  cursor: pointer;
+  z-index: 25;
+  flex-shrink: 0;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  transition: border-color 0.25s ease, background 0.25s ease,
+              box-shadow 0.25s ease;
+  /* Tap highlight off on iOS */
+  -webkit-tap-highlight-color: transparent;
+  outline: none;
+}
+#mob-menu-btn:hover,
+#mob-menu-btn:focus-visible {
+  border-color: rgba(212,175,55,0.72);
+  background: rgba(14,10,0,0.92);
+  box-shadow: 0 0 14px rgba(212,175,55,0.22);
+}
+/* The three bars */
+.hb-bar {
+  display: block;
+  width: 20px;
+  height: 1.5px;
+  background: rgba(212,175,55,0.82);
+  border-radius: 2px;
+  transform-origin: center;
+  transition: transform 0.30s cubic-bezier(0.4,0,0.2,1),
+              opacity   0.25s ease,
+              width     0.25s ease;
+}
+/* Animate bars → X when open */
+#mob-menu-btn[aria-expanded="true"] .hb-bar:nth-child(1) {
+  transform: translateY(6.5px) rotate(45deg);
+}
+#mob-menu-btn[aria-expanded="true"] .hb-bar:nth-child(2) {
+  opacity: 0;
+  transform: scaleX(0);
+}
+#mob-menu-btn[aria-expanded="true"] .hb-bar:nth-child(3) {
+  transform: translateY(-6.5px) rotate(-45deg);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   MOBILE DRAWER — slides in from right
+═══════════════════════════════════════════════════════════════ */
+#mob-drawer {
+  /* Hidden on all sizes by default */
+  display: none;
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: min(320px, 88vw);
+  height: 100%;
+  z-index: 200;
+  background: rgba(5,3,1,0.97);
+  border-left: 1px solid rgba(212,175,55,0.16);
+  box-shadow: -20px 0 60px rgba(0,0,0,0.70),
+               -2px 0 0   rgba(212,175,55,0.06);
+  padding: 0;
+  flex-direction: column;
+  overflow-y: auto;
+  overflow-x: hidden;
+  /* Slide-in transform — starts off-screen */
+  transform: translateX(100%);
+  transition: transform 0.38s cubic-bezier(0.16,1,0.3,1);
+  /* Thin gold left rim */
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+}
+/* Drawer open state */
+#mob-drawer.mob-open {
+  transform: translateX(0);
+}
+/* Top gold accent bar */
+#mob-drawer::before {
+  content: '';
+  display: block;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(to right,
+    transparent,
+    rgba(212,175,55,0.55) 30%,
+    rgba(212,175,55,0.55) 70%,
+    transparent);
+  flex-shrink: 0;
+}
+
+/* ── Close button (top-right of drawer) ── */
+#mob-close-btn {
+  position: absolute;
+  top: 18px;
+  right: 20px;
+  width: 36px;
+  height: 36px;
+  background: transparent;
+  border: 1px solid rgba(212,175,55,0.20);
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(212,175,55,0.60);
+  transition: border-color 0.22s ease, color 0.22s ease, background 0.22s ease;
+  -webkit-tap-highlight-color: transparent;
+  outline: none;
+  z-index: 2;
+}
+#mob-close-btn:hover,
+#mob-close-btn:focus-visible {
+  border-color: rgba(212,175,55,0.65);
+  color: rgba(212,175,55,0.95);
+  background: rgba(212,175,55,0.06);
+}
+#mob-close-btn svg {
+  width: 14px;
+  height: 14px;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  fill: none;
+}
+
+/* ── Drawer brand block ── */
+.mob-brand {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 32px 28px 0;
+  margin-top: 8px;
+}
+.mob-brand-main {
+  font-family: 'Cinzel', serif;
+  font-size: 0.70rem;
+  font-weight: 600;
+  letter-spacing: 0.20em;
+  text-transform: uppercase;
+  color: var(--gold-lt);
+  line-height: 1.3;
+}
+.mob-brand-sub {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.42rem;
+  font-weight: 300;
+  letter-spacing: 0.36em;
+  text-transform: uppercase;
+  color: rgba(212,175,55,0.40);
+  line-height: 1;
+}
+
+/* ── Gold rule below brand ── */
+.mob-rule {
+  margin: 20px 28px 24px;
+  height: 1px;
+  background: linear-gradient(to right,
+    rgba(212,175,55,0.40),
+    rgba(212,175,55,0.12) 70%,
+    transparent);
+}
+
+/* ── Nav links ── */
+.mob-nav {
+  display: flex;
+  flex-direction: column;
+  padding: 0 16px;
+  gap: 2px;
+  flex: 1;
+}
+.mob-link {
+  display: flex;
+  align-items: center;
+  padding: 15px 16px;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.72rem;
+  font-weight: 400;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: rgba(240,220,160,0.62);
+  text-decoration: none;
+  border-radius: 3px;
+  position: relative;
+  transition: color 0.22s ease, background 0.22s ease, padding-left 0.22s ease;
+  /* stagger-in animation support */
+  opacity: 0;
+  transform: translateX(16px);
+}
+.mob-link::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 20%; bottom: 20%;
+  width: 2px;
+  background: rgba(212,175,55,0.65);
+  border-radius: 2px;
+  transform: scaleY(0);
+  transform-origin: center;
+  transition: transform 0.22s ease;
+}
+.mob-link:hover,
+.mob-link:focus-visible {
+  color: var(--gold-lt);
+  background: rgba(212,175,55,0.05);
+  padding-left: 22px;
+  outline: none;
+}
+.mob-link:hover::before,
+.mob-link:focus-visible::before {
+  transform: scaleY(1);
+}
+
+/* Stagger link entrance when drawer opens */
+#mob-drawer.mob-open .mob-link {
+  animation: mobLinkIn 0.42s cubic-bezier(0.16,1,0.3,1) both;
+}
+#mob-drawer.mob-open .mob-link[data-index="0"] { animation-delay: 0.08s; }
+#mob-drawer.mob-open .mob-link[data-index="1"] { animation-delay: 0.13s; }
+#mob-drawer.mob-open .mob-link[data-index="2"] { animation-delay: 0.18s; }
+#mob-drawer.mob-open .mob-link[data-index="3"] { animation-delay: 0.23s; }
+#mob-drawer.mob-open .mob-link[data-index="4"] { animation-delay: 0.28s; }
+#mob-drawer.mob-open .mob-link[data-index="5"] { animation-delay: 0.33s; }
+#mob-drawer.mob-open .mob-link[data-index="6"] { animation-delay: 0.38s; }
+
+@keyframes mobLinkIn {
+  from { opacity: 0; transform: translateX(16px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+/* ── Drawer footer ── */
+.mob-drawer-footer {
+  padding: 20px 28px 28px;
+  border-top: 1px solid rgba(212,175,55,0.08);
+  margin-top: auto;
+  flex-shrink: 0;
+}
+.mob-footer-label {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.38rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(212,175,55,0.28);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   BACKDROP — darkens the stage behind the open drawer
+═══════════════════════════════════════════════════════════════ */
+#mob-backdrop {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 190;
+  background: rgba(0,0,0,0.58);
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
+  opacity: 0;
+  transition: opacity 0.30s ease;
+}
+#mob-backdrop.mob-open {
+  opacity: 1;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   PORTRAIT MOBILE ≤768px — show hamburger, hide normal nav links
+   Landscape (any width) — hide hamburger, show normal nav links
+═══════════════════════════════════════════════════════════════ */
+@media (max-width: 768px) and (orientation: portrait) {
+  /* Show hamburger */
+  #mob-menu-btn { display: flex; }
+
+  /* Hide desktop nav links (already hidden at 480px, belt+suspenders) */
+  .nav-items { display: none !important; }
+
+  /* Reduce nav padding */
+  #nav { padding: 0 16px; }
+  .nav-brand-main { font-size: 0.60rem; letter-spacing: 0.14em; }
+  .nav-brand-sub  { font-size: 0.42rem; letter-spacing: 0.22em; }
+
+  /* Show drawer + backdrop when open */
+  #mob-drawer   { display: flex; }
+  #mob-backdrop { display: block; }
+}
+
+/* Landscape: always show normal nav links, always hide hamburger */
+@media (orientation: landscape) {
+  #mob-menu-btn { display: none !important; }
+  /* nav-items already display:flex at desktop — restore if was hidden */
+  .nav-items    { display: flex !important; }
+  #mob-drawer   { display: none !important; }
+  #mob-backdrop { display: none !important; }
+}
+
+/* Body scroll-lock when drawer open */
+body.mob-menu-open {
+  overflow: hidden !important;
+  touch-action: none;
+}
   </style>
 </head>
 <body>
@@ -679,7 +988,55 @@ body.site-ready { overflow: hidden; }
       <li><a href="/philosophy"     class="nav-link">Philosophy</a></li>
     </ul>
 
+    <!-- ── HAMBURGER — portrait mobile only ── -->
+    <button id="mob-menu-btn" aria-label="Open navigation menu" aria-expanded="false" aria-controls="mob-drawer">
+      <span class="hb-bar"></span>
+      <span class="hb-bar"></span>
+      <span class="hb-bar"></span>
+    </button>
+
   </nav>
+
+  <!-- ── MOBILE DRAWER ── -->
+  <div id="mob-drawer" role="dialog" aria-label="Navigation menu" aria-modal="true" aria-hidden="true">
+
+    <!-- Close button -->
+    <button id="mob-close-btn" aria-label="Close navigation menu">
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <line x1="4" y1="4" x2="20" y2="20"/>
+        <line x1="20" y1="4" x2="4" y2="20"/>
+      </svg>
+    </button>
+
+    <!-- Drawer brand -->
+    <div class="mob-brand">
+      <span class="mob-brand-main">MustardSeed Productions</span>
+      <span class="mob-brand-sub">Where Stories Grow</span>
+    </div>
+
+    <!-- Gold rule -->
+    <div class="mob-rule"></div>
+
+    <!-- Nav links -->
+    <nav class="mob-nav" aria-label="Mobile navigation">
+      <a href="/"              class="mob-link" data-index="0">Home</a>
+      <a href="/about"         class="mob-link" data-index="1">About</a>
+      <a href="/stories"       class="mob-link" data-index="2">Stories</a>
+      <a href="/story-in-motion" class="mob-link" data-index="3">Stories in Motion</a>
+      <a href="/journal"       class="mob-link" data-index="4">Journal</a>
+      <a href="/philosophy"    class="mob-link" data-index="5">Philosophy</a>
+      <a href="/contact"       class="mob-link" data-index="6">Contact</a>
+    </nav>
+
+    <!-- Drawer footer -->
+    <div class="mob-drawer-footer">
+      <span class="mob-footer-label">© 2026 MustardSeed Productions</span>
+    </div>
+
+  </div>
+
+  <!-- Backdrop -->
+  <div id="mob-backdrop" aria-hidden="true"></div>
 
   <!-- ── FOOTER ── -->
   <footer id="footer-chrome" aria-label="Site footer">
@@ -1141,6 +1498,117 @@ body.site-ready { overflow: hidden; }
     });
   });
   document.addEventListener('click',function(e){if(!e.target.closest('.nav-dropdown'))document.querySelectorAll('.nav-dropdown.open').forEach(function(el){el.classList.remove('open');});});
+})();
+</script>
+
+<!-- ═══════════════════════════════════════════════════════
+     CINEMATIC HAMBURGER MENU — portrait mobile only
+════════════════════════════════════════════════════════ -->
+<script>
+(function () {
+  'use strict';
+
+  var menuBtn  = document.getElementById('mob-menu-btn');
+  var drawer   = document.getElementById('mob-drawer');
+  var closeBtn = document.getElementById('mob-close-btn');
+  var backdrop = document.getElementById('mob-backdrop');
+
+  if (!menuBtn || !drawer || !closeBtn || !backdrop) return;
+
+  /* ── Helpers ──────────────────────────────────────── */
+  function isPortrait() {
+    // Use matchMedia for reliable portrait detection
+    return window.matchMedia('(orientation: portrait)').matches;
+  }
+
+  function openMenu() {
+    menuBtn.setAttribute('aria-expanded', 'true');
+    drawer.setAttribute('aria-hidden', 'false');
+    drawer.classList.add('mob-open');
+    backdrop.classList.add('mob-open');
+    document.body.classList.add('mob-menu-open');
+    // Focus the close button for accessibility
+    setTimeout(function () { closeBtn.focus(); }, 380);
+  }
+
+  function closeMenu() {
+    menuBtn.setAttribute('aria-expanded', 'false');
+    drawer.setAttribute('aria-hidden', 'true');
+    drawer.classList.remove('mob-open');
+    backdrop.classList.remove('mob-open');
+    document.body.classList.remove('mob-menu-open');
+    // Return focus to hamburger
+    menuBtn.focus();
+  }
+
+  /* ── Event: hamburger tap ─────────────────────────── */
+  menuBtn.addEventListener('click', function () {
+    if (drawer.classList.contains('mob-open')) {
+      closeMenu();
+    } else {
+      openMenu();
+    }
+  });
+
+  /* ── Event: close button ──────────────────────────── */
+  closeBtn.addEventListener('click', closeMenu);
+
+  /* ── Event: backdrop tap ──────────────────────────── */
+  backdrop.addEventListener('click', closeMenu);
+
+  /* ── Event: Escape key ────────────────────────────── */
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && drawer.classList.contains('mob-open')) {
+      closeMenu();
+    }
+  });
+
+  /* ── Event: orientation change ────────────────────── */
+  // Auto-close drawer if phone rotates to landscape
+  window.addEventListener('orientationchange', function () {
+    // Small timeout to let the browser settle the new orientation
+    setTimeout(function () {
+      if (!isPortrait() && drawer.classList.contains('mob-open')) {
+        closeMenu();
+      }
+    }, 120);
+  });
+  // Also cover resize-based orientation changes (some browsers)
+  window.addEventListener('resize', function () {
+    if (!isPortrait() && drawer.classList.contains('mob-open')) {
+      closeMenu();
+    }
+  }, { passive: true });
+
+  /* ── Trap focus inside drawer while open ─────────── */
+  drawer.addEventListener('keydown', function (e) {
+    if (e.key !== 'Tab') return;
+    var focusable = drawer.querySelectorAll(
+      'button, a, [tabindex]:not([tabindex="-1"])'
+    );
+    var first = focusable[0];
+    var last  = focusable[focusable.length - 1];
+    if (e.shiftKey) {
+      if (document.activeElement === first) {
+        e.preventDefault();
+        last.focus();
+      }
+    } else {
+      if (document.activeElement === last) {
+        e.preventDefault();
+        first.focus();
+      }
+    }
+  });
+
+  /* ── Nav link taps close the menu ────────────────── */
+  drawer.querySelectorAll('.mob-link').forEach(function (link) {
+    link.addEventListener('click', function () {
+      // Let navigation happen, but clean up body state
+      document.body.classList.remove('mob-menu-open');
+    });
+  });
+
 })();
 </script>
 </body>
